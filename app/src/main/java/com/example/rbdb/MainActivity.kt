@@ -8,8 +8,22 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
 class MainActivity : AppCompatActivity() {
+    // Lazy initialization of database in main
+    private val appDatabase : RoomDatabase by lazy {
+        Room.databaseBuilder(
+            this,
+            AppDatabase::class.java, "card-database"
+        ).build()
+    }
+
+
+
+
+    // VV DEFAULT CODE BY IDE VV
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
