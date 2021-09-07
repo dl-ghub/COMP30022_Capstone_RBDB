@@ -1,4 +1,4 @@
-package com.example.rbdb.model
+package com.example.rbdb.database.model
 
 import androidx.room.Entity
 

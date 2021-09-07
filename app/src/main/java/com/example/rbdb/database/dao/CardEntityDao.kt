@@ -1,10 +1,10 @@
-package com.example.rbdb.dao
+package com.example.rbdb.database.dao
 
 import androidx.room.Query
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Delete
-import com.example.rbdb.model.CardEntity
+import com.example.rbdb.database.model.CardEntity
 
 @Dao
 interface CardEntityDao {

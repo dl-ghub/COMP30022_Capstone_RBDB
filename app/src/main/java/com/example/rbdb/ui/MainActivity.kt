@@ -1,4 +1,4 @@
-package com.example.rbdb
+package com.example.rbdb.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -6,20 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.rbdb.database.AppDatabase
+import com.example.rbdb.R
 
 class MainActivity : AppCompatActivity() {
-    // Lazy initialization of database in main
-    private val appDatabase : RoomDatabase by lazy {
-        Room.databaseBuilder(
-            this,
-            AppDatabase::class.java, "card-database"
-        ).build()
-    }
-
 
 
 
