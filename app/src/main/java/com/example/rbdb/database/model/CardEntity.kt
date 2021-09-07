@@ -1,10 +1,11 @@
 package com.example.rbdb.database.model
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "card_entity")
 data class CardEntity (
-    val id: Int = 0,
+    @PrimaryKey val cardId: Long,
     val name: String = "",
     val business: String = "",
     val dateAdded: String = "",
