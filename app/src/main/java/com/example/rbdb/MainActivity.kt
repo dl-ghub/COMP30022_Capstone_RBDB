@@ -6,15 +6,20 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.SearchView
 import android.widget.Toast
+import android.widget.Button
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
+
+        var button = findViewById<View>(R.id.addBtn) as Button
+        button.setOnClickListener(View.OnClickListener { openNewActivity() })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -38,5 +43,10 @@ class MainActivity : AppCompatActivity() {
         searchView.queryHint = "Search here..."
 
         return true
+    }
+
+    fun openNewActivity() {
+        val intent = Intent(this, AddContactActivity::class.java)
+        startActivity(intent)
     }
 }
