@@ -8,6 +8,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
+import android.view.LayoutInflater
+
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,4 +43,15 @@ class MainActivity : AppCompatActivity() {
 
         return true
     }
+
+    private fun getItemsList(): ArrayList<String> {
+        val list = ArrayList<String>()
+
+        for(i in 1..15) {
+            list.add("Item $1")
+        }
+
+        return list
+    }
+
 }
