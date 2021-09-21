@@ -1,4 +1,4 @@
-package com.example.rbdb
+package com.example.rbdb.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -6,14 +6,17 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.SearchView
 import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-
-
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.example.rbdb.database.AppDatabase
+import com.example.rbdb.R
 
 class MainActivity : AppCompatActivity() {
+
+
+
+    // VV DEFAULT CODE BY IDE VV
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,15 +46,4 @@ class MainActivity : AppCompatActivity() {
 
         return true
     }
-
-    private fun getItemsList(): ArrayList<String> {
-        val list = ArrayList<String>()
-
-        for(i in 1..15) {
-            list.add("Item $1")
-        }
-
-        return list
-    }
-
 }
