@@ -5,16 +5,21 @@ import androidx.room.RoomDatabase
 import androidx.room.Database
 import androidx.room.Room
 import com.example.rbdb.database.dao.CardEntityDao
-import com.example.rbdb.database.model.CardEntity
+import com.example.rbdb.database.model.*
 
 @Database(
-    entities = [CardEntity::class],
+    entities = [CardEntity::class, UserEntity::class,
+        CardListCrossRef::class,
+        CardTagCrossRef::class,
+        ListEntity::class,
+        TagEntity::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase(){
     // Singleton pattern for database initialization
     companion object {
         private var appDatabase : AppDatabase? = null
+
 
         fun getDatabase(context: Context): AppDatabase {
             if(appDatabase != null){
