@@ -9,6 +9,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.dao.CardEntityDao
 import com.example.rbdb.database.model.CardEntity
+import com.example.rbdb.database.model.CardListCrossRef
+import com.example.rbdb.database.model.TagEntity
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
 import org.junit.Before
@@ -78,7 +80,7 @@ class DatabaseInstrumentedTest {
 
         cardEntityDao.insert(cardEntity)
 
-        val allCards = cardEntityDao.getAllItemEntity()
+        val allCards = cardEntityDao.getAllCards()
         println("hello i am here")
         println(allCards);
 
