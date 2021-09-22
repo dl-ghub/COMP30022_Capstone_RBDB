@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RBDB">
-        <activity android:name=".AddContactActivity"></activity>
         <activity
             android:name=".NewContactPage"
             android:exported="true" />

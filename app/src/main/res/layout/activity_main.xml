@@ -1,122 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- AppBar layout for using Toolbar as AppBar -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:liftOnScroll="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
-<<<<<<< Updated upstream
-            android:layout_height="match_parent">
-
-            <!-- ToolBar widget -->
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:title="   Contacts"
-                app:titleTextColor="#ffff" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-=======
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/home_menu"
             app:title="@string/home_page_title"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
->>>>>>> Stashed changes
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="419dp"
-        android:layout_height="57dp"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/TabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar2"
-            android:layout_width="418dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="3dp"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        >
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="139dp"
-            android:layout_height="57dp"
-            android:background="#00FFFFFF"
-            android:text="ALL"
-            android:textColor="#FFFFFF"
-            app:layout_constraintStart_toStartOf="@+id/toolbar2"
-            app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/allTab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/All" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="126dp"
-            android:layout_height="54dp"
-            android:layout_marginStart="144dp"
-            android:layout_marginTop="4dp"
-            android:background="#00FFFFFF"
-            android:text="GROUP"
-            android:textColor="#FFFFFF"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/groupTab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/Groups" />
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="137dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="276dp"
-            android:layout_marginTop="4dp"
-            android:background="#00FFFFFF"
-            android:text="TAG"
-            android:textColor="#FFFFFF"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tagTab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/Tabs" />
+    </com.google.android.material.tabs.TabLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="end|bottom">
-
-        <Button
-            android:id="@+id/addBtn"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/roundbtn"
-            android:layout_margin="20dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="+"
-            android:textColor="#FFFFFF"
-            android:textSize="45sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </RelativeLayout>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TabLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
