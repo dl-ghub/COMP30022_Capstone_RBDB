@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener(View.OnClickListener { openNewActivity() })
     }
 
+<<<<<<< Updated upstream
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
@@ -49,4 +50,28 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, AddContactActivity::class.java)
         startActivity(intent)
     }
+=======
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        val inflater = menuInflater
+//        inflater.inflate(R.menu.menu, menu)
+//
+//        val menuItem = menu!!.findItem(R.id.search)
+//        menuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+//            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+//                Toast.makeText(this@MainActivity, "Search is expanded", Toast.LENGTH_SHORT).show()
+//                return true
+//            }
+//            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+//                Toast.makeText(this@MainActivity, "Search is collapsed", Toast.LENGTH_SHORT).show()
+//                return true
+//            }
+//        })
+//
+//        val searchItem = menu!!.findItem(R.id.search)
+//        var searchView = searchItem.actionView as androidx.appcompat.widget.SearchView
+//        searchView.queryHint = "Search here..."
+//
+//        return true
+//    }
+>>>>>>> Stashed changes
 }
