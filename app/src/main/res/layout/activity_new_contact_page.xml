@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:hint="@string/last_name_hint"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         app:endIconMode="clear_text"
         app:endIconTint="@color/primaryBlue"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" >
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:hint="@string/business_name_hint"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         app:endIconMode="clear_text"
         app:endIconTint="@color/primaryBlue"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" >
@@ -142,7 +142,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:hint="@string/email_hint"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         app:endIconMode="clear_text"
         app:endIconTint="@color/primaryBlue"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" >
@@ -176,7 +176,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:hint="@string/description_hint"
-        android:layout_marginTop="12dp"
         app:endIconMode="clear_text"
         app:endIconTint="@color/primaryBlue"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" >
