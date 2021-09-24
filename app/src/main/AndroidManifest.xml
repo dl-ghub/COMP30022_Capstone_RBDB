@@ -11,7 +11,7 @@
         android:theme="@style/Theme.RBDB">
         <activity
             android:label="Your Contacts"
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
