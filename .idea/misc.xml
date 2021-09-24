@@ -9,9 +9,12 @@
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/menu/menu.xml" value="0.12708333333333333" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.13645833333333332" />
         <entry key="app/src/main/res/font/font.xml" value="0.2682291666666667" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.23802083333333332" />
-        <entry key="app/src/main/res/layout/fragment_contact.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/activity_contact_detail.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main2.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_contact.xml" value="0.1203125" />
         <entry key="app/src/main/res/layout/fragment_group.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_tag.xml" value="0.125" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.25" />
       </map>
