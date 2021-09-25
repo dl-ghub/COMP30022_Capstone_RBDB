@@ -25,14 +25,14 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         // Recyclerview Implementation
-        // Dummy data. Eventually will need to retrieve this in a similar format from DB.
+        // Dummy data. Eventually will need to retrieve this (in a similar format) from DB.
         val dataForAdapter = listOf(
-            Contact("Arnold Schwarzenegger", "Paramount", "03 5357 2225"),
-            Contact("Barack Obama", "The White House", "03 5357 2225"),
-            Contact("Bill Gates", "Microsoft", "03 5357 2225"),
-            Contact("Chris Cuomo", "CNN", "03 5357 2225"),
-            Contact("Elon Musk", "Space X", "03 5357 2225"),
-            Contact("Jeff Bezos", "Amazon", "03 5357 2225")
+            Contact(R.drawable.arnold, "Arnold Schwarzenegger", "Paramount", "03 5357 2225"),
+            Contact(R.drawable.arnold, "Barack Obama", "The White House", "03 5357 2225"),
+            Contact(R.drawable.arnold, "Bill Gates", "Microsoft", "03 5357 2225"),
+            Contact(R.drawable.arnold, "Chris Cuomo", "CNN", "03 5357 2225"),
+            Contact(R.drawable.arnold, "Elon Musk", "Space X", "03 5357 2225"),
+            Contact(R.drawable.arnold, "Jeff Bezos", "Amazon", "03 5357 2225")
         )
 
         val recyclerView: RecyclerView = findViewById(R.id.rvContacts)

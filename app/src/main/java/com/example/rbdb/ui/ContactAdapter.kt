@@ -41,6 +41,7 @@ class ContactAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             contactData: Contact,
             position: Int
         ) {
+            ivContactAvatar.setImageResource(contactData.avatar)
             tvContactName.text = contactData.name
             tvContactCompany.text = contactData.company
             tvContactPhone.text = contactData.phone
