@@ -49,7 +49,9 @@ class ContactFragment : Fragment() {
         //button.setOnClickListener { findNavController().navigate(R.id.action_contactFragment_to_contactDetailActivity) }
         button.setOnClickListener{
             //Toast.makeText(this.requireActivity(), "Button pressed", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this.requireActivity(),ContactDetailActivity::class.java))
+            val intent = Intent(this.requireActivity(),ContactDetailActivity::class.java)
+            intent.putExtra("contactName",view.findViewById<Button>(R.id.buttonContact).text)
+            requireActivity().startActivity(intent)
         }
         return view
     }

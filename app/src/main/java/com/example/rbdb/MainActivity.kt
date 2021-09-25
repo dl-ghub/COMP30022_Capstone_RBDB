@@ -24,22 +24,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar = findViewById<Toolbar>(R.id.topAppBar)
-        //setSupportActionBar(toolbar)
-        toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.search -> {
-                    // Handle search icon press
-                    Toast.makeText(this, "search bar pressed", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.more -> {
-                    // Handle more item (inside overflow menu) press
-                    Toast.makeText(this, "more button pressed", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> false
-            }
-        }
+        setSupportActionBar(toolbar)
+
         val tabLayout = findViewById<TabLayout>(R.id.TabLayout)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
@@ -79,7 +65,28 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.search -> {
+            Toast.makeText(this, "search bar pressed", Toast.LENGTH_SHORT).show()
+            true
+        }
 
+        R.id.more -> {
+            Toast.makeText(this, "more button pressed", Toast.LENGTH_SHORT).show()
+            true
+        }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
 
     /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
