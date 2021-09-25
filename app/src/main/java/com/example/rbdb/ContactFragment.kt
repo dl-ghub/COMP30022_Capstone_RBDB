@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,12 +35,20 @@ class ContactFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_contact, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val fab = view.findViewById<FloatingActionButton>(R.id.contact_fab)
+        fab.setOnClickListener { view ->
+            Snackbar.make(view, "Add contact button clicked", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
+        }
     }
 
     companion object {

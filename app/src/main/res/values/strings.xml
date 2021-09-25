@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">RBDB</string>
     <string name="home_page_title">Contact</string>
+    <string name="contact_fab_desc">Add new contact</string>
+    <string name="group_fab_desc">Add new group</string>
+    <string name="tag_fab_desc">Add new tag</string>
     <string name="new_contact_page_title">New Contact</string>
     <string name="search">search</string>
     <string name="content_description_search">Content description search</string>

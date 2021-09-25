@@ -12,8 +12,8 @@ class NewContactPage : AppCompatActivity() {
 
         val toolbar = findViewById<Toolbar>(R.id.topAppBar)
         toolbar.setNavigationOnClickListener {
-            // Handle navigation icon press
-            Toast.makeText(this, "back button pressed", Toast.LENGTH_SHORT).show()
+            // Handle navigation icon press (go back to home page)
+            super.onBackPressed();
         }
     }
 }
