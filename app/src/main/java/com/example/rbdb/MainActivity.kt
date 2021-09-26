@@ -1,5 +1,6 @@
 package com.example.rbdb
 
+import adapters.FragmentAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.os.Bundle
@@ -9,33 +10,22 @@ import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar = findViewById<Toolbar>(R.id.topAppBar)
-        //setSupportActionBar(toolbar)
-        toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.search -> {
-                    // Handle search icon press
-                    Toast.makeText(this, "search bar pressed", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.more -> {
-                    // Handle more item (inside overflow menu) press
-                    Toast.makeText(this, "more button pressed", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> false
-            }
-        }
+        setSupportActionBar(toolbar)
+
         val tabLayout = findViewById<TabLayout>(R.id.TabLayout)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
@@ -54,23 +44,7 @@ class MainActivity : AppCompatActivity() {
         })
         val viewPager = findViewById<ViewPager2>(R.id.pager)
 
-        class FragmentAdapter(activity: AppCompatActivity): FragmentStateAdapter(activity){
-            override fun getItemCount(): Int {
 
-                return 3
-            }
-
-            override fun createFragment(position: Int): Fragment {
-
-                return when(position){
-                    0->ContactFragment.newInstance()
-                    1->GroupFragment.newInstance()
-                    2->TagFragment.newInstance()
-                    else -> ContactFragment.newInstance()
-                }
-            }
-
-        }
         viewPager.adapter = FragmentAdapter(this)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
@@ -88,6 +62,30 @@ class MainActivity : AppCompatActivity() {
 
             }
         }.attach()
+
+
+    }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.search -> {
+            Toast.makeText(this, "search bar pressed", Toast.LENGTH_SHORT).show()
+            true
+        }
+
+        R.id.more -> {
+            Toast.makeText(this, "more button pressed", Toast.LENGTH_SHORT).show()
+            true
+        }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
     }
 
     /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
