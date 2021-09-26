@@ -1,13 +1,11 @@
-package adapters
+package com.example.rbdb.ui.adapters
 
-import android.content.Intent
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.rbdb.ContactFragment
-import com.example.rbdb.GroupFragment
-import com.example.rbdb.TagFragment
+import com.example.rbdb.ui.ContactFragment
+import com.example.rbdb.ui.GroupFragment
+import com.example.rbdb.ui.TagFragment
 
 class FragmentAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
     override fun getItemCount(): Int {

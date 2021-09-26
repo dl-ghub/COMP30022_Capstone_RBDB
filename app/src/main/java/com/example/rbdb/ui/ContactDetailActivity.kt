@@ -1,4 +1,4 @@
-package com.example.rbdb
+package com.example.rbdb.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,10 +7,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import org.w3c.dom.Text
-import android.content.Intent
-
-
+import com.example.rbdb.R
 
 
 class ContactDetailActivity : AppCompatActivity() {

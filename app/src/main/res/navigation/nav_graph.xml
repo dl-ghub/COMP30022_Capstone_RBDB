@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/contactFragment"
-        android:name="com.example.rbdb.ContactFragment"
+        android:name="com.example.rbdb.ui.ContactFragment"
         android:label="fragment_contact"
         tools:layout="@layout/fragment_contact" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <activity
         android:id="@+id/contactDetailActivity"
-        android:name="com.example.rbdb.ContactDetailActivity"
+        android:name="com.example.rbdb.ui.ContactDetailActivity"
         android:label="activity_contact_detail"
         tools:layout="@layout/activity_contact_detail" />
 </navigation>
