@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">RBDB</string>
+    <string name="page_title">Contact</string>
+    <string name="search">search</string>
+    <string name="content_description_search">Content description search</string>
+    <string name="more">more</string>
+    <string name="content_description_more">content description more</string>
+    <string name="All">ALL</string>
+    <string name="Groups">GROUPS</string>
+    <string name="Tabs">TABS</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu">menu</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="delete">delete_button</string>
+    <string name="edit">edit_button</string>
+    <string name="phone_number_label">Phone Number</string>
+    <string name="contact_information">Contact Information</string>
+    <string name="email_label">Email</string>
+    <string name="meeting_information">Meeting Information</string>
+    <string name="test_string_large">I\'m a Barbie girl, in the Barbie world\nLife in plastic, it\'s fantastic\nYou can brush my hair, undress me everywhere\nImagination, life is your creation</string>
 </resources>

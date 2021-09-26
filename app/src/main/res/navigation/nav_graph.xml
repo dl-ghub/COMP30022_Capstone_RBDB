@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/contactFragment">
+
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.example.rbdb.ui.ContactFragment"
+        android:label="fragment_contact"
+        tools:layout="@layout/fragment_contact" >
+        <action
+            android:id="@+id/action_contactFragment_to_contactDetailActivity"
+            app:destination="@id/contactDetailActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/contactDetailActivity"
+        android:name="com.example.rbdb.ui.ContactDetailActivity"
+        android:label="activity_contact_detail"
+        tools:layout="@layout/activity_contact_detail" />
+</navigation>
