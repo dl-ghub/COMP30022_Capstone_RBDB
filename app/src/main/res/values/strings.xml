@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">RBDB</string>
     <string name="page_title">Contact</string>
+    <string name="contact_fab_desc">Add new contact</string>
+    <string name="group_fab_desc">Add new group</string>
+    <string name="tag_fab_desc">Add new tag</string>
+    <string name="new_contact_page_title">New Contact</string>
     <string name="search">search</string>
     <string name="content_description_search">Content description search</string>
     <string name="more">more</string>
@@ -8,6 +12,16 @@
     <string name="All">ALL</string>
     <string name="Groups">GROUPS</string>
     <string name="Tabs">TABS</string>
+    <string name="name_label">Name</string>
+    <string name="contact_info_label">Contact Information</string>
+    <string name="description_label">Description</string>
+    <string name="first_name_hint">First name</string>
+    <string name="last_name_hint">Last name</string>
+    <string name="business_name_hint">Business name</string>
+    <string name="phone_hint">Phone</string>
+    <string name="email_hint">Email</string>
+    <string name="description_hint">Enter description</string>
+    <string name="save">Save changes</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu">menu</string>

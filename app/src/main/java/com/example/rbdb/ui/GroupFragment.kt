@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.rbdb.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +38,16 @@ class GroupFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_group, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val fab = view.findViewById<FloatingActionButton>(R.id.group_fab)
+        fab.setOnClickListener { view ->
+            Snackbar.make(view, "Add group button clicked", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
+        }
     }
 
     companion object {
