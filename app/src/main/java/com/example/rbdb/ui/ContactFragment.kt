@@ -56,9 +56,11 @@ class ContactFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val fab = view.findViewById<FloatingActionButton>(R.id.contact_fab)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Add contact button clicked", Snackbar.LENGTH_LONG)
+            /*Snackbar.make(view, "Add contact button clicked", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
-                .show()
+                .show()*/
+            val intent = Intent(this.requireActivity(), NewContactPage::class.java)
+            requireActivity().startActivity(intent)
         }
     }
 
