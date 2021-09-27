@@ -11,9 +11,14 @@ class NewContactPage : AppCompatActivity() {
         setContentView(R.layout.activity_new_contact_page)
 
         val toolbar = findViewById<Toolbar>(R.id.topAppBar)
-        toolbar.setNavigationOnClickListener {
-            // Handle navigation icon press (go back to home page)
-            super.onBackPressed()
-        }
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true);
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        //Toast.makeText(this, "back pressed", Toast.LENGTH_SHORT).show()
+        finish()
+        //startActivity(Intent(this, MainActivity::class.java))
+        return true
     }
 }
