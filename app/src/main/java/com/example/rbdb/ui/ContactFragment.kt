@@ -7,7 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
+import com.example.rbdb.ui.adapters.ContactAdapter
+import com.example.rbdb.ui.dataclasses.Contact
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
@@ -41,14 +44,34 @@ class ContactFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_contact, container, false)
-        val button = view.findViewById<Button>(R.id.buttonContact)
-        //button.setOnClickListener { findNavController().navigate(R.id.action_contactFragment_to_contactDetailActivity) }
-        button.setOnClickListener{
-            //Toast.makeText(this.requireActivity(), "Button pressed", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this.requireActivity(), ContactDetailActivity::class.java)
-            intent.putExtra("contactName",view.findViewById<Button>(R.id.buttonContact).text)
-            requireActivity().startActivity(intent)
-        }
+//        val button = view.findViewById<Button>(R.id.buttonContact)
+//        //button.setOnClickListener { findNavController().navigate(R.id.action_contactFragment_to_contactDetailActivity) }
+//        button.setOnClickListener{
+//            //Toast.makeText(this.requireActivity(), "Button pressed", Toast.LENGTH_SHORT).show()
+//            val intent = Intent(this.requireActivity(), ContactDetailActivity::class.java)
+//            intent.putExtra("contactName",view.findViewById<Button>(R.id.buttonContact).text)
+//            requireActivity().startActivity(intent)
+//        }
+
+        // Recyclerview Implementation (CONTACTS PAGE)
+        // Dummy data. Eventually will need to retrieve this (in a similar format) from DB.
+        val dataForAdapter = listOf(
+            Contact(R.drawable.arnold, "Arnold Schwarzenegger", "Paramount", "03 5357 2225"),
+            Contact(R.drawable.arnold, "Barack Obama", "The White House", "03 5357 2225"),
+            Contact(R.drawable.arnold, "Bill Gates", "Microsoft", "03 5357 2225"),
+            Contact(R.drawable.arnold, "Chris Cuomo", "CNN", "03 5357 2225"),
+            Contact(R.drawable.arnold, "Elon Musk", "Space X", "03 5357 2225"),
+            Contact(R.drawable.arnold, "Jeff Bezos", "Amazon", "03 5357 2225")
+        )
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.rvContacts)
+        val contactAdapter = ContactAdapter()
+        contactAdapter.setData(dataForAdapter)
+        recyclerView.adapter = contactAdapter
+        contactAdapter.notifyDataSetChanged()
+
+
+
         return view
     }
 

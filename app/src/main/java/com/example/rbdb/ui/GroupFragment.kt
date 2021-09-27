@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
+import com.example.rbdb.ui.adapters.GroupAdapter
+import com.example.rbdb.ui.dataclasses.Group
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
@@ -37,7 +40,25 @@ class GroupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_group, container, false)
+        val view = inflater.inflate(R.layout.fragment_group, container, false)
+
+        // Recyclerview Implementation (GROUPS PAGE)
+        // Dummy data. Eventually will need to retrieve this (in a similar format) from DB.
+        val dataForAdapter = listOf(
+            Group(1, "Tech. Companies"),
+            Group(2, "Melbourne"),
+            Group(3, "Group 3"),
+            Group(4, "Group 4"),
+            Group(5, "Group 5")
+        )
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.rvGroups)
+        val groupAdapter = GroupAdapter()
+        groupAdapter.setData(dataForAdapter)
+        recyclerView.adapter = groupAdapter
+        groupAdapter.notifyDataSetChanged()
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
