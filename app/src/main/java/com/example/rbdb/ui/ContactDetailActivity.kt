@@ -8,13 +8,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.rbdb.R
+import com.example.rbdb.databinding.ActivityContactDetailBinding
+import com.example.rbdb.databinding.ActivityMainBinding
 
 
 class ContactDetailActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityContactDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_contact_detail)
-        val toolbar = findViewById<Toolbar>(R.id.cDetailTopAppBar)
+        binding = ActivityContactDetailBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        val toolbar = binding.cDetailTopAppBar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -22,7 +27,7 @@ class ContactDetailActivity : AppCompatActivity() {
 
 
         val cName = intent.getStringExtra("contactName")
-        val textView = findViewById<TextView>(R.id.contactName)
+        val textView = binding.contactName
         textView.text = cName
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

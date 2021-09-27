@@ -10,20 +10,25 @@ import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.rbdb.R
+import com.example.rbdb.databinding.ActivityMainBinding
 import com.example.rbdb.ui.adapters.FragmentAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
+    private lateinit var binding: ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val toolbar = findViewById<Toolbar>(R.id.topAppBar)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        val toolbar = binding.topAppBar
         setSupportActionBar(toolbar)
 
-        val tabLayout = findViewById<TabLayout>(R.id.TabLayout)
+        val tabLayout = binding.TabLayout
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -39,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                 // Handle tab unselect
             }
         })
-        val viewPager = findViewById<ViewPager2>(R.id.pager)
+        val viewPager = binding.pager
 
 
         viewPager.adapter = FragmentAdapter(this)
@@ -59,8 +64,6 @@ class MainActivity : AppCompatActivity() {
 
             }
         }.attach()
-
-
     }
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.search -> {
