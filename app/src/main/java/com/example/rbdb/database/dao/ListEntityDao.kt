@@ -16,10 +16,10 @@ interface ListEntityDao {
 
     @Transaction
     @Query("SELECT * FROM list_entity")
-    fun getListWithCards(): List<ListWithCardsEntity>
+    fun getAllLists(): List<ListEntity>
 
     // Relational Queries for List <-> Card relation
     @Transaction
     @Query("SELECT * FROM card_entity")
-    fun getTagWithCards(): List<ListWithCardsEntity>
+    fun getListWithCards(): List<ListWithCardsEntity>
 }

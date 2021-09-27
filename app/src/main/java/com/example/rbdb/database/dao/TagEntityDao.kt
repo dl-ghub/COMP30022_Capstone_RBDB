@@ -15,11 +15,15 @@ interface TagEntityDao {
     @Update
     fun update(ItemEntity: TagEntity)
 
+    @Transaction
+    @Query("SELECT * FROM tag_entity")
+    fun getAllTags(): List<TagEntity>
+
     // Relational Queries for Tag <-> Card relation
     @Transaction
     @Query("SELECT * FROM tag_entity")
     fun getTagWithCards(): List<TagWithCardsEntity>
 
     @Query("SELECT tagId FROM tag_entity WHERE tag_entity.name == :nameOfTag")
-    fun getTagWithCards(nameOfTag: String): Long
+    fun getTagID(nameOfTag: String): Long
 }
