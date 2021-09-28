@@ -87,7 +87,7 @@ class NewContactActivity : AppCompatActivity() {
 
         builder.setPositiveButton("Yes"){ _, _ -> super.onBackPressed() }
 
-        builder.setNegativeButton("No"){_, _ -> }
+        builder.setNegativeButton("Cancel"){_, _ -> }
 
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)
