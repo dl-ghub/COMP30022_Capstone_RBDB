@@ -72,20 +72,7 @@ class NewContactActivity : AppCompatActivity() {
 
     
     override fun onSupportNavigateUp(): Boolean {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.confirm_leave_title)
-        builder.setMessage(R.string.confirm_leave_txt)
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
-
-        builder.setPositiveButton("Yes"){ _, _ -> this.onBackPressed() }
-
-        builder.setNeutralButton("Cancel"){ _, _ ->}
-
-        builder.setNegativeButton("No"){_, _ -> }
-
-        val alertDialog: AlertDialog = builder.create()
-        alertDialog.setCancelable(false)
-        alertDialog.show()
+        this.onBackPressed()
 
         //startActivity(Intent(this, MainActivity::class.java))
         return true
@@ -93,7 +80,18 @@ class NewContactActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 //        Toast.makeText(this, "back pressed", Toast.LENGTH_SHORT).show()
-//        super.onBackPressed()
-        finish()
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.confirm_leave_title)
+        builder.setMessage(R.string.confirm_leave_txt)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        builder.setPositiveButton("Yes"){ _, _ -> super.onBackPressed() }
+
+        builder.setNegativeButton("No"){_, _ -> }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+
     }
 }
