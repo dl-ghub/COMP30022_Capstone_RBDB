@@ -50,11 +50,13 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:hint="@string/first_name_hint"
+        app:errorEnabled="true"
         app:endIconMode="clear_text"
         app:endIconTint="@color/primaryBlue"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/firstNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -70,11 +72,13 @@
         android:layout_marginHorizontal="12dp"
         android:hint="@string/last_name_hint"
         android:layout_marginTop="8dp"
+        app:errorEnabled="true"
         app:endIconMode="clear_text"
         app:endIconTint="@color/primaryBlue"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/lastNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -90,11 +94,13 @@
         android:layout_marginHorizontal="12dp"
         android:hint="@string/business_name_hint"
         android:layout_marginTop="8dp"
+        app:errorEnabled="true"
         app:endIconMode="clear_text"
         app:endIconTint="@color/primaryBlue"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/businessNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -128,6 +134,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/phoneInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -148,6 +155,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -181,6 +189,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/descriptionInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
