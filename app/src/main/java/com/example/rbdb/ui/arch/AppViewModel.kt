@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rbdb.database.AppDatabase
+import com.example.rbdb.database.dao.CardEntityDao_Impl
 import com.example.rbdb.database.model.*
 import kotlinx.coroutines.launch
 
@@ -23,6 +24,11 @@ class AppViewModel: ViewModel() {
 
     fun updateCard(cardEntity: CardEntity){viewModelScope.launch {repository.updateCard(cardEntity)}}
 
+    fun getCardById(id: Long): LiveData<CardEntity>  {
+        val result = MutableLiveData< CardEntity> ()
+        viewModelScope.launch {result.postValue(repository.getCardbyId(id))}
+        return result
+    }
     fun getAllCards(): LiveData< List<CardEntity> > {
         val result = MutableLiveData< List<CardEntity> >()
         viewModelScope.launch {result.postValue(repository.getAllCards())}

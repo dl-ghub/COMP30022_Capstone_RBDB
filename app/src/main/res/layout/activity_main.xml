@@ -68,4 +68,16 @@
 
     </androidx.viewpager2.widget.ViewPager2>
 
+    <TextView
+        android:id="@+id/testCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="117dp"
+        android:fontFamily="@font/roboto"
+        android:text="TempText"
+        android:textSize="27sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TabLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

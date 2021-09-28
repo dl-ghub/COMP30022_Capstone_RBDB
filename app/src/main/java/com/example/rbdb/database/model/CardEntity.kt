@@ -13,3 +13,4 @@ data class CardEntity (
     val email: String? = null,
     val description: String? = null
 )
+
