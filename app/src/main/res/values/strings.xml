@@ -22,6 +22,8 @@
     <string name="email_hint">Email</string>
     <string name="description_hint">Enter description</string>
     <string name="save">Save changes</string>
+    <string name="confirm_leave_title">Confirm leave</string>
+    <string name="confirm_leave_txt">Changes won\'t be saved, still leave?</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu">menu</string>
