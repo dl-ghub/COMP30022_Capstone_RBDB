@@ -2,6 +2,7 @@ package com.example.rbdb.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.rbdb.R
 import com.example.rbdb.database.model.CardEntity
@@ -66,14 +67,20 @@ class NewContactActivity : AppCompatActivity() {
             email = email,
             description = description
         )
+        finish()
     }
 
 
 
     override fun onSupportNavigateUp(): Boolean {
-        //Toast.makeText(this, "back pressed", Toast.LENGTH_SHORT).show()
-        finish()
+        this.onBackPressed()
         //startActivity(Intent(this, MainActivity::class.java))
         return true
+    }
+
+    override fun onBackPressed() {
+        Toast.makeText(this, "back pressed", Toast.LENGTH_SHORT).show()
+        super.onBackPressed()
+        finish()
     }
 }

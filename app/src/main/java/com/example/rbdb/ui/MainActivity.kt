@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             binding.testCard.text = newName.name
         }
         viewModel.getCardById(1).observe(this,nameObserver)*/
+
         val tabLayout = binding.TabLayout
       
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
