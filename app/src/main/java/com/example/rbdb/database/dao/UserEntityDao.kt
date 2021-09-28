@@ -6,15 +6,15 @@ import com.example.rbdb.database.model.*
 @Dao
 interface UserEntityDao {
     @Insert
-    fun insert(ItemEntity: UserEntity)
+    suspend fun insert(ItemEntity: UserEntity)
 
     @Delete
-    fun delete(ItemEntity: UserEntity)
+    suspend fun delete(ItemEntity: UserEntity)
 
     @Update
-    fun update(ItemEntity: UserEntity)
+    suspend fun update(ItemEntity: UserEntity)
 
     @Transaction
     @Query("SELECT * FROM user_entity")
-    fun getAllUsers(): List<UserEntity>
+    suspend fun getAllUsers(): List<UserEntity>
 }

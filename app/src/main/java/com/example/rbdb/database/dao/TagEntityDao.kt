@@ -7,19 +7,23 @@ import com.example.rbdb.database.model.*
 interface TagEntityDao {
 
     @Insert
-    fun insert(ItemEntity: TagEntity)
+    suspend fun insert(ItemEntity: TagEntity)
 
     @Delete
-    fun delete(ItemEntity: TagEntity)
+    suspend fun delete(ItemEntity: TagEntity)
 
     @Update
-    fun update(ItemEntity: TagEntity)
+    suspend fun update(ItemEntity: TagEntity)
+
+    @Transaction
+    @Query("SELECT * FROM tag_entity")
+    suspend fun getAllTags(): List<TagEntity>
 
     // Relational Queries for Tag <-> Card relation
     @Transaction
     @Query("SELECT * FROM tag_entity")
-    fun getTagWithCards(): List<TagWithCardsEntity>
+    suspend fun getTagWithCards(): List<TagWithCardsEntity>
 
     @Query("SELECT tagId FROM tag_entity WHERE tag_entity.name == :nameOfTag")
-    fun getTagWithCards(nameOfTag: String): Long
+    suspend fun getTagID(nameOfTag: String): Long
 }

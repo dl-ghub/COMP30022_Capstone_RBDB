@@ -7,11 +7,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.rbdb.R
+import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.databinding.ActivityMainBinding
 import com.example.rbdb.ui.adapters.FragmentAdapter
+import com.example.rbdb.ui.arch.AppViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -28,7 +31,14 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.topAppBar
         setSupportActionBar(toolbar)
 
+
+        // Added by Mattias for database / viewModel initialization
+        val viewModel: AppViewModel by viewModels()
+        viewModel.init(AppDatabase.getDatabase(this))
+        // End of db / vm init
+
         val tabLayout = binding.TabLayout
+      
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {

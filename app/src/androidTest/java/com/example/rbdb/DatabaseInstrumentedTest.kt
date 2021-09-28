@@ -69,6 +69,7 @@ class DatabaseInstrumentedTest {
 //        assertThat(byName.get(0), equalTo(user))
 //    }
 
+    /*
     @Test
     @Throws(Exception::class)
     fun addCardEntity() {
@@ -85,7 +86,7 @@ class DatabaseInstrumentedTest {
         println(allCards);
 
         assertThat(allCards.get(0), equalTo(cardEntity))
-    }
+    }*/
 
 
 }
