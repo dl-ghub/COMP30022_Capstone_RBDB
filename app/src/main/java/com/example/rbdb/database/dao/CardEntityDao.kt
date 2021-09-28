@@ -28,7 +28,4 @@ interface CardEntityDao {
     @Transaction
     @Query("SELECT * FROM card_entity")
     suspend fun getCardWithLists(): List<CardWithListsEntity>
-
-    @Query("SELECT * FROM card_entity WHERE :id == card_entity.cardId")
-    suspend fun  getCardById(id: Long): CardEntity
 }

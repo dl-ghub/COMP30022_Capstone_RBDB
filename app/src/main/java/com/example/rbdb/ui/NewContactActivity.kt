@@ -36,13 +36,13 @@ class NewContactActivity : AppCompatActivity() {
         }
 
         val lastName = binding.lastNameInput.text.toString().trim()
-        if (firstName.isEmpty()){
+        if (lastName.isEmpty()){
             binding.lastNameField.error = "* Required Field"
             fieldError = true
         }
 
         val businessName = binding.businessNameInput.text.toString().trim()
-        if (firstName.isEmpty()){
+        if (businessName.isEmpty()){
             binding.businessNameField.error = "* Required Field"
             fieldError = true
         }
@@ -58,6 +58,7 @@ class NewContactActivity : AppCompatActivity() {
         val description = binding.descriptionInput.text.toString().trim()
 
         val cardEntity = CardEntity(
+            cardId = 2, //TEMP VALUE MAKE SURE TO REFACTOR
             name = firstName + lastName,
             business = businessName,
             dateAdded = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date()),

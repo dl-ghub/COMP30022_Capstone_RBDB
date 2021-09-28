@@ -24,11 +24,6 @@ class AppViewModel: ViewModel() {
 
     fun updateCard(cardEntity: CardEntity){viewModelScope.launch {repository.updateCard(cardEntity)}}
 
-    fun getCardById(id: Long): LiveData<CardEntity>  {
-        val result = MutableLiveData< CardEntity> ()
-        viewModelScope.launch {result.postValue(repository.getCardbyId(id))}
-        return result
-    }
     fun getAllCards(): LiveData< List<CardEntity> > {
         val result = MutableLiveData< List<CardEntity> >()
         viewModelScope.launch {result.postValue(repository.getAllCards())}

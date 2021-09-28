@@ -20,9 +20,6 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     suspend fun getCardWithLists(): List<CardWithListsEntity>{return appDatabase.cardEntityDao().getCardWithLists()}
 
-    suspend fun getCardbyId(id: Long): CardEntity{return appDatabase.cardEntityDao().getCardById(id)}
-
-
     // List dao interaction
     suspend fun insertList(listEntity: ListEntity){appDatabase.listEntityDao().insert(listEntity)}
 

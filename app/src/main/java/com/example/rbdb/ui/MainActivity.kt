@@ -39,12 +39,12 @@ class MainActivity : AppCompatActivity() {
         /*val cardTest: CardEntity = CardEntity("sam","unimelb",
             "0922","444222999","test@email.com","I am a cool guy")
         viewModel.insertCard(cardTest)*/
-
+        /*
         val nameObserver = Observer<CardEntity> { newName ->
             // Update the UI, in this case, a TextView.
             binding.testCard.text = newName.name
         }
-        viewModel.getCardById(1).observe(this,nameObserver)
+        viewModel.getCardById(1).observe(this,nameObserver)*/
         val tabLayout = binding.TabLayout
       
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
