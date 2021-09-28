@@ -35,24 +35,23 @@ class NewContactActivity : AppCompatActivity() {
             binding.firstNameField.error = "* Required Field"
             fieldError = true
         }
+        else{ binding.firstNameField.error = null }
 
         val lastName = binding.lastNameInput.text.toString().trim()
         if (lastName.isEmpty()){
             binding.lastNameField.error = "* Required Field"
             fieldError = true
         }
+        else{binding.lastNameField.error = null}
 
         val businessName = binding.businessNameInput.text.toString().trim()
         if (businessName.isEmpty()){
             binding.businessNameField.error = "* Required Field"
             fieldError = true
         }
+        else{binding.businessNameField.error = null}
 
         if (fieldError){return}
-
-        binding.firstNameField.error = null
-        binding.lastNameField.error = null
-        binding.businessNameField.error = null
 
         val phoneNumber = binding.phoneInput.text.toString().trim()
         val email = binding.emailInput.text.toString().trim()
@@ -80,7 +79,7 @@ class NewContactActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         Toast.makeText(this, "back pressed", Toast.LENGTH_SHORT).show()
-        super.onBackPressed()
         finish()
+        super.onBackPressed()
     }
 }
