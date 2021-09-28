@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RBDB">
         <activity
-            android:name=".ui.NewContactPage"
+            android:name=".ui.NewContactActivity"
             android:exported="true" />
         <activity
             android:name=".ui.ContactDetailActivity"

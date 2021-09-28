@@ -4,13 +4,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import com.example.rbdb.R
+import com.example.rbdb.databinding.ActivityNewContactPageBinding
 
-class NewContactPage : AppCompatActivity() {
+class NewContactActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityNewContactPageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_contact_page)
-
-        val toolbar = findViewById<Toolbar>(R.id.topAppBar)
+        binding = ActivityNewContactPageBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        val toolbar = binding.topAppBar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true);

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
+import com.example.rbdb.databinding.FragmentContactBinding
+import com.example.rbdb.databinding.FragmentGroupBinding
 import com.example.rbdb.ui.adapters.GroupAdapter
 import com.example.rbdb.ui.dataclasses.Group
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -26,6 +28,8 @@ class GroupFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var _binding: FragmentGroupBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +44,20 @@ class GroupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_group, container, false)
+        _binding = FragmentGroupBinding.inflate(inflater,container,false)
+        val view = binding.root
 
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val fab = binding.groupFab
+        fab.setOnClickListener { view ->
+            Snackbar.make(view, "Add group button clicked", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()
+        }
         // Recyclerview Implementation (GROUPS PAGE)
         // Dummy data. Eventually will need to retrieve this (in a similar format) from DB.
         val dataForAdapter = listOf(
@@ -52,23 +68,15 @@ class GroupFragment : Fragment() {
             Group(5, "Group 5")
         )
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.rvGroups)
+        val recyclerView: RecyclerView = binding.rvGroups
         val groupAdapter = GroupAdapter()
         groupAdapter.setData(dataForAdapter)
         recyclerView.adapter = groupAdapter
         groupAdapter.notifyDataSetChanged()
-
-        return view
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val fab = view.findViewById<FloatingActionButton>(R.id.group_fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Add group button clicked", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

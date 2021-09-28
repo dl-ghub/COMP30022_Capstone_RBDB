@@ -6,13 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
+import com.example.rbdb.databinding.FragmentContactBinding
 import com.example.rbdb.ui.adapters.ContactAdapter
 import com.example.rbdb.ui.dataclasses.Contact
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +27,8 @@ class ContactFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     //private lateinit var navHostFragment: NavHostFragment
+    private var _binding: FragmentContactBinding? = null
+    private val binding get() = _binding!!
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +43,8 @@ class ContactFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_contact, container, false)
+        _binding = FragmentContactBinding.inflate(inflater, container, false)
+        val view = binding.root
 //        val button = view.findViewById<Button>(R.id.buttonContact)
 //        //button.setOnClickListener { findNavController().navigate(R.id.action_contactFragment_to_contactDetailActivity) }
 //        button.setOnClickListener{
@@ -55,6 +56,12 @@ class ContactFragment : Fragment() {
 
         // Recyclerview Implementation (CONTACTS PAGE)
         // Dummy data. Eventually will need to retrieve this (in a similar format) from DB.
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val dataForAdapter = listOf(
             Contact(R.drawable.arnold, "Arnold Schwarzenegger", "Paramount", "03 5357 2225"),
             Contact(R.drawable.arnold, "Barack Obama", "The White House", "03 5357 2225"),
@@ -63,28 +70,23 @@ class ContactFragment : Fragment() {
             Contact(R.drawable.arnold, "Elon Musk", "Space X", "03 5357 2225"),
             Contact(R.drawable.arnold, "Jeff Bezos", "Amazon", "03 5357 2225")
         )
-
-        val recyclerView: RecyclerView = view.findViewById(R.id.rvContacts)
+        val recyclerView: RecyclerView = binding.rvContacts
         val contactAdapter = ContactAdapter()
         contactAdapter.setData(dataForAdapter)
         recyclerView.adapter = contactAdapter
         contactAdapter.notifyDataSetChanged()
-
-
-
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val fab = view.findViewById<FloatingActionButton>(R.id.contact_fab)
+        val fab = binding.contactFab
         fab.setOnClickListener { view ->
             /*Snackbar.make(view, "Add contact button clicked", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show()*/
-            val intent = Intent(this.requireActivity(), NewContactPage::class.java)
+            val intent = Intent(this.requireActivity(), NewContactActivity::class.java)
             requireActivity().startActivity(intent)
         }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

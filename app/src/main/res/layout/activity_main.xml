@@ -37,19 +37,19 @@
         >
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/allTab"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/All" />
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/groupTab"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/Groups" />
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/tagTab"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/Tabs" />
