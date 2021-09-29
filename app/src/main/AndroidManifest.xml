@@ -16,6 +16,9 @@
             android:name=".ui.ContactDetailActivity"
             android:exported="true" />
         <activity
+            android:name=".ui.GroupDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

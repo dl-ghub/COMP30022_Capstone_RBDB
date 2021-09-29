@@ -1,5 +1,6 @@
 package com.example.rbdb.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import com.example.rbdb.R
 import com.example.rbdb.databinding.FragmentContactBinding
 import com.example.rbdb.databinding.FragmentGroupBinding
 import com.example.rbdb.ui.adapters.GroupAdapter
+import com.example.rbdb.ui.adapters.GroupCardInterface
 import com.example.rbdb.ui.dataclasses.Group
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -24,12 +26,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [GroupFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class GroupFragment : Fragment() {
+class GroupFragment : Fragment(), GroupCardInterface {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var _binding: FragmentGroupBinding? = null
     private val binding get() = _binding!!
+    private lateinit var groupList: ArrayList<Group>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,22 +61,46 @@ class GroupFragment : Fragment() {
                 .setAction("Action", null)
                 .show()
         }
-        // Recyclerview Implementation (GROUPS PAGE)
-        // Dummy data. Eventually will need to retrieve this (in a similar format) from DB.
-        val dataForAdapter = listOf(
-            Group(1, "Tech. Companies"),
-            Group(2, "Melbourne"),
-            Group(3, "Group 3"),
-            Group(4, "Group 4"),
-            Group(5, "Group 5")
-        )
+
+        groupList = getGroupList()
 
         val recyclerView: RecyclerView = binding.rvGroups
-        val groupAdapter = GroupAdapter()
-        groupAdapter.setData(dataForAdapter)
+        val groupAdapter = GroupAdapter(groupList, this)
+
         recyclerView.adapter = groupAdapter
         groupAdapter.notifyDataSetChanged()
     }
+
+    /* Retrieve data for recycler view */
+    private fun getGroupList(): ArrayList<Group> {
+        return ArrayList<Group>().apply {
+            add(Group(
+                1, "Tech.Companies"
+            ))
+            add(Group(
+                2, "Melbourne"
+            ))
+            add(Group(
+                3, "Group 3"
+            ))
+            add(Group(
+                4, "Group 4"
+            ))
+            add(Group(
+                5, "Group 5"
+            ))
+        }
+    }
+
+    /* Access GroupCardInterface for recycler view item navigation */
+    override fun onGroupCardClick(position: Int) {
+        val group = groupList[position]
+        val intent = Intent(this.requireActivity(), GroupDetailActivity::class.java).apply {
+            putExtra("group", group)
+        }
+        startActivity(intent)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
