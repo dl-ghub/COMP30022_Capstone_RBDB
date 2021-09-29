@@ -11,4 +11,6 @@
     <color name="primaryBlueVariant">#FF276678</color>
     <color name="secondaryBlue">#FFD3E0EA</color>
     <color name="secondaryBlueVariant">#FFF6F5F5</color>
+    <color name="primaryBackground">#F6F5F5</color>
+    <color name="primaryText">#242424</color>
 </resources>

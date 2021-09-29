@@ -62,19 +62,15 @@ class ContactFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val dataForAdapter = listOf(
-            Contact(R.drawable.arnold, "Arnold Schwarzenegger", "Paramount", "03 5357 2225"),
-            Contact(R.drawable.arnold, "Barack Obama", "The White House", "03 5357 2225"),
-            Contact(R.drawable.arnold, "Bill Gates", "Microsoft", "03 5357 2225"),
-            Contact(R.drawable.arnold, "Chris Cuomo", "CNN", "03 5357 2225"),
-            Contact(R.drawable.arnold, "Elon Musk", "Space X", "03 5357 2225"),
-            Contact(R.drawable.arnold, "Jeff Bezos", "Amazon", "03 5357 2225")
-        )
+
+        val contactList = getContactList()
         val recyclerView: RecyclerView = binding.rvContacts
-        val contactAdapter = ContactAdapter()
-        contactAdapter.setData(dataForAdapter)
+        val contactAdapter = ContactAdapter(contactList)
+
         recyclerView.adapter = contactAdapter
         contactAdapter.notifyDataSetChanged()
+
+
         val fab = binding.contactFab
         fab.setOnClickListener { view ->
             /*Snackbar.make(view, "Add contact button clicked", Snackbar.LENGTH_LONG)
@@ -84,6 +80,39 @@ class ContactFragment : Fragment() {
             requireActivity().startActivity(intent)
         }
     }
+
+    private fun getContactList(): ArrayList<Contact> {
+        return ArrayList<Contact>().apply {
+            add(Contact(
+                R.drawable.einstein, "Albert Einstein", "University of Zurich", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Barack Obama", "The White House", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Bill Gates", "Microsoft", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Chris Cuomo", "CNN", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Darth Vader", "The Death Star", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Dwayne Johnson", "Paramount", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Elon Musk", "Space X", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Jeff Bezos", "Amazon", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Queen Elizabeth", "Buckingham Palace", "03 5357 2225"
+            ))
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
