@@ -12,15 +12,17 @@ import com.example.rbdb.ui.dataclasses.Contact
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ContactAdapter(
-    private val data: ArrayList<Contact>
+    private val data: ArrayList<Contact>,
+    private val contactCardInterface: ContactCardInterface
 ) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         return ContactViewHolder(parent)
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        holder.onBind(data[position])
+        holder.onBind(data[position], contactCardInterface)
     }
 
     override fun getItemCount(): Int {
@@ -38,15 +40,14 @@ class ContactAdapter(
         private val tvContactPhone: TextView = itemView.findViewById(R.id.contact_phone)
         private val contactCard: ConstraintLayout = itemView.findViewById(R.id.contact_card)
 
-        fun onBind(contactData: Contact) {
+        fun onBind(contactData: Contact, contactCardInterface: ContactCardInterface) {
             ivContactAvatar.setImageResource(contactData.avatar)
             tvContactName.text = contactData.name
             tvContactCompany.text = contactData.company
             tvContactPhone.text = contactData.phone
 
             contactCard.setOnClickListener {
-                Toast.makeText(it.context, "$absoluteAdapterPosition clicked", Toast.LENGTH_SHORT)
-                    .show()
+                contactCardInterface.onContactCardClick(absoluteAdapterPosition)
             }
         }
     }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
 import com.example.rbdb.databinding.FragmentContactBinding
 import com.example.rbdb.ui.adapters.ContactAdapter
+import com.example.rbdb.ui.adapters.ContactCardInterface
 import com.example.rbdb.ui.dataclasses.Contact
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,13 +23,14 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ContactFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ContactFragment : Fragment() {
+class ContactFragment : Fragment(), ContactCardInterface {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     //private lateinit var navHostFragment: NavHostFragment
     private var _binding: FragmentContactBinding? = null
     private val binding get() = _binding!!
+    private lateinit var contactList: ArrayList<Contact>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,9 +65,10 @@ class ContactFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val contactList = getContactList()
+        contactList = getContactList()
+
         val recyclerView: RecyclerView = binding.rvContacts
-        val contactAdapter = ContactAdapter(contactList)
+        val contactAdapter = ContactAdapter(contactList, this)
 
         recyclerView.adapter = contactAdapter
         contactAdapter.notifyDataSetChanged()
@@ -81,6 +84,8 @@ class ContactFragment : Fragment() {
         }
     }
 
+
+    /* Retrieve data for recycler view */
     private fun getContactList(): ArrayList<Contact> {
         return ArrayList<Contact>().apply {
             add(Contact(
@@ -111,6 +116,15 @@ class ContactFragment : Fragment() {
                 R.drawable.einstein, "Queen Elizabeth", "Buckingham Palace", "03 5357 2225"
             ))
         }
+    }
+
+    /* Access ContactCardInterface for recycler view item navigation */
+    override fun onContactCardClick(position: Int) {
+        val contact = contactList[position]
+        val intent = Intent(this.requireActivity(), ContactDetailActivity::class.java).apply {
+            putExtra("contact", contact)
+        }
+        startActivity(intent)
     }
 
     override fun onDestroyView() {
