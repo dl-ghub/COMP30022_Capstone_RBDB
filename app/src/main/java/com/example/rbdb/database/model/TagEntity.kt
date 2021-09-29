@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "tag_entity")
 data class TagEntity (
-    @PrimaryKey val tagId: Long,
+    @PrimaryKey(autoGenerate = true) val tagId: Long = 0,
     val name: String = ""
 )

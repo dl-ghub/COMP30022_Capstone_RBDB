@@ -59,7 +59,6 @@ class NewContactActivity : AppCompatActivity() {
         val description = binding.descriptionInput.text.toString().trim()
 
         val cardEntity = CardEntity(
-            cardId = 2, //TEMP VALUE MAKE SURE TO REFACTOR
             name = firstName + lastName,
             business = businessName,
             dateAdded = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date()),
