@@ -28,4 +28,10 @@ interface CardEntityDao {
     @Transaction
     @Query("SELECT * FROM card_entity")
     suspend fun getCardWithLists(): List<CardWithListsEntity>
+
+    //Search a card by name. It uses UPPER() to make the search case insensitive
+    @Query("SELECT * FROM card_entity WHERE UPPER(name) = UPPER(:name)")
+    suspend fun getCardByName(name:String):List<CardEntity>
+
+
 }
