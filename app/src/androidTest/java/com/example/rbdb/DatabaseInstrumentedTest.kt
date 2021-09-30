@@ -4,14 +4,15 @@ import android.content.Context
 import android.nfc.Tag
 import androidx.room.Dao
 import androidx.room.Room
+import androidx.room.Transaction
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.dao.CardEntityDao
-import com.example.rbdb.database.model.CardEntity
-import com.example.rbdb.database.model.CardListCrossRef
-import com.example.rbdb.database.model.TagEntity
+import com.example.rbdb.database.dao.CardListCrossRefDao
+import com.example.rbdb.database.dao.ListEntityDao
+import com.example.rbdb.database.model.*
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
@@ -29,6 +30,9 @@ class DatabaseInstrumentedTest {
 
     //    private lateinit var userDao: UserDao
     private lateinit var cardEntityDao: CardEntityDao
+    private lateinit var cardListCrossRefDao: CardListCrossRefDao
+    private lateinit var listEntityDao: ListEntityDao
+
 
     //    private lateinit var db: TestDatabase
     private lateinit var db: AppDatabase
@@ -48,6 +52,8 @@ class DatabaseInstrumentedTest {
             .setTransactionExecutor(Executors.newSingleThreadExecutor())
             .build()
         cardEntityDao = db.cardEntityDao()
+        cardListCrossRefDao = db.cardListCrossRefDao()
+        listEntityDao = db.listEntityDao()
     }
 //
 //    @After
@@ -209,7 +215,63 @@ class DatabaseInstrumentedTest {
 //        assertThat(cards[0], equalTo(cardEntity))
     }
 
-    
+    @Test
+    @Throws(Exception::class)
+    fun insertCardListCrossReference() = runBlocking {
+
+        val cardListCrossRef: CardListCrossRef = CardListCrossRef(100,200);
+
+        cardListCrossRefDao.insert(cardListCrossRef);
+        val results:List<CardListCrossRef> = cardListCrossRefDao.getAllCardListCrossRef();
+
+        println("0930 hello")
+        for (result in results) {
+            println(result);
+        }
+
+        assertThat(results[0], equalTo(cardListCrossRef));
+
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun getListsWithCards() = runBlocking {
+
+        val cardListCrossRef: CardListCrossRef = CardListCrossRef(100,200);
+        val cardListCrossRef2: CardListCrossRef = CardListCrossRef(50,200);
+        val cardEntity:CardEntity = CardEntity(
+            100, "Zerg", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a yellow guy"
+        )
+        val cardEntity2:CardEntity = CardEntity(
+            50, "non-sam", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a yellow guy"
+        )
+        val listEntity:ListEntity = ListEntity(200,"first list")
+        val listEntity2:ListEntity = ListEntity(300,"second list")
+
+
+        listEntityDao.insert(listEntity)
+        listEntityDao.insert(listEntity2)
+        cardEntityDao.insert(cardEntity)
+        cardEntityDao.insert(cardEntity2)
+        cardListCrossRefDao.insert(cardListCrossRef);
+        cardListCrossRefDao.insert(cardListCrossRef2);
+
+        val results:List<ListWithCardsEntity> = listEntityDao.getListWithCards()
+
+        println("0930 hello")
+        for (result in results) {
+            println(result);
+        }
+
+//        assertThat(results[0], equalTo(cardListCrossRef));
+
+    }
+
+
+
+
 
 
     //TODO: implement this test
