@@ -4,10 +4,7 @@ import android.content.Context
 import androidx.room.RoomDatabase
 import androidx.room.Database
 import androidx.room.Room
-import com.example.rbdb.database.dao.CardEntityDao
-import com.example.rbdb.database.dao.ListEntityDao
-import com.example.rbdb.database.dao.TagEntityDao
-import com.example.rbdb.database.dao.UserEntityDao
+import com.example.rbdb.database.dao.*
 import com.example.rbdb.database.model.*
 
 @Database(
@@ -35,6 +32,8 @@ abstract class AppDatabase : RoomDatabase(){
     }
 
     abstract fun cardEntityDao() : CardEntityDao
+
+    abstract fun cardListCrossRefDao() : CardListCrossRefDao
 
     abstract fun listEntityDao() : ListEntityDao
 
