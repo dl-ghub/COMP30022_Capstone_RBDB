@@ -2,7 +2,9 @@ package com.example.rbdb.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import com.example.rbdb.R
 import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.ActivityNewContactPageBinding
@@ -67,6 +69,7 @@ class NewContactActivity : AppCompatActivity() {
         finish()
     }
 
+    
     override fun onSupportNavigateUp(): Boolean {
         this.onBackPressed()
 
@@ -75,9 +78,11 @@ class NewContactActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+//        Toast.makeText(this, "back pressed", Toast.LENGTH_SHORT).show()
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.confirm_leave_title)
         builder.setMessage(R.string.confirm_leave_txt)
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
 
         builder.setPositiveButton("Yes"){ _, _ -> super.onBackPressed() }
 
@@ -86,5 +91,6 @@ class NewContactActivity : AppCompatActivity() {
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)
         alertDialog.show()
+
     }
 }
