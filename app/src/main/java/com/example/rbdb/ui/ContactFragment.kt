@@ -77,6 +77,9 @@ class ContactFragment : Fragment() {
         contactAdapter.notifyDataSetChanged()
         val fab = binding.contactFab
         fab.setOnClickListener { view ->
+            /*Snackbar.make(view, "Add contact button clicked", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show()*/
             val intent = Intent(this.requireActivity(), NewContactActivity::class.java)
             requireActivity().startActivity(intent)
         }
