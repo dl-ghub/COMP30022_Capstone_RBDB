@@ -67,12 +67,10 @@ class GroupFragment : Fragment() {
         fab.setOnClickListener { view ->
             val builder = AlertDialog.Builder(view.context)
             builder.setMessage(R.string.new_group_name)
-            val dpi = resources.displayMetrics.density
 
-            val input = EditText(view.context)
-            input.inputType = InputType.TYPE_CLASS_TEXT
-            input.setPadding(dpi.toInt() * 30, dpi.toInt() * 20, dpi.toInt() * 10, dpi.toInt() * 10)
-            builder.setView(input)
+            val inflater = requireActivity().layoutInflater.inflate(R.layout.view_holder_new_group_dialog, null)
+            builder.setView(inflater)
+            val input = inflater.findViewById<View>(R.id.new_group_name) as EditText
 
             // Send the name to the database to create a new group (need to implement)
             builder.setPositiveButton("Ok"){ _, _ -> }
