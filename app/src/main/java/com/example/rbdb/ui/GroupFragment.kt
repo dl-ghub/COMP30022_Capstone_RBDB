@@ -7,22 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
-import com.example.rbdb.databinding.FragmentContactBinding
 import com.example.rbdb.databinding.FragmentGroupBinding
 import com.example.rbdb.ui.adapters.GroupAdapter
 import com.example.rbdb.ui.dataclasses.Group
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import android.content.DialogInterface
-import android.text.InputType
-
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.marginLeft
-import android.widget.FrameLayout
-
-
-
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -55,10 +44,9 @@ class GroupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentGroupBinding.inflate(inflater,container,false)
-        val view = binding.root
+        _binding = FragmentGroupBinding.inflate(inflater, container, false)
 
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

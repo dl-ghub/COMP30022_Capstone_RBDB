@@ -2,9 +2,7 @@ package com.example.rbdb.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import com.example.rbdb.R
 import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.ActivityNewContactPageBinding
@@ -81,7 +79,6 @@ class NewContactActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.confirm_leave_title)
         builder.setMessage(R.string.confirm_leave_txt)
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
 
         builder.setPositiveButton("Yes"){ _, _ -> super.onBackPressed() }
 
