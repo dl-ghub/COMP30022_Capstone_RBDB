@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primaryBackground"
     tools:context=".ui.GroupFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +16,7 @@
             android:id="@+id/rvGroups"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="0dp"
             android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -35,9 +36,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:backgroundTint="@color/primaryBlue"
-        app:tint="@color/white"
         android:contentDescription="@string/group_fab_desc"
-        android:src="@drawable/ic_plus_24" />
+        android:src="@drawable/ic_plus_24"
+        app:backgroundTint="@color/primaryBlue"
+        app:tint="@color/white" />
 
 </FrameLayout>

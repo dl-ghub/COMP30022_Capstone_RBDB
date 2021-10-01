@@ -70,15 +70,15 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = "contact"
+                    tab.text = "ALL"
 
                 }
                 1 -> {
-                    tab.text = "group"
+                    tab.text = "GROUPS"
 
                 }
                 2->{
-                    tab.text = "tags"
+                    tab.text = "TAGS"
                 }
 
             }

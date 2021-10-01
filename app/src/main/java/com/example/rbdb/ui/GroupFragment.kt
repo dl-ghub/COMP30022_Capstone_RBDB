@@ -1,5 +1,6 @@
 package com.example.rbdb.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
+import com.example.rbdb.databinding.FragmentContactBinding
 import com.example.rbdb.databinding.FragmentGroupBinding
 import com.example.rbdb.ui.adapters.GroupAdapter
+import com.example.rbdb.ui.adapters.GroupCardInterface
 import com.example.rbdb.ui.dataclasses.Group
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,12 +26,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [GroupFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class GroupFragment : Fragment() {
+class GroupFragment : Fragment(), GroupCardInterface {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var _binding: FragmentGroupBinding? = null
     private val binding get() = _binding!!
+    private lateinit var groupList: ArrayList<Group>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +47,10 @@ class GroupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentGroupBinding.inflate(inflater, container, false)
+        _binding = FragmentGroupBinding.inflate(inflater,container,false)
+        val view = binding.root
 
-        return binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,6 +88,37 @@ class GroupFragment : Fragment() {
         recyclerView.adapter = groupAdapter
         groupAdapter.notifyDataSetChanged()
     }
+    
+    /* Retrieve data for recycler view */
+    private fun getGroupList(): ArrayList<Group> {
+        return ArrayList<Group>().apply {
+            add(Group(
+                1, "Tech.Companies"
+            ))
+            add(Group(
+                2, "Melbourne"
+            ))
+            add(Group(
+                3, "Group 3"
+            ))
+            add(Group(
+                4, "Group 4"
+            ))
+            add(Group(
+                5, "Group 5"
+            ))
+        }
+    }
+
+    /* Access GroupCardInterface for recycler view item navigation */
+    override fun onGroupCardClick(position: Int) {
+        val group = groupList[position]
+        val intent = Intent(this.requireActivity(), GroupDetailActivity::class.java).apply {
+            putExtra("group", group)
+        }
+        startActivity(intent)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
