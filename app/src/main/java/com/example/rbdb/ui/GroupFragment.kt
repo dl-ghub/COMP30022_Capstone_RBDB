@@ -55,7 +55,7 @@ class GroupFragment : Fragment() {
         fab.setOnClickListener { view ->
             val builder = AlertDialog.Builder(view.context)
             builder.setMessage(R.string.new_group_name)
-
+            //  Hello there
             val inflater = requireActivity().layoutInflater.inflate(R.layout.view_holder_new_group_dialog, null)
             builder.setView(inflater)
             val input = inflater.findViewById<View>(R.id.new_group_name) as EditText
