@@ -78,7 +78,6 @@ class NewContactActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-//        Toast.makeText(this, "back pressed", Toast.LENGTH_SHORT).show()
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.confirm_leave_title)
         builder.setMessage(R.string.confirm_leave_txt)

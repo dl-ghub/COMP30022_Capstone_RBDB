@@ -13,6 +13,17 @@ import com.example.rbdb.ui.adapters.GroupAdapter
 import com.example.rbdb.ui.dataclasses.Group
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import android.content.DialogInterface
+import android.text.InputType
+
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.marginLeft
+import android.widget.FrameLayout
+
+
+
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,9 +65,22 @@ class GroupFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val fab = binding.groupFab
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Add group button clicked", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
+            val builder = AlertDialog.Builder(view.context)
+            builder.setMessage(R.string.new_group_name)
+            val dpi = resources.displayMetrics.density
+
+            val input = EditText(view.context)
+            input.inputType = InputType.TYPE_CLASS_TEXT
+            input.setPadding(dpi.toInt() * 30, dpi.toInt() * 20, dpi.toInt() * 10, dpi.toInt() * 10)
+            builder.setView(input)
+
+            // Send the name to the database to create a new group (need to implement)
+            builder.setPositiveButton("Ok"){ _, _ -> }
+
+            builder.setNegativeButton("Cancel"){_, _ -> }
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
         }
         // Recyclerview Implementation (GROUPS PAGE)
         // Dummy data. Eventually will need to retrieve this (in a similar format) from DB.
