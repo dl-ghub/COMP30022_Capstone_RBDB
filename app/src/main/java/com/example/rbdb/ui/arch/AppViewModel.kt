@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rbdb.database.AppDatabase
+import com.example.rbdb.database.dao.CardEntityDao_Impl
 import com.example.rbdb.database.model.*
 import kotlinx.coroutines.launch
 

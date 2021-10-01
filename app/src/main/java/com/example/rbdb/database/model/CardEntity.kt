@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "card_entity")
 data class CardEntity (
-    @PrimaryKey val cardId: Long,
+    @PrimaryKey(autoGenerate = true) val cardId: Long = 0,
     val name: String = "",
     val business: String = "",
     val dateAdded: String = "",
@@ -13,3 +13,4 @@ data class CardEntity (
     val email: String? = null,
     val description: String? = null
 )
+
