@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
 import com.example.rbdb.databinding.FragmentContactBinding
 import com.example.rbdb.ui.adapters.ContactAdapter
+import com.example.rbdb.ui.adapters.ContactCardInterface
 import com.example.rbdb.ui.dataclasses.Contact
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,13 +23,14 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ContactFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ContactFragment : Fragment() {
+class ContactFragment : Fragment(), ContactCardInterface {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     //private lateinit var navHostFragment: NavHostFragment
     private var _binding: FragmentContactBinding? = null
     private val binding get() = _binding!!
+    private lateinit var contactList: ArrayList<Contact>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,19 +64,16 @@ class ContactFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val dataForAdapter = listOf(
-            Contact(R.drawable.arnold, "Arnold Schwarzenegger", "Paramount", "03 5357 2225"),
-            Contact(R.drawable.arnold, "Barack Obama", "The White House", "03 5357 2225"),
-            Contact(R.drawable.arnold, "Bill Gates", "Microsoft", "03 5357 2225"),
-            Contact(R.drawable.arnold, "Chris Cuomo", "CNN", "03 5357 2225"),
-            Contact(R.drawable.arnold, "Elon Musk", "Space X", "03 5357 2225"),
-            Contact(R.drawable.arnold, "Jeff Bezos", "Amazon", "03 5357 2225")
-        )
+
+        contactList = getContactList()
+
         val recyclerView: RecyclerView = binding.rvContacts
-        val contactAdapter = ContactAdapter()
-        contactAdapter.setData(dataForAdapter)
+        val contactAdapter = ContactAdapter(contactList, this)
+
         recyclerView.adapter = contactAdapter
         contactAdapter.notifyDataSetChanged()
+
+
         val fab = binding.contactFab
         fab.setOnClickListener { view ->
             /*Snackbar.make(view, "Add contact button clicked", Snackbar.LENGTH_LONG)
@@ -84,6 +83,50 @@ class ContactFragment : Fragment() {
             requireActivity().startActivity(intent)
         }
     }
+
+
+    /* Retrieve data for recycler view */
+    private fun getContactList(): ArrayList<Contact> {
+        return ArrayList<Contact>().apply {
+            add(Contact(
+                R.drawable.einstein, "Albert Einstein", "University of Zurich", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Barack Obama", "The White House", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Bill Gates", "Microsoft", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Chris Cuomo", "CNN", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Darth Vader", "The Death Star", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Dwayne Johnson", "Paramount", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Elon Musk", "Space X", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Jeff Bezos", "Amazon", "03 5357 2225"
+            ))
+            add(Contact(
+                R.drawable.einstein, "Queen Elizabeth", "Buckingham Palace", "03 5357 2225"
+            ))
+        }
+    }
+
+    /* Access ContactCardInterface for recycler view item navigation */
+    override fun onContactCardClick(position: Int) {
+        val contact = contactList[position]
+        val intent = Intent(this.requireActivity(), ContactDetailActivity::class.java).apply {
+            putExtra("contact", contact)
+        }
+        startActivity(intent)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

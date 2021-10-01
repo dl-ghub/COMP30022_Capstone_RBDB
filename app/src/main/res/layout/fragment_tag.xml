@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primaryBackground"
     tools:context=".ui.TagFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Tags" />
+        tools:text="Tags" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/tag_fab"
@@ -18,9 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:backgroundTint="@color/primaryBlue"
-        app:tint="@color/white"
         android:contentDescription="@string/tag_fab_desc"
-        android:src="@drawable/ic_plus_24" />
+        android:src="@drawable/ic_plus_24"
+        app:backgroundTint="@color/primaryBlue"
+        app:tint="@color/white" />
 
 </FrameLayout>

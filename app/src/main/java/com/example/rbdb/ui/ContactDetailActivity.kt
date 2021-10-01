@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import com.example.rbdb.R
 import com.example.rbdb.databinding.ActivityContactDetailBinding
 import com.example.rbdb.databinding.ActivityMainBinding
+import com.example.rbdb.ui.dataclasses.Contact
 
 
 class ContactDetailActivity : AppCompatActivity() {
@@ -25,11 +26,25 @@ class ContactDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true);
 
+        val contact = intent.getSerializableExtra("contact") as? Contact ?: Contact(
+            avatar = 0,
+            name = "error",
+            company = "something went wrong",
+            phone = "error"
+        )
 
-        val cName = intent.getStringExtra("contactName")
-        val textView = binding.contactName
-        textView.text = cName
+        val nameTextView = binding.contactName
+        val companyTextView = binding.tvCompany
+        val descriptionTextView = binding.description
+        val phoneTextView = binding.phoneNumber
+        val emailTextView = binding.email
+
+        nameTextView.text = contact.name
+        companyTextView.text = contact.company
+        phoneTextView.text = contact.phone
+
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.contact_detail_menu, menu)

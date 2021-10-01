@@ -1,3 +1,5 @@
 package com.example.rbdb.ui.dataclasses
 
-data class Group(val id: Int, val name: String)
+import java.io.Serializable
+
+data class Group(val id: Int, val name: String) : Serializable
