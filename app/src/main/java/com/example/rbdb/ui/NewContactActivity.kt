@@ -67,7 +67,6 @@ class NewContactActivity : AppCompatActivity() {
         finish()
     }
 
-    
     override fun onSupportNavigateUp(): Boolean {
         this.onBackPressed()
 
@@ -87,6 +86,5 @@ class NewContactActivity : AppCompatActivity() {
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)
         alertDialog.show()
-
     }
 }
