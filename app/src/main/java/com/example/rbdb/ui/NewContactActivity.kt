@@ -82,7 +82,6 @@ class NewContactActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.confirm_leave_title)
         builder.setMessage(R.string.confirm_leave_txt)
-        builder.setIcon(android.R.drawable.ic_dialog_alert)
 
         builder.setPositiveButton("Yes"){ _, _ -> super.onBackPressed() }
 

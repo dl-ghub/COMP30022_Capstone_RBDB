@@ -3,7 +3,10 @@ package com.example.rbdb.ui
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rbdb.R
 import com.example.rbdb.databinding.ActivityGroupBinding
@@ -21,7 +24,7 @@ class GroupDetailActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val group = intent.getSerializableExtra("group") as? Group ?: Group(
             id = 0,
@@ -49,7 +52,19 @@ class GroupDetailActivity : AppCompatActivity() {
         }
 
         R.id.more -> {
-            Toast.makeText(this, "more pressed", Toast.LENGTH_SHORT).show()
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage(R.string.new_group_name)
+            val inflater = layoutInflater.inflate(R.layout.view_holder_new_group_dialog, null)
+            builder.setView(inflater)
+            val input = inflater.findViewById<View>(R.id.new_group_name) as EditText
+
+            // Send the name to the database to create a new group (need to implement)
+            builder.setPositiveButton("Ok"){ _, _ -> }
+
+            builder.setNegativeButton("Cancel"){_, _ -> }
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
             true
         }
         else -> {
