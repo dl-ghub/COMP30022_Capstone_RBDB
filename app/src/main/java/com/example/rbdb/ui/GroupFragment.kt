@@ -2,10 +2,13 @@ package com.example.rbdb.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
 import com.example.rbdb.databinding.FragmentContactBinding
@@ -57,9 +60,19 @@ class GroupFragment : Fragment(), GroupCardInterface {
         super.onViewCreated(view, savedInstanceState)
         val fab = binding.groupFab
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Add group button clicked", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
+            val builder = AlertDialog.Builder(view.context)
+            builder.setMessage(R.string.new_group_name)
+            val inflater = requireActivity().layoutInflater.inflate(R.layout.view_holder_new_group_dialog, null)
+            builder.setView(inflater)
+            val input = inflater.findViewById<View>(R.id.new_group_name) as EditText
+
+            // Send the name to the database to create a new group (need to implement)
+            builder.setPositiveButton("Ok"){ _, _ -> }
+
+            builder.setNegativeButton("Cancel"){_, _ -> }
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
         }
 
         groupList = getGroupList()
