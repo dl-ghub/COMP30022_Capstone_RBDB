@@ -86,10 +86,11 @@ class ContactFragment : Fragment(), ContactCardInterface {
         adapter = ContactAdapter(mutableListOf(), this)
         recyclerView.adapter = adapter
 
-        viewModel.getAllCards().observe(requireActivity(), { contacts ->
+        val observerContact = Observer<List<CardEntity>> {contacts ->
             adapter.swapData(contacts)
-            contactList = contacts
-        })
+            contactList = contacts  }
+
+        viewModel.getAllCards().observe(requireActivity(), observerContact)
 
 
         val fab = binding.contactFab
@@ -115,6 +116,14 @@ class ContactFragment : Fragment(), ContactCardInterface {
             putExtra("contact_description", contact.description)
         }
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAllCards().observe(requireActivity(), { contacts ->
+            adapter.swapData(contacts)
+            contactList = contacts
+        })
     }
 
     override fun onDestroyView() {
