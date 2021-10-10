@@ -15,7 +15,7 @@ interface ListEntityDao {
     suspend fun update(ItemEntity: ListEntity)
 
     @Transaction
-    @Query("SELECT * FROM list_entity")
+    @Query("SELECT * FROM list_entity ORDER BY name")
     suspend fun getAllLists(): List<ListEntity>
 
     // Relational Queries for List <-> Card relation

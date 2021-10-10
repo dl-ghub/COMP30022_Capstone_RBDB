@@ -26,12 +26,9 @@ class GroupDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val group = intent.getSerializableExtra("group") as? Group ?: Group(
-            id = 0,
-            name = "error"
-        )
-
-        supportActionBar?.title = group.name
+        val groupTitle = intent.getStringExtra("group_name")
+        val groupId = intent.getLongExtra("group_id", -1)
+        supportActionBar?.title = groupTitle
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
