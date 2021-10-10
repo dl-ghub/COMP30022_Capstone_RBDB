@@ -34,17 +34,16 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.topAppBar
         setSupportActionBar(toolbar)
 
+        // Prepopulate database for testing
         viewModel.init(AppDatabase.getDatabase(this))
         // End of db / vm init
-        /*val cardTest: CardEntity = CardEntity("sam","unimelb",
+        val cardTest: CardEntity = CardEntity(0 , "sam","unimelb",
             "0922","444222999","test@email.com","I am a cool guy")
-        viewModel.insertCard(cardTest)*/
-        /*
-        val nameObserver = Observer<CardEntity> { newName ->
-            // Update the UI, in this case, a TextView.
-            binding.testCard.text = newName.name
-        }
-        viewModel.getCardById(1).observe(this,nameObserver)*/
+        val cardTest2: CardEntity = CardEntity(0 , "bob","unimelb",
+            "0922","444222999","test@email.com","I am a pool guy")
+//        viewModel.insertCard(cardTest)
+//        viewModel.insertCard(cardTest2)
+
 
         val tabLayout = binding.TabLayout
       
