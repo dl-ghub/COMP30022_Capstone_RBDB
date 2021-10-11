@@ -1,5 +1,6 @@
 package com.example.rbdb.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -73,6 +74,12 @@ class NewContactActivity : AppCompatActivity() {
             description = description
         )
         viewModel.insertCard(cardEntity)
+
+        //Return to Homepage or previous page code
+        val intent = Intent(this,MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        //
         finish()
     }
 
