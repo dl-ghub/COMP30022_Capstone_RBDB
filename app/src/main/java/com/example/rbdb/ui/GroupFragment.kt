@@ -9,12 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
+import com.example.rbdb.database.AppDatabase
+import com.example.rbdb.database.model.ListEntity
 import com.example.rbdb.databinding.FragmentContactBinding
 import com.example.rbdb.databinding.FragmentGroupBinding
+import com.example.rbdb.ui.adapters.ContactAdapter
 import com.example.rbdb.ui.adapters.GroupAdapter
 import com.example.rbdb.ui.adapters.GroupCardInterface
+import com.example.rbdb.ui.arch.AppViewModel
 import com.example.rbdb.ui.dataclasses.Group
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -35,7 +40,9 @@ class GroupFragment : Fragment(), GroupCardInterface {
     private var param2: String? = null
     private var _binding: FragmentGroupBinding? = null
     private val binding get() = _binding!!
-    private lateinit var groupList: ArrayList<Group>
+    private lateinit var groupList: List<ListEntity>
+    private lateinit var viewModel: AppViewModel
+    private lateinit var adapter: GroupAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,11 +60,29 @@ class GroupFragment : Fragment(), GroupCardInterface {
         _binding = FragmentGroupBinding.inflate(inflater,container,false)
         val view = binding.root
 
+        // initialise viewmodel/database for this fragment
+        viewModel = ViewModelProvider(this).get(AppViewModel::class.java)
+        viewModel.init(AppDatabase.getDatabase(requireActivity()))
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // RecyclerView implementation
+        val recyclerView: RecyclerView = binding.rvGroups
+
+        adapter = GroupAdapter(mutableListOf(), this)
+        recyclerView.adapter = adapter
+
+        viewModel.getAllLists().observe(requireActivity(), { groups ->
+            adapter.swapData(groups)
+            groupList = groups
+        })
+
+
+
         val fab = binding.groupFab
         fab.setOnClickListener { view ->
             val builder = AlertDialog.Builder(view.context)
@@ -74,42 +99,14 @@ class GroupFragment : Fragment(), GroupCardInterface {
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
         }
-
-        groupList = getGroupList()
-
-        val recyclerView: RecyclerView = binding.rvGroups
-        val groupAdapter = GroupAdapter(groupList, this)
-
-        recyclerView.adapter = groupAdapter
-        groupAdapter.notifyDataSetChanged()
-    }
-
-    /* Retrieve data for recycler view */
-    private fun getGroupList(): ArrayList<Group> {
-        return ArrayList<Group>().apply {
-            add(Group(
-                1, "Tech.Companies"
-            ))
-            add(Group(
-                2, "Melbourne"
-            ))
-            add(Group(
-                3, "Group 3"
-            ))
-            add(Group(
-                4, "Group 4"
-            ))
-            add(Group(
-                5, "Group 5"
-            ))
-        }
     }
 
     /* Access GroupCardInterface for recycler view item navigation */
     override fun onGroupCardClick(position: Int) {
         val group = groupList[position]
         val intent = Intent(this.requireActivity(), GroupDetailActivity::class.java).apply {
-            putExtra("group", group)
+            putExtra("group_name", group.name)
+            putExtra("group_id", group.listId)
         }
         startActivity(intent)
     }

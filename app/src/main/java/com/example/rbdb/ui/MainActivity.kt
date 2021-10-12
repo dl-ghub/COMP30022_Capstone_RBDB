@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.CardEntity
+import com.example.rbdb.database.model.ListEntity
 import com.example.rbdb.databinding.ActivityMainBinding
 import com.example.rbdb.ui.adapters.FragmentAdapter
 import com.example.rbdb.ui.arch.AppViewModel
@@ -34,17 +35,20 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.topAppBar
         setSupportActionBar(toolbar)
 
+        // Prepopulate database for testing
         viewModel.init(AppDatabase.getDatabase(this))
         // End of db / vm init
-        /*val cardTest: CardEntity = CardEntity("sam","unimelb",
+        val cardTest: CardEntity = CardEntity(0 , "sam","unimelb",
             "0922","444222999","test@email.com","I am a cool guy")
-        viewModel.insertCard(cardTest)*/
-        /*
-        val nameObserver = Observer<CardEntity> { newName ->
-            // Update the UI, in this case, a TextView.
-            binding.testCard.text = newName.name
-        }
-        viewModel.getCardById(1).observe(this,nameObserver)*/
+        val cardTest2: CardEntity = CardEntity(0 , "bob","unimelb",
+            "0922","444222999","test@email.com","I am a pool guy")
+//        viewModel.insertCard(cardTest)
+//        viewModel.insertCard(cardTest2)
+        val groupTest1: ListEntity = ListEntity(1, "group test 1")
+        val groupTest2: ListEntity = ListEntity(2, "group test 2")
+//        viewModel.insertList(groupTest1)
+//        viewModel.insertList(groupTest2)
+
 
         val tabLayout = binding.TabLayout
       

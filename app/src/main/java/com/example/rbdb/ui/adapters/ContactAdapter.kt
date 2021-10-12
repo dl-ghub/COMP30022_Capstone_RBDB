@@ -8,11 +8,12 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
+import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.ui.dataclasses.Contact
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ContactAdapter(
-    private val data: ArrayList<Contact>,
+    private val data: MutableList<CardEntity>,
     private val contactCardInterface: ContactCardInterface
 ) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
@@ -29,6 +30,12 @@ class ContactAdapter(
         return data.size
     }
 
+    fun swapData(data: List<CardEntity>) {
+        this.data.clear()
+        this.data.addAll(data)
+        notifyDataSetChanged()
+    }
+
 
     inner class ContactViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.view_holder_contact, parent, false)
@@ -40,10 +47,10 @@ class ContactAdapter(
         private val tvContactPhone: TextView = itemView.findViewById(R.id.contact_phone)
         private val contactCard: ConstraintLayout = itemView.findViewById(R.id.contact_card)
 
-        fun onBind(contactData: Contact, contactCardInterface: ContactCardInterface) {
-            ivContactAvatar.setImageResource(contactData.avatar)
+        fun onBind(contactData: CardEntity, contactCardInterface: ContactCardInterface) {
+//            ivContactAvatar.setImageResource(contactData.avatar)
             tvContactName.text = contactData.name
-            tvContactCompany.text = contactData.company
+            tvContactCompany.text = contactData.business
             tvContactPhone.text = contactData.phone
 
             contactCard.setOnClickListener {

@@ -6,10 +6,10 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
-import com.example.rbdb.ui.dataclasses.Group
+import com.example.rbdb.database.model.ListEntity
 
 class GroupAdapter(
-    private val data: ArrayList<Group>,
+    private val data: MutableList<ListEntity>,
     private val groupCardInterface: GroupCardInterface
 ) : RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
 
@@ -25,6 +25,11 @@ class GroupAdapter(
         return data.size
     }
 
+    fun swapData(data: List<ListEntity>) {
+        this.data.clear()
+        this.data.addAll(data)
+        notifyDataSetChanged()
+    }
 
     inner class GroupViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.view_holder_group, parent, false)
@@ -32,7 +37,7 @@ class GroupAdapter(
         private val tvGroupName: TextView = itemView.findViewById(R.id.group_name)
         private val groupCard: ConstraintLayout = itemView.findViewById(R.id.group_card)
 
-        fun onBind(groupData: Group, groupCardInterface: GroupCardInterface) {
+        fun onBind(groupData: ListEntity, groupCardInterface: GroupCardInterface) {
             tvGroupName.text = groupData.name
 
             groupCard.setOnClickListener {

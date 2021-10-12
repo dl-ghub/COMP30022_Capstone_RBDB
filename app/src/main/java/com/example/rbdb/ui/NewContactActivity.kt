@@ -1,18 +1,24 @@
 package com.example.rbdb.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.example.rbdb.R
+import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.ActivityNewContactPageBinding
+import com.example.rbdb.ui.arch.AppViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class NewContactActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewContactPageBinding
+    private val viewModel: AppViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNewContactPageBinding.inflate(layoutInflater)
@@ -26,6 +32,7 @@ class NewContactActivity : AppCompatActivity() {
         binding.saveButton.setOnClickListener{
             saveItemToDatabase()
         }
+        viewModel.init(AppDatabase.getDatabase(this))
     }
 
     private fun saveItemToDatabase() {
@@ -59,13 +66,20 @@ class NewContactActivity : AppCompatActivity() {
         val description = binding.descriptionInput.text.toString().trim()
 
         val cardEntity = CardEntity(
-            name = firstName + lastName,
+            name = "$firstName $lastName",
             business = businessName,
             dateAdded = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date()),
             phone = phoneNumber,
             email = email,
             description = description
         )
+        viewModel.insertCard(cardEntity)
+
+        //Return to Homepage or previous page code
+        val intent = Intent(this,MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        //
         finish()
     }
 

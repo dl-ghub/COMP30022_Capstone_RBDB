@@ -1,10 +1,11 @@
 package com.example.rbdb.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "list_entity")
 data class ListEntity (
     @PrimaryKey(autoGenerate = true) val listId: Long = 0,
-    val name: String = ""
+    @ColumnInfo(name = "name") val name: String = ""
 )
