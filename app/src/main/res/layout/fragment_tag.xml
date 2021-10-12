@@ -110,20 +110,30 @@
         app:layout_dodgeInsetEdges="bottom">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/tag_fab"
+            android:id="@+id/tag_fab_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:contentDescription="@string/tag_fab_desc"
+            android:contentDescription="@string/tag_fab_delete_desc"
+            android:src="@drawable/ic_delete"
+            app:backgroundTint="@color/primaryBlue"
+            app:tint="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/tag_fab_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="@string/tag_fab_search_desc"
             android:src="@drawable/ic_search"
             app:backgroundTint="@color/primaryBlue"
             app:tint="@color/white" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/tag_fab_2"
+            android:id="@+id/tag_fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/tag_fab_desc"
+            android:contentDescription="@string/tag_fab_add_desc"
             android:src="@drawable/ic_plus_24"
             app:backgroundTint="@color/primaryBlue"
             app:tint="@color/white" />

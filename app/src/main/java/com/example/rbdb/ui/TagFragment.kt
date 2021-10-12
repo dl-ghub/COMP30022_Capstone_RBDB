@@ -52,8 +52,9 @@ class TagFragment : Fragment() {
             }
         }
 
-        val fabSearch = binding.tagFab
-        val fabAdd = binding.tagFab2
+        val fabSearch = binding.tagFabSearch
+        val fabAdd = binding.tagFabAdd
+        val fabDelete = binding.tagFabDelete
 
         fabSearch.setOnClickListener { view ->
             val result = StringBuilder()
@@ -82,6 +83,19 @@ class TagFragment : Fragment() {
 
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
+        }
+
+        fabDelete.setOnClickListener { view ->
+            val result = StringBuilder()
+            result.append("Selected Items:")
+
+            for (tag in tagList) {
+                if (tag.isChecked) {
+                    result.append("\n" + tag.text.toString())
+                }
+            }
+
+            Toast.makeText(view.context, result.toString(), Toast.LENGTH_LONG).show()
         }
     }
 
