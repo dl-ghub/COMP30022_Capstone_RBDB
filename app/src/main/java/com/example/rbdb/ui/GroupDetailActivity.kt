@@ -10,7 +10,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rbdb.R
 import com.example.rbdb.databinding.ActivityGroupBinding
-import com.example.rbdb.ui.dataclasses.Group
 
 class GroupDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGroupBinding
@@ -51,9 +50,9 @@ class GroupDetailActivity : AppCompatActivity() {
         R.id.more -> {
             val builder = AlertDialog.Builder(this)
             builder.setMessage(R.string.new_group_name)
-            val inflater = layoutInflater.inflate(R.layout.view_holder_new_group_dialog, null)
+            val inflater = layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
             builder.setView(inflater)
-            val input = inflater.findViewById<View>(R.id.new_group_name) as EditText
+            val input = inflater.findViewById<View>(R.id.new_name) as EditText
 
             // Send the name to the database to create a new group (need to implement)
             builder.setPositiveButton("Ok"){ _, _ -> }

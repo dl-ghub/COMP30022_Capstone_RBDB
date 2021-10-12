@@ -7,21 +7,127 @@
     android:background="@color/primaryBackground"
     tools:context=".ui.TagFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:text="Tags" />
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="false">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/tag_fab"
+        <LinearLayout
+            android:id="@+id/checkBoxLayout"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="abc company"
+                style="@style/MyCheckboxStyle" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="asshole"
+                style="@style/MyCheckboxStyle" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="I don't remember who is this"
+                style="@style/MyCheckboxStyle" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="frequent"
+                style="@style/MyCheckboxStyle" />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="helpful"
+                style="@style/MyCheckboxStyle"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="senpai"
+                style="@style/MyCheckboxStyle"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="kouhai"
+                style="@style/MyCheckboxStyle"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="IT project"
+                style="@style/MyCheckboxStyle"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="cheems"
+                style="@style/MyCheckboxStyle"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="when can I get some rest?"
+                style="@style/MyCheckboxStyle"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="exam is on 11/11 kinda ironic"
+                style="@style/MyCheckboxStyle"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="kinda miss Melbourne ngl"
+                style="@style/MyCheckboxStyle"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="think that's enough to test the scroll view"
+                style="@style/MyCheckboxStyle"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/tag_fab_desc"
-        android:src="@drawable/ic_plus_24"
-        app:backgroundTint="@color/primaryBlue"
-        app:tint="@color/white" />
+        android:orientation="vertical"
+        android:layout_margin="12dp"
+        app:layout_dodgeInsetEdges="bottom">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/tag_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="@string/tag_fab_desc"
+            android:src="@drawable/ic_search"
+            app:backgroundTint="@color/primaryBlue"
+            app:tint="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/tag_fab_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/tag_fab_desc"
+            android:src="@drawable/ic_plus_24"
+            app:backgroundTint="@color/primaryBlue"
+            app:tint="@color/white" />
+
+    </LinearLayout>
 
 </FrameLayout>

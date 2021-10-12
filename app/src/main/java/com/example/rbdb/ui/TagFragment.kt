@@ -7,8 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.rbdb.R
 import com.example.rbdb.databinding.FragmentTagBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import android.widget.Toast
+
+import android.widget.CheckBox
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import java.lang.StringBuilder
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,6 +40,51 @@ class TagFragment : Fragment() {
         }
     }
 
+    fun addListenerOnButtonClick() {
+        val tagList = ArrayList<CheckBox>()
+        val ll = binding.checkBoxLayout
+        val childCount = ll.childCount
+
+        for (i in 0..childCount) {
+            val view = ll.getChildAt(i)
+            if (view is CheckBox) {
+                tagList.add(view)
+            }
+        }
+
+        val fabSearch = binding.tagFab
+        val fabAdd = binding.tagFab2
+
+        fabSearch.setOnClickListener { view ->
+            val result = StringBuilder()
+            result.append("Selected Items:")
+
+            for (tag in tagList) {
+                if (tag.isChecked) {
+                    result.append("\n" + tag.text.toString())
+                }
+            }
+
+            Toast.makeText(view.context, result.toString(), Toast.LENGTH_LONG).show()
+        }
+
+        fabAdd.setOnClickListener { view ->
+            val builder = AlertDialog.Builder(view.context)
+            builder.setMessage(R.string.new_tag_name)
+            val inflater = requireActivity().layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
+            builder.setView(inflater)
+            val input = inflater.findViewById<View>(R.id.new_name) as EditText
+
+            // Send the name to the database to create a new group (need to implement)
+            builder.setPositiveButton("Ok"){ _, _ -> }
+
+            builder.setNegativeButton("Cancel"){_, _ -> }
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,13 +97,9 @@ class TagFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val fab = binding.tagFab
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Add tag button clicked", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
-        }
+        addListenerOnButtonClick()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
