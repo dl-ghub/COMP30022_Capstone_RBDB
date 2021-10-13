@@ -2,7 +2,6 @@ package com.example.rbdb.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,15 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.ListEntity
-import com.example.rbdb.databinding.FragmentContactBinding
 import com.example.rbdb.databinding.FragmentGroupBinding
-import com.example.rbdb.ui.adapters.ContactAdapter
 import com.example.rbdb.ui.adapters.GroupAdapter
 import com.example.rbdb.ui.adapters.GroupCardInterface
 import com.example.rbdb.ui.arch.AppViewModel
-import com.example.rbdb.ui.dataclasses.Group
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,9 +81,9 @@ class GroupFragment : Fragment(), GroupCardInterface {
         fab.setOnClickListener { view ->
             val builder = AlertDialog.Builder(view.context)
             builder.setMessage(R.string.new_group_name)
-            val inflater = requireActivity().layoutInflater.inflate(R.layout.view_holder_new_group_dialog, null)
+            val inflater = requireActivity().layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
             builder.setView(inflater)
-            val input = inflater.findViewById<View>(R.id.new_group_name) as EditText
+            val input = inflater.findViewById<View>(R.id.new_name) as EditText
 
             // Send the name to the database to create a new group (need to implement)
             builder.setPositiveButton("Ok"){ _, _ -> }
