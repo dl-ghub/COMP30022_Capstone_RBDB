@@ -313,6 +313,57 @@ class DatabaseInstrumentedTest {
 
     }
 
+    @Test
+    @Throws(Exception::class)
+    fun getListWithCardsByListId() = runBlocking {
+
+        val cardEntity1: CardEntity = CardEntity(
+            1, "sam", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a cool guy"
+        )
+        val cardEntity2: CardEntity = CardEntity(
+            2, "jack", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a red guy"
+        )
+        val cardEntity3: CardEntity = CardEntity(
+            3, "peter", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a blue guy"
+        )
+        val cardEntity4: CardEntity = CardEntity(
+            4, "adam", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a green guy"
+        )
+        val cardEntity5: CardEntity = CardEntity(
+            5, "Zerg", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a yellow guy"
+        )
+
+        cardEntityDao.insert(cardEntity1)
+        cardEntityDao.insert(cardEntity2)
+        cardEntityDao.insert(cardEntity3)
+        cardEntityDao.insert(cardEntity4)
+        cardEntityDao.insert(cardEntity5)
+
+        val listEntity:ListEntity = ListEntity(100,"first list")
+        listEntityDao.insert(listEntity)
+
+        val cardListCrossRef1:CardListCrossRef = CardListCrossRef(1,100)
+        val cardListCrossRef2:CardListCrossRef = CardListCrossRef(2,100)
+        val cardListCrossRef3:CardListCrossRef = CardListCrossRef(3,100)
+
+        cardListCrossRefDao.insert(cardListCrossRef1)
+        cardListCrossRefDao.insert(cardListCrossRef2)
+        cardListCrossRefDao.insert(cardListCrossRef3)
+
+        val listWithCardsEntity:ListWithCardsEntity = listEntityDao.getListWithCardsByListId(100)
+
+        assertThat(listWithCardsEntity.listEntity.listId, equalTo(100));
+        assertThat(listWithCardsEntity.cards[0].cardId, equalTo(1));
+        assertThat(listWithCardsEntity.cards[1].cardId, equalTo(2));
+        assertThat(listWithCardsEntity.cards[2].cardId, equalTo(3));
+
+    }
+
 
     //TODO: implement this test
     /*@Test
