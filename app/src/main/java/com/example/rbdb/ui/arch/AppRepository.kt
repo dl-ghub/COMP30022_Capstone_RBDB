@@ -1,5 +1,6 @@
 package com.example.rbdb.ui.arch
 
+import androidx.room.Transaction
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.*
 
@@ -11,6 +12,16 @@ class AppRepository(private val appDatabase: AppDatabase) {
     suspend fun insertCard(cardEntity: CardEntity){appDatabase.cardEntityDao().insert(cardEntity)}
 
     suspend fun deleteCard(cardEntity: CardEntity){appDatabase.cardEntityDao().delete(cardEntity)}
+
+    @Transaction
+    suspend fun deleteCardAndCrossRefByCardId(cardId: Long){
+
+        // remove the cross reference in "cardListCrossRef" table and "cardTagCrossRef" table
+        appDatabase.cardListCrossRefDao().deleteByCardId(cardId)
+        appDatabase.cardTagCrossRefDao().deleteByCardId(cardId)
+        // finally, remove the card entity from the card enetity table
+        appDatabase.cardEntityDao().deleteCardById(cardId)
+    }
 
     suspend fun updateCard(cardEntity: CardEntity){appDatabase.cardEntityDao().update(cardEntity)}
 

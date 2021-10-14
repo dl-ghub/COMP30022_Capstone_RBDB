@@ -5,6 +5,7 @@ import com.example.rbdb.database.model.*
 
 @Dao
 interface CardEntityDao {
+
     // Basic queries for Card
     @Insert
     suspend fun insert(ItemEntity: CardEntity): Long

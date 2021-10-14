@@ -35,9 +35,13 @@ abstract class AppDatabase : RoomDatabase(){
 
     abstract fun cardListCrossRefDao() : CardListCrossRefDao
 
+    abstract fun cardTagCrossRefDao() : CardTagCrossRefDao
+
     abstract fun listEntityDao() : ListEntityDao
 
     abstract fun tagEntityDao() : TagEntityDao
 
     abstract fun userEntityDao() : UserEntityDao
+
+
 }

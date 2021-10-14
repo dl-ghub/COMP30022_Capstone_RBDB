@@ -8,8 +8,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.dao.CardEntityDao
 import com.example.rbdb.database.dao.CardListCrossRefDao
+import com.example.rbdb.database.dao.CardTagCrossRefDao
 import com.example.rbdb.database.dao.ListEntityDao
 import com.example.rbdb.database.model.*
+import com.example.rbdb.ui.arch.AppRepository
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
@@ -27,6 +29,7 @@ class DatabaseInstrumentedTest {
     //    private lateinit var userDao: UserDao
     private lateinit var cardEntityDao: CardEntityDao
     private lateinit var cardListCrossRefDao: CardListCrossRefDao
+    private lateinit var cardTagCrossRefDao: CardTagCrossRefDao
     private lateinit var listEntityDao: ListEntityDao
 
 
@@ -50,6 +53,7 @@ class DatabaseInstrumentedTest {
         cardEntityDao = db.cardEntityDao()
         cardListCrossRefDao = db.cardListCrossRefDao()
         listEntityDao = db.listEntityDao()
+        cardTagCrossRefDao = db.cardTagCrossRefDao()
     }
 //
 //    @After
@@ -281,6 +285,31 @@ class DatabaseInstrumentedTest {
 
         assertThat(cardEntity, equalTo(null));
 
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun deleteCardWithCrossRefByCardId() = runBlocking {
+
+        var cardEntity: CardEntity = CardEntity(
+            10, "sam", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a cool guy"
+        )
+        val id = cardEntityDao.insert(cardEntity)
+
+        var cardListCrossRef:CardListCrossRef = CardListCrossRef(id, 100);
+        cardListCrossRefDao.insert(cardListCrossRef)
+
+        var cardTagCrossRef:CardTagCrossRef = CardTagCrossRef(id, 200);
+        cardTagCrossRefDao.insert(cardTagCrossRef)
+
+        val appRepository:AppRepository = AppRepository(db);
+
+        appRepository.deleteCardAndCrossRefByCardId(id);
+
+        assertThat(cardEntityDao.getCardById(id), equalTo(null));
+        assertThat(cardListCrossRefDao.getAllCardListCrossRef().isEmpty(), equalTo(true));
+        assertThat(cardTagCrossRefDao.getAllCardTagCrossRef().isEmpty(), equalTo(true));
 
     }
 
