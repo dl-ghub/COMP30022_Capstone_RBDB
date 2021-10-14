@@ -7,13 +7,19 @@ import com.example.rbdb.database.model.*
 interface CardEntityDao {
     // Basic queries for Card
     @Insert
-    suspend fun insert(ItemEntity: CardEntity)
+    suspend fun insert(ItemEntity: CardEntity): Long
 
     @Delete
     suspend fun delete(ItemEntity: CardEntity)
 
+    @Query("DELETE FROM card_entity WHERE cardId = :cardId")
+    suspend fun deleteCardById(cardId: Long)
+
     @Update
     suspend fun update(ItemEntity: CardEntity)
+
+    @Query("SELECT * FROM card_entity WHERE cardId = :cardId")
+    suspend fun getCardById(cardId: Long): CardEntity
 
     @Transaction
     @Query("SELECT * FROM card_entity ORDER BY name")

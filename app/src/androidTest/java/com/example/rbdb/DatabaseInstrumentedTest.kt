@@ -1,10 +1,7 @@
 package com.example.rbdb
 
 import android.content.Context
-import android.nfc.Tag
-import androidx.room.Dao
 import androidx.room.Room
-import androidx.room.Transaction
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -20,7 +17,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
-import java.lang.Appendable
 import java.util.concurrent.Executors
 
 
@@ -94,7 +90,6 @@ class DatabaseInstrumentedTest {
         cardEntityDao.insert(cardEntity)
 
         val allCards = cardEntityDao.getAllCards()
-        println("hello i am here")
         println(allCards);
 
         assertThat(allCards.isEmpty(), equalTo(false))
@@ -219,10 +214,10 @@ class DatabaseInstrumentedTest {
     @Throws(Exception::class)
     fun insertCardListCrossReference() = runBlocking {
 
-        val cardListCrossRef: CardListCrossRef = CardListCrossRef(100,200);
+        val cardListCrossRef: CardListCrossRef = CardListCrossRef(100, 200);
 
         cardListCrossRefDao.insert(cardListCrossRef);
-        val results:List<CardListCrossRef> = cardListCrossRefDao.getAllCardListCrossRef();
+        val results: List<CardListCrossRef> = cardListCrossRefDao.getAllCardListCrossRef();
 
         println("0930 hello")
         for (result in results) {
@@ -237,18 +232,18 @@ class DatabaseInstrumentedTest {
     @Throws(Exception::class)
     fun getListsWithCards() = runBlocking {
 
-        val cardListCrossRef: CardListCrossRef = CardListCrossRef(100,200);
-        val cardListCrossRef2: CardListCrossRef = CardListCrossRef(50,200);
-        val cardEntity:CardEntity = CardEntity(
+        val cardListCrossRef: CardListCrossRef = CardListCrossRef(100, 200);
+        val cardListCrossRef2: CardListCrossRef = CardListCrossRef(50, 200);
+        val cardEntity: CardEntity = CardEntity(
             100, "Zerg", "unimelb",
             "0922", "444222999", "test@email.com", "I am a yellow guy"
         )
-        val cardEntity2:CardEntity = CardEntity(
+        val cardEntity2: CardEntity = CardEntity(
             50, "non-sam", "unimelb",
             "0922", "444222999", "test@email.com", "I am a yellow guy"
         )
-        val listEntity:ListEntity = ListEntity(200,"first list")
-        val listEntity2:ListEntity = ListEntity(300,"second list")
+        val listEntity: ListEntity = ListEntity(200, "first list")
+        val listEntity2: ListEntity = ListEntity(300, "second list")
 
 
         listEntityDao.insert(listEntity)
@@ -258,7 +253,7 @@ class DatabaseInstrumentedTest {
         cardListCrossRefDao.insert(cardListCrossRef);
         cardListCrossRefDao.insert(cardListCrossRef2);
 
-        val results:List<ListWithCardsEntity> = listEntityDao.getListWithCards()
+        val results: List<ListWithCardsEntity> = listEntityDao.getListWithCards()
 
         println("0930 hello")
         for (result in results) {
@@ -269,9 +264,25 @@ class DatabaseInstrumentedTest {
 
     }
 
+    @Test
+    @Throws(Exception::class)
+    fun deleteCardById() = runBlocking {
+
+        var cardEntity: CardEntity = CardEntity(
+            10, "sam", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a cool guy"
+        )
+
+        val id = cardEntityDao.insert(cardEntity)
+
+        cardEntityDao.deleteCardById(id)
+
+        cardEntity = cardEntityDao.getCardById(id);
+
+        assertThat(cardEntity, equalTo(null));
 
 
-
+    }
 
 
     //TODO: implement this test
