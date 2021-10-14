@@ -1,6 +1,7 @@
 package com.example.rbdb.database.dao
 
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.example.rbdb.database.model.*
 
 @Dao
@@ -48,10 +49,9 @@ interface CardEntityDao {
     @Query("SELECT * FROM card_entity WHERE description LIKE '%' || :keyword || '%'")
     suspend fun getCardsByKeywordInDescription(keyword:String):List<CardEntity>
 
-    //TODO: update the following query
-    /*//Search a card by tag. It uses UPPER() to make the search case insensitive
-    @Query("SELECT * FROM card_entity CE INNER JOIN CardTagCrossRef CR ON CE.cardId = CR.cardId INNER JOIN tag_entity TE ON CR.tagId = TE.tagId")
-    suspend fun getCardByTag(tagName:String):List<CardEntity>*/
+    //Search a card by tags. The relationship between tags is "OR"
+    @RawQuery
+    suspend fun getCardByTagIds(query: SupportSQLiteQuery):List<CardEntity>
 
 
 }

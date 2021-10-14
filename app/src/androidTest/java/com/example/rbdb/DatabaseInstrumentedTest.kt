@@ -6,10 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.rbdb.database.AppDatabase
-import com.example.rbdb.database.dao.CardEntityDao
-import com.example.rbdb.database.dao.CardListCrossRefDao
-import com.example.rbdb.database.dao.CardTagCrossRefDao
-import com.example.rbdb.database.dao.ListEntityDao
+import com.example.rbdb.database.dao.*
 import com.example.rbdb.database.model.*
 import com.example.rbdb.ui.arch.AppRepository
 import kotlinx.coroutines.runBlocking
@@ -28,9 +25,12 @@ class DatabaseInstrumentedTest {
 
     //    private lateinit var userDao: UserDao
     private lateinit var cardEntityDao: CardEntityDao
+    private lateinit var tagEntityDao: TagEntityDao
     private lateinit var cardListCrossRefDao: CardListCrossRefDao
     private lateinit var cardTagCrossRefDao: CardTagCrossRefDao
     private lateinit var listEntityDao: ListEntityDao
+    private lateinit var appRepository:AppRepository
+
 
 
     //    private lateinit var db: TestDatabase
@@ -51,9 +51,11 @@ class DatabaseInstrumentedTest {
             .setTransactionExecutor(Executors.newSingleThreadExecutor())
             .build()
         cardEntityDao = db.cardEntityDao()
+        tagEntityDao =db.tagEntityDao()
         cardListCrossRefDao = db.cardListCrossRefDao()
         listEntityDao = db.listEntityDao()
         cardTagCrossRefDao = db.cardTagCrossRefDao()
+        appRepository= AppRepository(db);
     }
 //
 //    @After
@@ -303,8 +305,6 @@ class DatabaseInstrumentedTest {
         var cardTagCrossRef:CardTagCrossRef = CardTagCrossRef(id, 200);
         cardTagCrossRefDao.insert(cardTagCrossRef)
 
-        val appRepository:AppRepository = AppRepository(db);
-
         appRepository.deleteCardAndCrossRefByCardId(id);
 
         assertThat(cardEntityDao.getCardById(id), equalTo(null));
@@ -361,6 +361,48 @@ class DatabaseInstrumentedTest {
         assertThat(listWithCardsEntity.cards[0].cardId, equalTo(1));
         assertThat(listWithCardsEntity.cards[1].cardId, equalTo(2));
         assertThat(listWithCardsEntity.cards[2].cardId, equalTo(3));
+
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun getCardByTagIds() = runBlocking {
+
+        /*val result: List<CardEntity> = appRepository.getCardByTagIds()
+        println(result)*/
+
+        val tagEntity1:TagEntity = TagEntity(100,"first tag")
+        val tagEntity2:TagEntity = TagEntity(200,"second tag")
+        tagEntityDao.insert(tagEntity1)
+        tagEntityDao.insert(tagEntity2)
+
+        val cardEntity1: CardEntity = CardEntity(
+            1, "sam", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a cool guy"
+        )
+        val cardEntity2: CardEntity = CardEntity(
+            2, "jack", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a red guy"
+        )
+        val cardEntity3: CardEntity = CardEntity(
+            3, "peter", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a blue guy"
+        )
+        cardEntityDao.insert(cardEntity1)
+        cardEntityDao.insert(cardEntity2)
+        cardEntityDao.insert(cardEntity3)
+
+        val cardTagCrossRef1:CardTagCrossRef = CardTagCrossRef(1,100)
+        val cardTagCrossRef2:CardTagCrossRef = CardTagCrossRef(2,100)
+        val cardTagCrossRef3:CardTagCrossRef = CardTagCrossRef(3,200)
+        val cardTagCrossRef4:CardTagCrossRef = CardTagCrossRef(1,200)
+        cardTagCrossRefDao.insert(cardTagCrossRef1)
+        cardTagCrossRefDao.insert(cardTagCrossRef2)
+        cardTagCrossRefDao.insert(cardTagCrossRef3)
+        cardTagCrossRefDao.insert(cardTagCrossRef4)
+
+        val result = appRepository.getCardByTagIds(100,200)
+        assertThat(result.size, equalTo(3))
 
     }
 
