@@ -1,7 +1,9 @@
 package com.example.rbdb.ui
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -51,7 +53,7 @@ class GroupFragment : Fragment(), GroupCardInterface {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentGroupBinding.inflate(inflater,container,false)
+        _binding = FragmentGroupBinding.inflate(inflater, container, false)
         val view = binding.root
 
         // initialise viewmodel/database for this fragment
@@ -76,19 +78,27 @@ class GroupFragment : Fragment(), GroupCardInterface {
         })
 
 
-
         val fab = binding.groupFab
         fab.setOnClickListener { view ->
             val builder = AlertDialog.Builder(view.context)
             builder.setMessage(R.string.new_group_name)
-            val inflater = requireActivity().layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
+            val inflater =
+                requireActivity().layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
             builder.setView(inflater)
             val input = inflater.findViewById<View>(R.id.new_name) as EditText
 
-            // Send the name to the database to create a new group (need to implement)
-            builder.setPositiveButton("Ok"){ _, _ -> }
+            // Send the name to the database to create a new group
+            builder.setPositiveButton("Ok") {_, _ ->
+                saveGroupToDatabase(
+                    input.text.toString().trim()
+                )
+                viewModel.getAllLists().observe(requireActivity(), { groups ->
+                    adapter.swapData(groups)
+                    groupList = groups
+                })
+            }
 
-            builder.setNegativeButton("Cancel"){_, _ -> }
+            builder.setNegativeButton("Cancel") { _, _ -> }
 
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
@@ -103,6 +113,16 @@ class GroupFragment : Fragment(), GroupCardInterface {
             putExtra("group_id", group.listId)
         }
         startActivity(intent)
+    }
+
+    private fun saveGroupToDatabase(groupName: String) {
+        // TODO Check for Empty inputs
+        Log.d("groupName", groupName)
+        val listEntity = ListEntity(
+            name = groupName
+        )
+        viewModel.insertList(listEntity)
+
     }
 
     override fun onDestroyView() {
@@ -128,6 +148,7 @@ class GroupFragment : Fragment(), GroupCardInterface {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
         fun newInstance() =
             GroupFragment()
     }
