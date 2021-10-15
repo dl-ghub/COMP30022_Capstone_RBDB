@@ -22,4 +22,8 @@ interface ListEntityDao {
     @Transaction
     @Query("SELECT * FROM list_entity")
     suspend fun getListWithCards(): List<ListWithCardsEntity>
+
+    @Transaction
+    @Query("SELECT * FROM list_entity WHERE listId = :listId")
+    suspend fun getListWithCardsByListId(listId: Long): ListWithCardsEntity
 }

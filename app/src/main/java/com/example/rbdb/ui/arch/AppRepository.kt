@@ -1,7 +1,14 @@
 package com.example.rbdb.ui.arch
 
+import androidx.room.Transaction
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.*
+
+
+import androidx.sqlite.db.SimpleSQLiteQuery
+
+
+
 
 class AppRepository(private val appDatabase: AppDatabase) {
     // This class passes data between the view model and the database
@@ -12,6 +19,16 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     suspend fun deleteCard(cardEntity: CardEntity){appDatabase.cardEntityDao().delete(cardEntity)}
 
+    @Transaction
+    suspend fun deleteCardAndCrossRefByCardId(cardId: Long){
+
+        // remove the cross reference in "cardListCrossRef" table and "cardTagCrossRef" table
+        appDatabase.cardListCrossRefDao().deleteByCardId(cardId)
+        appDatabase.cardTagCrossRefDao().deleteByCardId(cardId)
+        // finally, remove the card entity from the card enetity table
+        appDatabase.cardEntityDao().deleteCardById(cardId)
+    }
+
     suspend fun updateCard(cardEntity: CardEntity){appDatabase.cardEntityDao().update(cardEntity)}
 
     suspend fun getAllCards(): List<CardEntity>{return appDatabase.cardEntityDao().getAllCards()}
@@ -19,6 +36,36 @@ class AppRepository(private val appDatabase: AppDatabase) {
     suspend fun getCardWithTags(): List<CardWithTagsEntity>{return appDatabase.cardEntityDao().getCardWithTags()}
 
     suspend fun getCardWithLists(): List<CardWithListsEntity>{return appDatabase.cardEntityDao().getCardWithLists()}
+
+    // Get cards by tag ids in OR relationship. You  have to provide at least one tag Id
+    suspend fun getCardByTagIds(vararg tagIds: Long): List<CardEntity>{
+
+        if(tagIds.size==0){
+            //throw an exception if there is no tag ID provided
+            throw Exception("You have to provide at least one tag Id")
+        }
+        //construct the query string
+        var queryString:String = "SELECT CE.cardId,CE.name,CE.business,CE.dateAdded,CE.phone,CE.email,CE.description " +
+                "FROM card_entity CE INNER JOIN card_tag_cross_ref CR ON CE.cardId = CR.cardId " +
+                "INNER JOIN tag_entity TE ON CR.tagId = TE.tagId WHERE CR.tagId IN ("
+        val formattedQuery:String = ","
+
+        var argsList:ArrayList<Long> = arrayListOf()
+
+        for (tagId: Long in tagIds){
+            queryString = queryString+"?"
+            queryString = queryString+formattedQuery
+            argsList.add(tagId)
+        }
+
+        queryString = queryString.dropLast(formattedQuery.length)+")"+" GROUP BY CR.cardId";
+        println("Query:getCardByTagIds = "+ queryString)
+
+        //perform query
+        val query = SimpleSQLiteQuery(queryString, argsList.toArray())
+        return appDatabase.cardEntityDao().getCardByTagIds(query)
+
+    }
 
     // List dao interaction
     suspend fun insertList(listEntity: ListEntity){appDatabase.listEntityDao().insert(listEntity)}
@@ -30,6 +77,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
     suspend fun getAllLists(): List<ListEntity>{return appDatabase.listEntityDao().getAllLists()}
 
     suspend fun getListWithCards(): List<ListWithCardsEntity>{return appDatabase.listEntityDao().getListWithCards()}
+
+    suspend fun getListWithCardsByListId(listId: Long): ListWithCardsEntity{return appDatabase.listEntityDao().getListWithCardsByListId(listId)}
 
     // Tag dao interaction
     suspend fun insertTag(tagEntity: TagEntity){appDatabase.tagEntityDao().insert(tagEntity)}
