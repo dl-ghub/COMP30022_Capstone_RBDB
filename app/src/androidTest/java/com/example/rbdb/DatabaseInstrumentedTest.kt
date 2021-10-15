@@ -177,7 +177,7 @@ class DatabaseInstrumentedTest {
         cardEntityDao.insert(cardEntity4)
         cardEntityDao.insert(cardEntity5)
 
-        val cards = cardEntityDao.getAllCardsOrderByName();
+        val cards = appRepository.getAllCardsOrderByName();
         println("0930 hello")
         for (card in cards) {
             println(card);
@@ -226,7 +226,7 @@ class DatabaseInstrumentedTest {
         cardEntityDao.insert(cardEntity4)
         cardEntityDao.insert(cardEntity5)
 
-        val cards = cardEntityDao.getCardsByKeywordInDescription("green");
+        val cards = appRepository.getCardsByKeywordInDescription("green");
         println("0930 hello")
         for (card in cards) {
             println(card);

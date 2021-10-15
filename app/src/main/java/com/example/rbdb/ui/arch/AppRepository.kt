@@ -41,6 +41,10 @@ class AppRepository(private val appDatabase: AppDatabase) {
     //it returns cards that contain cardName as a substring, ordered by the length of the names of the cards
     suspend fun getCardsByName(cardName:String):List<CardEntity>{return appDatabase.cardEntityDao().getCardsByName(cardName)}
 
+    suspend fun getAllCardsOrderByName():List<CardEntity>{return appDatabase.cardEntityDao().getAllCardsOrderByName()}
+
+    suspend fun getCardsByKeywordInDescription(keyword:String):List<CardEntity>{return appDatabase.cardEntityDao().getCardsByKeywordInDescription(keyword)}
+
     // Get cards by tag ids in OR relationship. You  have to provide at least one tag Id
     suspend fun getCardByTagIds(vararg tagIds: Long): List<CardEntity>{
 
