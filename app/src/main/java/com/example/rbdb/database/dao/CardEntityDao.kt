@@ -38,7 +38,7 @@ interface CardEntityDao {
     suspend fun getCardWithLists(): List<CardWithListsEntity>
 
     //Search a card by name. It uses UPPER() to make the search case insensitive
-    @Query("SELECT * FROM card_entity WHERE UPPER(name) = UPPER(:cardName)")
+    @Query("SELECT * FROM card_entity WHERE UPPER(name) LIKE '%' || UPPER(:cardName) || '%' ORDER BY length(name)")
     suspend fun getCardsByName(cardName:String):List<CardEntity>
 
     //sort cards by name in descending order
