@@ -2,17 +2,13 @@ package com.example.rbdb.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
+import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.rbdb.R
-import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.ActivityContactDetailBinding
-import com.example.rbdb.databinding.ActivityMainBinding
-import com.example.rbdb.ui.dataclasses.Contact
 
 
 class ContactDetailActivity : AppCompatActivity() {
@@ -35,18 +31,15 @@ class ContactDetailActivity : AppCompatActivity() {
         val contactEmail = intent.getStringExtra("contact_email")
         val contactDescription = intent.getStringExtra("contact_description")
 
+        /* Generate Default Letter Circle Avatar */
+        val avatar = contactName?.let { createAvatar(it) }
 
-        val nameTextView = binding.contactName
-        val companyTextView = binding.tvCompany
-        val phoneTextView = binding.phoneNumber
-        val emailTextView = binding.email
-        val descriptionTextView = binding.description
-
-        nameTextView.text = contactName
-        companyTextView.text = contactBusiness
-        phoneTextView.text = contactPhone
-        emailTextView.text = contactEmail
-        descriptionTextView.text = contactDescription
+        binding.contactPhoto.setImageDrawable(avatar)
+        binding.contactName.text = contactName
+        binding.tvCompany.text = contactBusiness
+        binding.phoneNumber.text = contactPhone
+        binding.email.text = contactEmail
+        binding.description.text = contactDescription
 
     }
 
@@ -78,5 +71,15 @@ class ContactDetailActivity : AppCompatActivity() {
             // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun createAvatar(name: String): TextDrawable {
+        val firstInitial = name[0].toString()
+        val whiteSpaceIndex = name.indexOf(" ")
+        val secondInitial = name[whiteSpaceIndex + 1].toString()
+        val initials = firstInitial + secondInitial
+        val generator: ColorGenerator = ColorGenerator.MATERIAL
+
+        return TextDrawable.builder().buildRound(initials, generator.getColor(secondInitial))
     }
 }
