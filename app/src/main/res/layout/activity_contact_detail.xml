@@ -32,6 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fillViewport="false"
+        android:paddingBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,15 +46,15 @@
             android:paddingBottom="30dp">
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:id="@+id/contactPhoto"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/profile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/profile" />
 
             <TextView
                 android:id="@+id/contactName"
@@ -61,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/roboto"
-                android:text="Contact Name"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="36sp"
@@ -69,7 +69,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.509"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/contactPhoto" />
+                app:layout_constraintTop_toBottomOf="@+id/contactPhoto"
+                tools:text="Contact Name" />
 
             <TextView
                 android:id="@+id/tvCompany"
@@ -89,13 +90,13 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="40dp"
                 android:fontFamily="@font/roboto"
-                android:text="Not as pretty as the guy in the pic. Also is a serial bed wetter."
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCompany" />
+                app:layout_constraintTop_toBottomOf="@+id/tvCompany"
+                tools:text="Not as pretty as the guy in the pic. Also is a serial bed wetter." />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/contactInfoConstraint"
@@ -146,11 +147,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:text="0 6969 8008"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="@+id/phoneLabel"
-                        app:layout_constraintTop_toBottomOf="@+id/phoneLabel" />
+                        app:layout_constraintTop_toBottomOf="@+id/phoneLabel"
+                        tools:text="0 6969 8008" />
 
                     <View
                         android:id="@+id/dividerPhone"
@@ -193,11 +194,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
-                        android:text="spicy@gmail.com"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         android:textSize="17sp"
                         app:layout_constraintStart_toStartOf="@+id/emailLabel"
-                        app:layout_constraintTop_toBottomOf="@+id/emailLabel" />
+                        app:layout_constraintTop_toBottomOf="@+id/emailLabel"
+                        tools:text="spicy@gmail.com" />
 
                     <View
                         android:id="@+id/dividerEmail"
@@ -219,6 +220,7 @@
                 android:layout_width="0dp"
                 android:layout_height="175dp"
                 android:layout_marginTop="20dp"
+                android:paddingBottom="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -248,14 +250,14 @@
                     android:fontFamily="@font/roboto"
                     android:lineSpacingExtra="2sp"
                     android:padding="5dp"
-                    android:text="@string/test_string_large"
                     android:textAlignment="textStart"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/meetingLabel" />
+                    app:layout_constraintTop_toBottomOf="@+id/meetingLabel"
+                    tools:text="@string/test_string_large" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

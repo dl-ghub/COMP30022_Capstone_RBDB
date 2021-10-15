@@ -85,4 +85,8 @@ dependencies {
     // Jetpack Compose Integration
     implementation("androidx.navigation:navigation-compose:2.4.0-alpha09")
 
+    // TextDrawable for Avatar Creation
+    implementation("com.amulyakhare:com.amulyakhare.textdrawable:1.0.1")
+
+
 }
