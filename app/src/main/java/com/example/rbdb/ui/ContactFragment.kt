@@ -108,6 +108,7 @@ class ContactFragment : Fragment(), ContactCardInterface {
     override fun onContactCardClick(position: Int) {
         val contact = contactList[position]
         val intent = Intent(this.requireActivity(), ContactDetailActivity::class.java).apply {
+            putExtra("contact_id", contact.cardId)
             putExtra("contact_name", contact.name)
             putExtra("contact_business", contact.business)
             putExtra("contact_dateAdded", contact.dateAdded)
