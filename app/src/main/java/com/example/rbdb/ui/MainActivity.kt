@@ -36,15 +36,19 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.init(AppDatabase.getDatabase(this))
         // End of db / vm init
-        /*val cardTest: CardEntity = CardEntity("sam","unimelb",
+        val cardTest: CardEntity = CardEntity(0 , "sam","unimelb",
             "0922","444222999","test@email.com","I am a cool guy")
-        viewModel.insertCard(cardTest)*/
-        /*
-        val nameObserver = Observer<CardEntity> { newName ->
-            // Update the UI, in this case, a TextView.
-            binding.testCard.text = newName.name
+        val cardTest2: CardEntity = CardEntity(0 , "bob","unimelb",
+            "0922","444222999","test@email.com","I am a pool guy")
+        viewModel.insertCard(cardTest)
+        viewModel.insertCard(cardTest2)
+
+        viewModel.getAllCards().observe(this, Observer { cards ->
+            cards.forEach {
+                println("\n id: ${it.cardId} name: ${it.name} business: ${it.business}")
+            }
         }
-        viewModel.getCardById(1).observe(this,nameObserver)*/
+        )
 
         val tabLayout = binding.TabLayout
       
@@ -52,6 +56,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 // Handle tab select
+                
 
             }
 
