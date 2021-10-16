@@ -8,7 +8,7 @@
         android:layout_height="wrap_content">
 
         <AutoCompleteTextView
-            android:id="@+id/new_group_name"
+            android:id="@+id/new_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"

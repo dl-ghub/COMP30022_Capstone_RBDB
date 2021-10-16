@@ -52,7 +52,9 @@
     <style name="Theme.RBDB.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.RBDB.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-
+    <style name="MyCheckboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/primaryBlueVariant</item>
+    </style>
 
 
 </resources>

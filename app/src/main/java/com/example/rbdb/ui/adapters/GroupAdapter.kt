@@ -6,15 +6,18 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
-import com.example.rbdb.ui.dataclasses.Group
+import com.example.rbdb.database.model.ListEntity
+import com.example.rbdb.databinding.ViewHolderGroupBinding
 
 class GroupAdapter(
-    private val data: ArrayList<Group>,
+    private val data: MutableList<ListEntity>,
     private val groupCardInterface: GroupCardInterface
 ) : RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
-        return GroupViewHolder(parent)
+        val binding =
+            ViewHolderGroupBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return GroupViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
@@ -25,17 +28,20 @@ class GroupAdapter(
         return data.size
     }
 
+    fun swapData(data: List<ListEntity>) {
+        this.data.clear()
+        this.data.addAll(data)
+        notifyDataSetChanged()
+    }
 
-    inner class GroupViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.view_holder_group, parent, false)
-    ) {
-        private val tvGroupName: TextView = itemView.findViewById(R.id.group_name)
-        private val groupCard: ConstraintLayout = itemView.findViewById(R.id.group_card)
+    inner class GroupViewHolder(private val binding: ViewHolderGroupBinding) :
+        RecyclerView.ViewHolder(
+            binding.root
+        ) {
 
-        fun onBind(groupData: Group, groupCardInterface: GroupCardInterface) {
-            tvGroupName.text = groupData.name
-
-            groupCard.setOnClickListener {
+        fun onBind(groupData: ListEntity, groupCardInterface: GroupCardInterface) {
+            binding.groupName.text = groupData.name
+            binding.groupCard.setOnClickListener {
                 groupCardInterface.onGroupCardClick(absoluteAdapterPosition)
             }
         }

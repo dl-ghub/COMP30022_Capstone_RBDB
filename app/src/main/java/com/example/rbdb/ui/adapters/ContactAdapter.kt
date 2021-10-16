@@ -7,18 +7,24 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.rbdb.R
+import com.example.rbdb.database.model.CardEntity
+import com.example.rbdb.databinding.ViewHolderContactBinding
 import com.example.rbdb.ui.dataclasses.Contact
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ContactAdapter(
-    private val data: ArrayList<Contact>,
+    private val data: MutableList<CardEntity>,
     private val contactCardInterface: ContactCardInterface
 ) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-        return ContactViewHolder(parent)
+        val binding =
+            ViewHolderContactBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ContactViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
@@ -29,24 +35,33 @@ class ContactAdapter(
         return data.size
     }
 
+    fun swapData(data: List<CardEntity>) {
+        this.data.clear()
+        this.data.addAll(data)
+        notifyDataSetChanged()
+    }
 
-    inner class ContactViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.view_holder_contact, parent, false)
-    ) {
 
-        private val ivContactAvatar: CircleImageView = itemView.findViewById(R.id.contact_avatar)
-        private val tvContactName: TextView = itemView.findViewById(R.id.contact_name)
-        private val tvContactCompany: TextView = itemView.findViewById(R.id.contact_company)
-        private val tvContactPhone: TextView = itemView.findViewById(R.id.contact_phone)
-        private val contactCard: ConstraintLayout = itemView.findViewById(R.id.contact_card)
+    inner class ContactViewHolder(private val binding: ViewHolderContactBinding) :
+        RecyclerView.ViewHolder(
+            binding.root
+        ) {
 
-        fun onBind(contactData: Contact, contactCardInterface: ContactCardInterface) {
-            ivContactAvatar.setImageResource(contactData.avatar)
-            tvContactName.text = contactData.name
-            tvContactCompany.text = contactData.company
-            tvContactPhone.text = contactData.phone
+        fun onBind(contactData: CardEntity, contactCardInterface: ContactCardInterface) {
+            val generator: ColorGenerator = ColorGenerator.MATERIAL
+            val firstInitial = contactData.name[0].toString() // used for avatar letter
+            val whiteSpaceIndex = contactData.name.indexOf(" ")
+            val secondInitial =
+                contactData.name[whiteSpaceIndex + 1].toString() // used for avatar colour
+            val drawable: TextDrawable =
+                TextDrawable.builder().buildRound(firstInitial, generator.getColor(secondInitial))
 
-            contactCard.setOnClickListener {
+            binding.contactAvatar.setImageDrawable(drawable)
+            binding.contactName.text = contactData.name
+            binding.contactCompany.text = contactData.business
+            binding.contactPhone.text = contactData.phone
+
+            binding.contactCard.setOnClickListener {
                 contactCardInterface.onContactCardClick(absoluteAdapterPosition)
             }
         }

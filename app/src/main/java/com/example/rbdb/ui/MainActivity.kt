@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.CardEntity
+import com.example.rbdb.database.model.ListEntity
 import com.example.rbdb.databinding.ActivityMainBinding
 import com.example.rbdb.ui.adapters.FragmentAdapter
 import com.example.rbdb.ui.arch.AppViewModel
@@ -34,21 +35,9 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.topAppBar
         setSupportActionBar(toolbar)
 
+        // Prepopulate database for testing
         viewModel.init(AppDatabase.getDatabase(this))
         // End of db / vm init
-        val cardTest: CardEntity = CardEntity(0 , "sam","unimelb",
-            "0922","444222999","test@email.com","I am a cool guy")
-        val cardTest2: CardEntity = CardEntity(0 , "bob","unimelb",
-            "0922","444222999","test@email.com","I am a pool guy")
-        viewModel.insertCard(cardTest)
-        viewModel.insertCard(cardTest2)
-
-        viewModel.getAllCards().observe(this, Observer { cards ->
-            cards.forEach {
-                println("\n id: ${it.cardId} name: ${it.name} business: ${it.business}")
-            }
-        }
-        )
 
         val tabLayout = binding.TabLayout
       

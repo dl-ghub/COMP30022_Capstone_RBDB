@@ -15,11 +15,15 @@ interface ListEntityDao {
     suspend fun update(ItemEntity: ListEntity)
 
     @Transaction
-    @Query("SELECT * FROM list_entity")
+    @Query("SELECT * FROM list_entity ORDER BY name")
     suspend fun getAllLists(): List<ListEntity>
 
     // Relational Queries for List <-> Card relation
     @Transaction
     @Query("SELECT * FROM list_entity")
     suspend fun getListWithCards(): List<ListWithCardsEntity>
+
+    @Transaction
+    @Query("SELECT * FROM list_entity WHERE listId = :listId")
+    suspend fun getListWithCardsByListId(listId: Long): ListWithCardsEntity
 }

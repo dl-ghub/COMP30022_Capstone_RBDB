@@ -13,7 +13,7 @@ import com.example.rbdb.database.model.*
         CardTagCrossRef::class,
         ListEntity::class,
         TagEntity::class],
-    version = 1
+    version = 3
 )
 abstract class AppDatabase : RoomDatabase(){
     // Singleton pattern for database initialization
@@ -26,7 +26,7 @@ abstract class AppDatabase : RoomDatabase(){
                 return appDatabase!!
             }
             appDatabase = Room.databaseBuilder(context.applicationContext,
-                AppDatabase::class.java, "card-database").build()
+                AppDatabase::class.java, "card-database").fallbackToDestructiveMigration().build()
             return appDatabase!!
         }
     }
@@ -35,9 +35,13 @@ abstract class AppDatabase : RoomDatabase(){
 
     abstract fun cardListCrossRefDao() : CardListCrossRefDao
 
+    abstract fun cardTagCrossRefDao() : CardTagCrossRefDao
+
     abstract fun listEntityDao() : ListEntityDao
 
     abstract fun tagEntityDao() : TagEntityDao
 
     abstract fun userEntityDao() : UserEntityDao
+
+
 }
