@@ -21,7 +21,7 @@
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/menu"
+            app:menu="@menu/activity_group_menu"
             app:navigationIcon="@drawable/ic_back"
             app:title="Group Name"
             app:titleTextAppearance="@style/Toolbar.TitleText" />
