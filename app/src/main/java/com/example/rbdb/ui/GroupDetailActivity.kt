@@ -33,7 +33,7 @@ class GroupDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val groupTitle = intent.getStringExtra("group_name")
-        val groupId = intent.getLongExtra("group_id", -1)
+        groupId = intent.getLongExtra("group_id", -1)
         supportActionBar?.title = groupTitle
     }
 
@@ -58,7 +58,7 @@ class GroupDetailActivity : AppCompatActivity() {
 
             // Send the name to the database to create a new group (need to implement)
             builder.setPositiveButton("Ok"){ _, _ -> }
-
+// ***Add functionality for changing the group's name here
             builder.setNegativeButton("Cancel"){_, _ -> }
 
             val alertDialog: AlertDialog = builder.create()
@@ -72,7 +72,7 @@ class GroupDetailActivity : AppCompatActivity() {
         R.id.delete -> {
             Toast.makeText(this, "delete pressed", Toast.LENGTH_SHORT).show()
             true
-// add this in when the delete button query for the database is done
+// ***Add this in when the delete button query for the database is done
 //            val builder = AlertDialog.Builder(this)
 //            builder.setMessage(R.string.confirm_delete_group)
 //            builder.setPositiveButton("Delete") { _, _ ->

@@ -4,17 +4,24 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/drawable/ic_baseline.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/drawable/ic_baseline_save_24.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/drawable/ic_edit.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/drawable/ic_save.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/activity_contact_detail.xml" value="0.12708333333333333" />
-        <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/activity_group.xml" value="0.1" />
+        <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/activity_edit_group.xml" value="0.25" />
+        <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/activity_group.xml" value="0.264" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/activity_main.xml" value="0.16140350877192983" />
+        <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/activity_new_contact_page.xml" value="0.25" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/fragment_contact.xml" value="0.25" />
+        <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/fragment_edit_group.xml" value="0.25" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/fragment_group.xml" value="0.25" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/fragment_tag.xml" value="0.264" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/view_holder_contact.xml" value="0.25" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/view_holder_group.xml" value="0.25" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/menu/activity_group_menu.xml" value="0.25" />
+        <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/menu/contact_detail_menu.xml" value="0.18125" />
+        <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/menu/edit_group_menu.xml" value="0.19322916666666667" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/menu/menu.xml" value="0.12708333333333333" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.13645833333333332" />
         <entry key="app/src/main/res/font/font.xml" value="0.2682291666666667" />

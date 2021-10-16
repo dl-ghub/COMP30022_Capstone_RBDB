@@ -3,6 +3,8 @@
     <string name="page_title">Contact</string>
     <string name="contact_fab_desc">Add new contact</string>
     <string name="group_fab_desc">Add new group</string>
+    <string name="group_contact_fab_desc">Edit contacts in group</string>
+    <string name="edit_group_fab_desc">Save changes</string>
     <string name="tag_fab_add_desc">Add new tag</string>
     <string name="tag_fab_search_desc">Search selected tag</string>
     <string name="tag_fab_delete_desc">Delete selected tag</string>
