@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.dao.CardEntityDao_Impl
 import com.example.rbdb.database.model.*
@@ -59,6 +60,10 @@ class AppViewModel : ViewModel() {
 
     fun deleteList(listEntity: ListEntity) {
         viewModelScope.launch { repository.deleteList(listEntity) }
+    }
+
+    fun deleteByListId(listId: Long) {
+        viewModelScope.launch { repository.deleteByListId(listId) }
     }
 
     fun updateList(listEntity: ListEntity) {

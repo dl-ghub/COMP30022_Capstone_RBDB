@@ -14,6 +14,9 @@ interface ListEntityDao {
     @Update
     suspend fun update(ItemEntity: ListEntity)
 
+    @Query("DELETE FROM list_entity WHERE listId = :listId")
+    suspend fun deleteByListId(listId: Long)
+
     @Transaction
     @Query("SELECT * FROM list_entity ORDER BY name")
     suspend fun getAllLists(): List<ListEntity>

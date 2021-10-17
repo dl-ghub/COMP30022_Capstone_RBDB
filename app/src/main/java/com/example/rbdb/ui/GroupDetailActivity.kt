@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rbdb.R
+import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.databinding.ActivityGroupBinding
 import com.example.rbdb.ui.arch.AppViewModel
 
@@ -31,6 +32,8 @@ class GroupDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        viewModel.init(AppDatabase.getDatabase(this))
 
         val groupTitle = intent.getStringExtra("group_name")
         groupId = intent.getLongExtra("group_id", -1)
@@ -70,38 +73,31 @@ class GroupDetailActivity : AppCompatActivity() {
             true
         }
         R.id.delete -> {
-            Toast.makeText(this, "delete pressed", Toast.LENGTH_SHORT).show()
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage(R.string.confirm_delete_group)
+            builder.setPositiveButton("Delete") { _, _ ->
+                deleteGroup(groupId)
+
+                // Return to Homepage
+                this.onBackPressed()
+            }
+
+            builder.setNegativeButton("Cancel") { _, _ -> }
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(resources.getColor(R.color.warningRed))
+
             true
-// ***Add this in when the delete button query for the database is done
-//            val builder = AlertDialog.Builder(this)
-//            builder.setMessage(R.string.confirm_delete_group)
-//            builder.setPositiveButton("Delete") { _, _ ->
-//                deleteGroup(groupId)
-//
-//                // Return to Homepage
-//                val intent = Intent(this, MainActivity::class.java)
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-//                startActivity(intent)
-//
-//                finish()
-//            }
-//
-//            builder.setNegativeButton("Cancel") { _, _ -> }
-//
-//            val alertDialog: AlertDialog = builder.create()
-//            alertDialog.show()
-//            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-//                .setTextColor(resources.getColor(R.color.warningRed))
-//
-//            true
         }
         else -> {
             super.onOptionsItemSelected(item)
         }
     }
 
-//    private fun deleteGroup(groupId: Long) {
-//        Log.d("groupId to be deleted", groupId.toString())
-//        viewModel.deleteCardAndCrossRefByCardId(groupId)
-//    }
+    private fun deleteGroup(groupId: Long) {
+        Log.d("groupId to be deleted", groupId.toString())
+        viewModel.deleteByListId(groupId)
+    }
 }

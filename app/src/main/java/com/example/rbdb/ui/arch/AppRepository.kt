@@ -74,6 +74,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     suspend fun updateList(listEntity: ListEntity){appDatabase.listEntityDao().update(listEntity)}
 
+    suspend fun deleteByListId(listId: Long){appDatabase.listEntityDao().deleteByListId(listId)}
+
     suspend fun getAllLists(): List<ListEntity>{return appDatabase.listEntityDao().getAllLists()}
 
     suspend fun getListWithCards(): List<ListWithCardsEntity>{return appDatabase.listEntityDao().getListWithCards()}
