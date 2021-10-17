@@ -1,6 +1,6 @@
 package com.example.rbdb.ui.arch
 
-import androidx.room.Transaction
+import androidx.room.*
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.*
 
@@ -101,5 +101,27 @@ class AppRepository(private val appDatabase: AppDatabase) {
     suspend fun updateUser(userEntity : UserEntity){appDatabase.userEntityDao().update(userEntity)}
 
     suspend fun getAllUsers(): List<UserEntity>{return appDatabase.userEntityDao().getAllUsers()}
+
+    // CardListCrossRefDao interaction
+    suspend fun insertCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().insert(cardListCrossRef)}
+        
+    suspend fun deleteCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().delete(cardListCrossRef)}
+
+    suspend fun deleteCardListCrossRefByCardId(cardId: Long){appDatabase.cardListCrossRefDao().deleteByCardId(cardId)}
+
+    suspend fun updateCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().update(cardListCrossRef)}
+
+    suspend fun getAllCardListCrossRef(): List<CardListCrossRef>{return appDatabase.cardListCrossRefDao().getAllCardListCrossRef()}
+
+    // CardTagCrossRefDao interaction
+    suspend fun insertCardTagCrossRef(cardTagCrossRef: CardTagCrossRef){appDatabase.cardTagCrossRefDao().insert(cardTagCrossRef)}
+
+    suspend fun deleteCardTagCrossRef(cardTagCrossRef: CardTagCrossRef){appDatabase.cardTagCrossRefDao().delete(cardTagCrossRef)}
+
+    suspend fun deleteCardTagCrossRefByCardId(cardId: Long){appDatabase.cardTagCrossRefDao().deleteByCardId(cardId)}
+
+    suspend fun updateCardTagCrossRef(cardTagCrossRef: CardTagCrossRef){appDatabase.cardTagCrossRefDao().update(cardTagCrossRef)}
+
+    suspend fun getAllCardTagCrossRef(): List<CardTagCrossRef>{return appDatabase.cardTagCrossRefDao().getAllCardTagCrossRef()}
 
 }
