@@ -11,16 +11,22 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
+import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.ActivityGroupBinding
+import com.example.rbdb.ui.adapters.ContactAdapter
+import com.example.rbdb.ui.adapters.ContactCardInterface
 import com.example.rbdb.ui.arch.AppViewModel
 
-class GroupDetailActivity : AppCompatActivity() {
+class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
     private lateinit var binding: ActivityGroupBinding
     private val viewModel: AppViewModel by viewModels()
     private var groupId: Long = 0
+    private lateinit var adapter: ContactAdapter
+    private lateinit var contactList: List<CardEntity>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +44,30 @@ class GroupDetailActivity : AppCompatActivity() {
 
         val groupTitle = intent.getStringExtra("group_name")
         groupId = intent.getLongExtra("group_id", -1)
-        val fragment:Fragment = ContactFragment.newInstance(groupId)
-        supportActionBar?.title = groupTitle
+
+        val recyclerView: RecyclerView = binding.rvContacts
+
+        adapter = ContactAdapter(mutableListOf(), ContactFragment())
+        recyclerView.adapter = adapter
+
+        val observerContact = Observer<List<CardEntity>> { contacts ->
+            adapter.swapData(contacts)
+            contactList = contacts  }
+
+        viewModel.getCardsInList(groupId).observe(this, observerContact)
+    }
+    override fun onContactCardClick(position: Int) {
+        val contact = contactList[position]
+        val intent = Intent(this, ContactDetailActivity::class.java).apply {
+            putExtra("contact_id", contact.cardId)
+            putExtra("contact_name", contact.name)
+            putExtra("contact_business", contact.business)
+            putExtra("contact_dateAdded", contact.dateAdded)
+            putExtra("contact_phone", contact.phone)
+            putExtra("contact_email", contact.email)
+            putExtra("contact_description", contact.description)
+        }
+        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

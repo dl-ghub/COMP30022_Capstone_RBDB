@@ -92,6 +92,10 @@ class AppViewModel : ViewModel() {
         return result
     }
 
+    fun insertCardToList(crossRef: CardListCrossRef) {
+        viewModelScope.launch { repository.insertCardListCrossRef(crossRef)}
+    }
+
     // Call repository methods for tag
     fun insertTag(tagEntity: TagEntity) {
         viewModelScope.launch { repository.insertTag(tagEntity) }
