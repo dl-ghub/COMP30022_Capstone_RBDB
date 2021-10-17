@@ -41,6 +41,12 @@ class AppViewModel : ViewModel() {
         return result
     }
 
+    fun getCardsInList(id:Long): LiveData<List<CardEntity>> {
+        val result = MutableLiveData<List<CardEntity>>()
+        viewModelScope.launch { result.postValue(repository.getListWithCardsByListId(id).cards) }
+        return result
+    }
+
     fun getCardWithTags(): LiveData<List<CardWithTagsEntity>> {
         val result = MutableLiveData<List<CardWithTagsEntity>>()
         viewModelScope.launch { result.postValue(repository.getCardWithTags()) }

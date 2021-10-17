@@ -69,22 +69,18 @@ class MainActivity : AppCompatActivity() {
         })
         val viewPager = binding.pager
 
-
         viewPager.adapter = FragmentAdapter(this)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> {
                     tab.text = "ALL"
-
                 }
                 1 -> {
                     tab.text = "GROUPS"
-
                 }
                 2->{
                     tab.text = "TAGS"
                 }
-
             }
         }.attach()
     }
