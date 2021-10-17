@@ -40,6 +40,8 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+
+
         viewModel.init(AppDatabase.getDatabase(this))
 
         val groupTitle = intent.getStringExtra("group_name")
@@ -55,6 +57,8 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
             contactList = contacts  }
 
         viewModel.getCardsInList(groupId).observe(this, observerContact)
+
+        supportActionBar?.title = groupTitle
     }
     override fun onContactCardClick(position: Int) {
         val contact = contactList[position]
@@ -130,7 +134,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
     }
 
     private fun deleteGroup(groupId: Long) {
-        Log.d("groupId to be deleted", groupId.toString())
+//        Log.d("groupId to be deleted", groupId.toString())
         viewModel.deleteByListId(groupId)
     }
 
