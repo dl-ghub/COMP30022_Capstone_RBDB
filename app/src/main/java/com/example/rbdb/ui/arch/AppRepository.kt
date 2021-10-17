@@ -19,6 +19,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     suspend fun deleteCard(cardEntity: CardEntity){appDatabase.cardEntityDao().delete(cardEntity)}
 
+    suspend fun getCardById(id: Long): CardEntity{return appDatabase.cardEntityDao().getCardById(id)}
+
     @Transaction
     suspend fun deleteCardAndCrossRefByCardId(cardId: Long){
 

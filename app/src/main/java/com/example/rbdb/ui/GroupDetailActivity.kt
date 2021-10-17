@@ -2,7 +2,6 @@ package com.example.rbdb.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -82,7 +81,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.edit -> {
+        R.id.change_gName -> {
             val builder = AlertDialog.Builder(this)
             builder.setMessage(R.string.new_group_name)
             val inflater = layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
@@ -102,7 +101,11 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
             Toast.makeText(this, "search pressed", Toast.LENGTH_SHORT).show()
             true
         }
-        R.id.delete -> {
+        R.id.edit_gMembers ->{
+            Toast.makeText(this, "edit group members pressed", Toast.LENGTH_SHORT).show()
+            true
+        }
+        R.id.delete_g -> {
             val builder = AlertDialog.Builder(this)
             builder.setMessage(R.string.confirm_delete_group)
             builder.setPositiveButton("Delete") { _, _ ->

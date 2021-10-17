@@ -100,12 +100,12 @@ class ContactFragment : Fragment(), ContactCardInterface {
         val contact = contactList[position]
         val intent = Intent(this.requireActivity(), ContactDetailActivity::class.java).apply {
             putExtra("contact_id", contact.cardId)
-            putExtra("contact_name", contact.name)
+            /*putExtra("contact_name", contact.name)
             putExtra("contact_business", contact.business)
             putExtra("contact_dateAdded", contact.dateAdded)
             putExtra("contact_phone", contact.phone)
             putExtra("contact_email", contact.email)
-            putExtra("contact_description", contact.description)
+            putExtra("contact_description", contact.description)*/
         }
         startActivity(intent)
     }
