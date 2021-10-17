@@ -56,5 +56,10 @@
         <item name="buttonTint">@color/primaryBlueVariant</item>
     </style>
 
+    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!-- Search button icon -->
+        <item name="searchIcon">@null</item>
+    </style>
+
 
 </resources>

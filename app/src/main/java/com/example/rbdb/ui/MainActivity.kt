@@ -79,9 +79,9 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
     }
+
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.search -> {
-            Toast.makeText(this, "search bar pressed", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, SearchActivity::class.java)
             this.startActivity(intent)
             true
@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity() {
             super.onOptionsItemSelected(item)
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)

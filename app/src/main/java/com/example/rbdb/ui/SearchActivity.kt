@@ -5,6 +5,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.example.rbdb.ui.arch.AppViewModel
@@ -17,6 +21,13 @@ import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.SearchActivityBinding
 import com.example.rbdb.ui.adapters.ContactAdapter
 import com.example.rbdb.ui.adapters.ContactCardInterface
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.marginRight
+
 
 class SearchActivity : AppCompatActivity(), ContactCardInterface {
     private lateinit var binding: SearchActivityBinding
@@ -78,6 +89,22 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
 
     override fun onSupportNavigateUp(): Boolean {
         finish()
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.more -> {
+            Toast.makeText(this, "more button pressed", Toast.LENGTH_SHORT).show()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.search_menu, menu)
         return true
     }
 }
