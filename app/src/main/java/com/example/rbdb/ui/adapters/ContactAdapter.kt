@@ -2,22 +2,16 @@ package com.example.rbdb.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
-import com.example.rbdb.R
 import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.ViewHolderContactBinding
-import com.example.rbdb.ui.dataclasses.Contact
-import de.hdodenhof.circleimageview.CircleImageView
+import com.example.rbdb.ui.ContactFragment
 
 class ContactAdapter(
     private val data: MutableList<CardEntity>,
-    private val contactCardInterface: ContactCardInterface
+    private val contactCardInterface: ContactFragment
 ) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
 

@@ -65,7 +65,7 @@ class GroupContactFragment : Fragment(), ContactCardInterface {
         // RecyclerView implementation
         val recyclerView: RecyclerView = binding.rvContacts
 
-        adapter = ContactAdapter(mutableListOf(), this)
+        adapter = ContactAdapter(mutableListOf(), ContactFragment())
         recyclerView.adapter = adapter
 
         val observerContact = Observer<List<CardEntity>> {contacts ->
