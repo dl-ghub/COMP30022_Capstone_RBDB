@@ -108,18 +108,40 @@ class DatabaseInstrumentedTest {
 //        val user: User = TestUtil.createUser(3).apply {
 //            setName("george")
 //        }
-        val cardEntity: CardEntity = CardEntity(
-            1, "sam", "unimelb",
+        val cardEntity1: CardEntity = CardEntity(
+            1, "poksamok", "unimelb",
             "0922", "444222999", "test@email.com", "I am a cool guy"
         )
+        val cardEntity2: CardEntity = CardEntity(
+            2, "sam", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a red guy"
+        )
+        val cardEntity3: CardEntity = CardEntity(
+            3, "samer", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a blue guy"
+        )
+        val cardEntity4: CardEntity = CardEntity(
+            4, "adam", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a green guy"
+        )
+        val cardEntity5: CardEntity = CardEntity(
+            5, "Zerg", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a yellow guy"
+        )
 
-        cardEntityDao.insert(cardEntity)
+        cardEntityDao.insert(cardEntity1)
+        cardEntityDao.insert(cardEntity2)
+        cardEntityDao.insert(cardEntity3)
+        cardEntityDao.insert(cardEntity4)
+        cardEntityDao.insert(cardEntity5)
 
-        val cards = cardEntityDao.getCardsByName("Sam");
-        println("0930 hello")
-        println(cards);
+        val cards = appRepository.getCardsByName("Sam");
 
-        assertThat(cards[0], equalTo(cardEntity))
+        for(card in cards){
+            println(card)
+        }
+
+        assertThat(cards.size, equalTo(3))
     }
 
     @Test
@@ -155,7 +177,7 @@ class DatabaseInstrumentedTest {
         cardEntityDao.insert(cardEntity4)
         cardEntityDao.insert(cardEntity5)
 
-        val cards = cardEntityDao.getAllCardsOrderByName();
+        val cards = appRepository.getAllCardsOrderByName();
         println("0930 hello")
         for (card in cards) {
             println(card);
@@ -204,7 +226,7 @@ class DatabaseInstrumentedTest {
         cardEntityDao.insert(cardEntity4)
         cardEntityDao.insert(cardEntity5)
 
-        val cards = cardEntityDao.getCardsByKeywordInDescription("green");
+        val cards = appRepository.getCardsByKeywordInDescription("green");
         println("0930 hello")
         for (card in cards) {
             println(card);
