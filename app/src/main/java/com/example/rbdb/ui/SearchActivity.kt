@@ -1,0 +1,83 @@
+package com.example.rbdb.ui
+
+import android.content.Intent
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
+import com.example.rbdb.ui.arch.AppViewModel
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
+import com.example.rbdb.R
+import com.example.rbdb.database.AppDatabase
+import com.example.rbdb.database.model.CardEntity
+import com.example.rbdb.databinding.SearchActivityBinding
+import com.example.rbdb.ui.adapters.ContactAdapter
+import com.example.rbdb.ui.adapters.ContactCardInterface
+
+class SearchActivity : AppCompatActivity(), ContactCardInterface {
+    private lateinit var binding: SearchActivityBinding
+    private val viewModel: AppViewModel by viewModels()
+    private lateinit var searchList: List<CardEntity>
+    private lateinit var recycler: RecyclerView
+    private lateinit var adapter: ContactAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = SearchActivityBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        val toolbar = binding.topAppBar
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        recycler = binding.rvSearchResults
+        adapter = ContactAdapter(mutableListOf(), this)
+        recycler.adapter = adapter
+
+        binding.searchInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                displaySearch(s.toString())
+            }
+        })
+
+        viewModel.init(AppDatabase.getDatabase(this))
+    }
+
+    fun displaySearch(input : String){
+        Log.d("input", input)
+        viewModel.getCardsByName(input).observe(this, { contacts ->
+            adapter.swapData(contacts)
+            searchList = contacts
+        })
+        adapter.notifyDataSetChanged()
+    }
+
+    // Recyclerview item onclick navigation. Pass all required contact information in intent
+    override fun onContactCardClick(position: Int) {
+        val contact = searchList[position]
+        val intent = Intent(this, ContactDetailActivity::class.java).apply {
+            putExtra("contact_id", contact.cardId)
+            putExtra("contact_name", contact.name)
+            putExtra("contact_business", contact.business)
+            putExtra("contact_dateAdded", contact.dateAdded)
+            putExtra("contact_phone", contact.phone)
+            putExtra("contact_email", contact.email)
+            putExtra("contact_description", contact.description)
+        }
+        startActivity(intent)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+}

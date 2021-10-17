@@ -12,6 +12,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.rbdb.R
 import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.ViewHolderContactBinding
+import com.example.rbdb.ui.SearchActivity
 import com.example.rbdb.ui.dataclasses.Contact
 import de.hdodenhof.circleimageview.CircleImageView
 

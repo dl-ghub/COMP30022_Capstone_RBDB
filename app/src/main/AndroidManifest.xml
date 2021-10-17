@@ -23,6 +23,9 @@
             android:name=".ui.EditGroupActivity"
             android:exported="true"/>
         <activity
+            android:name=".ui.SearchActivity"
+            android:exported="true"/>
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

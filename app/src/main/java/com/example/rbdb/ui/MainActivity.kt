@@ -1,6 +1,7 @@
 package com.example.rbdb.ui
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.os.Bundle
@@ -81,6 +82,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.search -> {
             Toast.makeText(this, "search bar pressed", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, SearchActivity::class.java)
+            this.startActivity(intent)
             true
         }
 

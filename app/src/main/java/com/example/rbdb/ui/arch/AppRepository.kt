@@ -67,6 +67,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     }
 
+    suspend fun getCardsByName(input : String): List<CardEntity>{return appDatabase.cardEntityDao().getCardsByName(input)}
+
     // List dao interaction
     suspend fun insertList(listEntity: ListEntity){appDatabase.listEntityDao().insert(listEntity)}
 
