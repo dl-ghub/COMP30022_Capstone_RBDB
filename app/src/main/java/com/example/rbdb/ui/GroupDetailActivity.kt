@@ -60,8 +60,11 @@ class GroupDetailActivity : AppCompatActivity() {
             val input = inflater.findViewById<View>(R.id.new_name) as EditText
 
             // Send the name to the database to create a new group (need to implement)
-            builder.setPositiveButton("Ok"){ _, _ -> }
-// ***Add functionality for changing the group's name here
+            builder.setPositiveButton("Ok"){ _, _ ->
+                updateListName(input.text.toString(), groupId)
+                supportActionBar?.title = input.text.toString()
+                overridePendingTransition(0, 0)
+            }
             builder.setNegativeButton("Cancel"){_, _ -> }
 
             val alertDialog: AlertDialog = builder.create()
@@ -99,5 +102,9 @@ class GroupDetailActivity : AppCompatActivity() {
     private fun deleteGroup(groupId: Long) {
         Log.d("groupId to be deleted", groupId.toString())
         viewModel.deleteByListId(groupId)
+    }
+
+    private fun updateListName(name: String, groupId: Long) {
+        viewModel.updateListName(name, groupId)
     }
 }

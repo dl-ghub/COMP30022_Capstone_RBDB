@@ -70,6 +70,10 @@ class AppViewModel : ViewModel() {
         viewModelScope.launch { repository.updateList(listEntity) }
     }
 
+    fun updateListName(name: String, listId: Long) {
+        viewModelScope.launch { repository.updateListName(name, listId)}
+    }
+
     fun getAllLists(): LiveData<List<ListEntity>> {
         val result = MutableLiveData<List<ListEntity>>()
         viewModelScope.launch { result.postValue(repository.getAllLists()) }

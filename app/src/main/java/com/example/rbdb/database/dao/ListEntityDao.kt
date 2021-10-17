@@ -14,6 +14,10 @@ interface ListEntityDao {
     @Update
     suspend fun update(ItemEntity: ListEntity)
 
+    /* Update list name by id */
+    @Query("UPDATE list_entity SET name = :name WHERE listId = :listId")
+    suspend fun updateListName(name: String, listId: Long)
+
     @Query("DELETE FROM list_entity WHERE listId = :listId")
     suspend fun deleteByListId(listId: Long)
 
