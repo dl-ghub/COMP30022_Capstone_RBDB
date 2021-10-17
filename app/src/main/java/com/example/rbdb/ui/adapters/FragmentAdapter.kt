@@ -16,9 +16,7 @@ class FragmentAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activi
     override fun createFragment(position: Int): Fragment {
 
         return when(position){
-            0->{
-                ContactFragment.newInstance()
-            }
+            0-> ContactFragment.newInstance()
             1-> GroupFragment.newInstance()
             2-> TagFragment.newInstance()
             else -> ContactFragment.newInstance()

@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.rbdb.R
 import com.example.rbdb.databinding.ActivityGroupBinding
 import com.example.rbdb.ui.arch.AppViewModel
@@ -34,6 +35,7 @@ class GroupDetailActivity : AppCompatActivity() {
 
         val groupTitle = intent.getStringExtra("group_name")
         groupId = intent.getLongExtra("group_id", -1)
+        val fragment:Fragment = ContactFragment.newInstance(groupId)
         supportActionBar?.title = groupTitle
     }
 

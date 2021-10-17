@@ -24,8 +24,9 @@ import com.example.rbdb.ui.dataclasses.Contact
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val HOME_BOOL = "home boolean"
+private const val GROUP_ID = "group id"
+
 
 /**
  * A simple [Fragment] subclass.
@@ -34,8 +35,8 @@ private const val ARG_PARAM2 = "param2"
  */
 class ContactFragment : Fragment(), ContactCardInterface {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var home: Boolean = false
+    private var groupId: Long? = null
     //private lateinit var navHostFragment: NavHostFragment
     private var _binding: FragmentContactBinding? = null
     private val binding get() = _binding!!
@@ -46,8 +47,8 @@ class ContactFragment : Fragment(), ContactCardInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            home = it.getBoolean(HOME_BOOL)
+            groupId = it.getLong(GROUP_ID)
         }
 
     }
@@ -69,7 +70,6 @@ class ContactFragment : Fragment(), ContactCardInterface {
         // initialise viewmodel/database for this fragment
         viewModel = ViewModelProvider(this).get(AppViewModel::class.java)
         viewModel.init(AppDatabase.getDatabase(requireActivity()))
-
         return view
     }
 
@@ -87,8 +87,14 @@ class ContactFragment : Fragment(), ContactCardInterface {
             adapter.swapData(contacts)
             contactList = contacts  }
 
-        viewModel.getAllCards().observe(requireActivity(), observerContact)
-
+        if (home){
+            viewModel.getAllCards().observe(requireActivity(), observerContact)
+        }
+        else{
+            if (groupId != null) {
+                viewModel.getCardsInList(groupId!!).observe(requireActivity(),observerContact)
+            }
+        }
 
         val fab = binding.contactFab
         fab.setOnClickListener { view ->
@@ -118,10 +124,18 @@ class ContactFragment : Fragment(), ContactCardInterface {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getAllCards().observe(requireActivity(), { contacts ->
+        val observerContact = Observer<List<CardEntity>> {contacts ->
             adapter.swapData(contacts)
-            contactList = contacts
-        })
+            contactList = contacts  }
+
+        if (home){
+            viewModel.getAllCards().observe(requireActivity(), observerContact)
+        }
+        else{
+            if (groupId != null) {
+                viewModel.getCardsInList(groupId!!).observe(requireActivity(),observerContact)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -140,14 +154,19 @@ class ContactFragment : Fragment(), ContactCardInterface {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(groupId: Long) =
             ContactFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putBoolean(HOME_BOOL, false)
+                    putLong(GROUP_ID, groupId)
                 }
             }
         fun newInstance() =
-            ContactFragment()
+            ContactFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(HOME_BOOL, true)
+                    putLong(GROUP_ID, -1)
+                }
+            }
     }
 }
