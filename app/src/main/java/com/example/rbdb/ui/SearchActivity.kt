@@ -35,6 +35,8 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
     private lateinit var searchList: List<CardEntity>
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: ContactAdapter
+    private val selectedSearchesArray = arrayOf("Name", "Business", "Date Added", "Phone", "Email", "Description")
+    private val checkSearchesArray = booleanArrayOf(false, false, false, false, false, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +97,19 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.more -> {
             Toast.makeText(this, "more button pressed", Toast.LENGTH_SHORT).show()
+
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Select Search Fields")
+            builder.setMultiChoiceItems(selectedSearchesArray, checkSearchesArray, ) { _, which, isChecked ->
+                checkSearchesArray[which] = isChecked
+            }
+            builder.setPositiveButton("OK"){ dialog, _ ->
+                dialog.dismiss()
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+
             true
         }
         else -> {

@@ -19,7 +19,6 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <!-- Customize your theme here. -->
         <item name="tabStyle">@style/Widget.App.TabLayout</item>
-       s
     </style>
 
 
@@ -56,10 +55,6 @@
         <item name="buttonTint">@color/primaryBlueVariant</item>
     </style>
 
-    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <!-- Search button icon -->
-        <item name="searchIcon">@null</item>
-    </style>
 
 
 </resources>
