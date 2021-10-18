@@ -25,6 +25,7 @@ class EditGroupContactsAdapter(
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
         holder.onBind(data[position], selectedContacts, contactCardInterface)
+
     }
 
     override fun getItemCount(): Int {

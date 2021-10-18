@@ -71,18 +71,18 @@ class EditGroupActivity : AppCompatActivity(), ContactCardInterface {
         binding.btnSaveChanges.setOnClickListener {
             updateGroupContacts(groupId, selectedContactIdsList)
         }
-
+    adapter.swapSelectedContacts(selectedContactIdsList)
 
     }
 
     // NOT WORKING YET
     override fun onContactCardClick(position: Int) {
-        if (position.toLong() in selectedContactIdsList) {
-            selectedContactIdsList.remove(position.toLong())
+        if (allContactsList[position].cardId in selectedContactIdsList) {
+            selectedContactIdsList.remove(allContactsList[position].cardId)
             adapter.swapSelectedContacts(selectedContactIdsList)
             Log.d("selected Contacts", selectedContactIdsList.toString())
         } else {
-            selectedContactIdsList.add(position.toLong())
+            selectedContactIdsList.add(allContactsList[position].cardId )
             adapter.swapSelectedContacts(selectedContactIdsList)
             Log.d("selected Contacts", selectedContactIdsList.toString())
         }
