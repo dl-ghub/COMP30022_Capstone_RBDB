@@ -36,7 +36,8 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: ContactAdapter
     private val selectedSearchesArray = arrayOf("Name", "Business", "Date Added", "Phone", "Email", "Description")
-    private val checkSearchesArray = booleanArrayOf(false, false, false, false, false, false)
+    private val adaptedArray = arrayOf("name", "business", "dateAdded", "phone", "email", "description")
+    private val checkSearchesArray = booleanArrayOf(true, true, true, true, true, true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,11 +68,27 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
 
     fun displaySearch(input : String){
         Log.d("input", input)
+        Log.d("list", queryList().toString())
         viewModel.getCardsByName(input).observe(this, { contacts ->
             adapter.swapData(contacts)
             searchList = contacts
         })
         adapter.notifyDataSetChanged()
+
+        // CODE FOR WHEN QUERY IS IMPLEMENTED VVVV
+//        viewModel.getCardsByField(input,queryList()).observe(this, { contacts ->
+//            adapter.swapData(contacts)
+//            searchList = contacts
+//        })
+//        adapter.notifyDataSetChanged()
+    }
+
+    private fun queryList() : List<String>{
+        var returnList : MutableList<String> = mutableListOf()
+        for (i in selectedSearchesArray.indices){
+            if(checkSearchesArray[i]){ returnList.add(adaptedArray[i]) }
+        }
+        return returnList
     }
 
     // Recyclerview item onclick navigation. Pass all required contact information in intent
