@@ -20,6 +20,12 @@ import com.example.rbdb.databinding.ActivityGroupBinding
 import com.example.rbdb.ui.adapters.ContactAdapter
 import com.example.rbdb.ui.adapters.ContactCardInterface
 import com.example.rbdb.ui.arch.AppViewModel
+import android.text.style.ForegroundColorSpan
+
+import android.text.SpannableString
+import androidx.core.content.ContextCompat
+import com.example.rbdb.database.model.ListEntity
+
 
 class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
     private lateinit var binding: ActivityGroupBinding
@@ -46,10 +52,14 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
 
         val groupTitle = intent.getStringExtra("group_name")
         groupId = intent.getLongExtra("group_id", -1)
+        val observerGroup = Observer<ListEntity> { group ->
+            supportActionBar?.title = group.name
+        }
+        viewModel.getListById(groupId).observe(this, observerGroup)
 
         val recyclerView: RecyclerView = binding.rvContacts
 
-        adapter = ContactAdapter(mutableListOf(), ContactFragment())
+        adapter = ContactAdapter(mutableListOf(), this)
         recyclerView.adapter = adapter
 
         val observerContact = Observer<List<CardEntity>> { contacts ->
@@ -64,12 +74,12 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
         val contact = contactList[position]
         val intent = Intent(this, ContactDetailActivity::class.java).apply {
             putExtra("contact_id", contact.cardId)
-            putExtra("contact_name", contact.name)
+            /*putExtra("contact_name", contact.name)
             putExtra("contact_business", contact.business)
             putExtra("contact_dateAdded", contact.dateAdded)
             putExtra("contact_phone", contact.phone)
             putExtra("contact_email", contact.email)
-            putExtra("contact_description", contact.description)
+            putExtra("contact_description", contact.description)*/
         }
         startActivity(intent)
     }
@@ -77,6 +87,11 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.activity_group_menu, menu)
+        val item = menu?.findItem(R.id.delete_g)
+        val s = SpannableString(resources.getString(R.string.delete_group))
+        val color = ContextCompat.getColor(this,R.color.warningRed)
+        s.setSpan(ForegroundColorSpan(color), 0, s.length, 0)
+        item!!.title = s
         return true
     }
 
@@ -86,7 +101,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.edit -> {
+        R.id.change_gName -> {
             val builder = AlertDialog.Builder(this)
             builder.setMessage(R.string.new_group_name)
             val inflater = layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
@@ -109,7 +124,11 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
             Toast.makeText(this, "search pressed", Toast.LENGTH_SHORT).show()
             true
         }
-        R.id.delete -> {
+        R.id.edit_gMembers ->{
+            Toast.makeText(this, "edit group members pressed", Toast.LENGTH_SHORT).show()
+            true
+        }
+        R.id.delete_g -> {
             val builder = AlertDialog.Builder(this)
             builder.setMessage(R.string.confirm_delete_group)
             builder.setPositiveButton("Delete") { _, _ ->

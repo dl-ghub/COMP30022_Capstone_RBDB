@@ -2,21 +2,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/edit"
-        android:icon="@drawable/ic_edit"
-        android:title="@string/edit"
-        android:contentDescription="@string/content_description_edit"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search"
         android:title="@string/search"
         android:contentDescription="@string/content_description_search"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/delete"
-        android:icon="@drawable/ic_delete"
-        android:title="@string/delete"
+        android:id="@+id/edit_gMembers"
+        android:title="@string/edit_group_members"
+        android:contentDescription="@string/content_description_edit"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/change_gName"
+        android:title="@string/change_group_name"
         android:contentDescription="@string/content_description_delete"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/delete_g"
+        android:title="@string/delete_group"
+        android:contentDescription="@string/content_description_delete"
+        app:showAsAction="never" />
 </menu>

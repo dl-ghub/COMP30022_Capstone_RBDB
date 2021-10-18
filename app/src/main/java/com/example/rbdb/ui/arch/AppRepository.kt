@@ -19,6 +19,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     suspend fun deleteCard(cardEntity: CardEntity){appDatabase.cardEntityDao().delete(cardEntity)}
 
+    suspend fun getCardById(id: Long): CardEntity{return appDatabase.cardEntityDao().getCardById(id)}
+
     @Transaction
     suspend fun deleteCardAndCrossRefByCardId(cardId: Long){
 
@@ -76,6 +78,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
     }
 
     // List dao interaction
+    suspend fun getListById(id: Long): ListEntity{return appDatabase.listEntityDao().getListById(id)}
+
     suspend fun insertList(listEntity: ListEntity){appDatabase.listEntityDao().insert(listEntity)}
 
     suspend fun deleteList(listEntity: ListEntity){appDatabase.listEntityDao().delete(listEntity)}
