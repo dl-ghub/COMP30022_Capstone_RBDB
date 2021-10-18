@@ -48,5 +48,5 @@
     <string name="test_string_large">I\'m a Barbie girl, in the Barbie world\nLife in plastic, it\'s fantastic\nYou can brush my hair, undress me everywhere\nImagination, life is your creation</string>
     <string name="edit_group_members">Edit Group Members</string>
     <string name="change_group_name">Change Group Name</string>
-    <string name="delete_group">Delete Group</string>
+    <string name="delete_group">Delete Group</string>s
 </resources>

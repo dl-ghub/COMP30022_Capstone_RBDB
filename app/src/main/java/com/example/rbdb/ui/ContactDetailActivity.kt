@@ -19,11 +19,12 @@ import com.example.rbdb.databinding.ActivityContactDetailBinding
 import com.example.rbdb.ui.arch.AppViewModel
 
 
+
 class ContactDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityContactDetailBinding
     private val viewModel: AppViewModel by viewModels()
     private var contactId: Long = 0
-
+    val CONTACT_ID = "contact id"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityContactDetailBinding.inflate(layoutInflater)
@@ -69,7 +70,10 @@ class ContactDetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.edit_menu_item -> {
-            Toast.makeText(this, "edit pressed", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "edit pressed", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, EditContactActivity::class.java)
+            intent.putExtra(CONTACT_ID, contactId)
+            startActivity(intent)
             true
         }
 
@@ -100,6 +104,22 @@ class ContactDetailActivity : AppCompatActivity() {
             // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val observer = Observer<CardEntity> { card ->
+            val contactName = card.name
+            val avatar = contactName?.let { createAvatar(it) }
+            binding.contactPhoto.setImageDrawable(avatar)
+            binding.contactName.text = contactName
+            binding.tvCompany.text = card.business
+            binding.phoneNumber.text = card.phone
+            binding.email.text = card.email
+            binding.description.text = card.description
+
+        }
+        viewModel.getCardById(contactId).observe(this,observer)
     }
 
     private fun createAvatar(name: String): TextDrawable {
