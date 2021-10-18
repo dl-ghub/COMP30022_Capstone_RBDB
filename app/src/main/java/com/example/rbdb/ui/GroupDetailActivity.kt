@@ -105,14 +105,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
             val input = inflater.findViewById<View>(R.id.new_name) as EditText
 
             // Send the name to the database to create a new group (need to implement)
-
-            builder.setPositiveButton("Ok"){ _, _ ->
-                val observerGroup = Observer<ListEntity> { group ->
-                    group.name = input.text.toString().trim()
-                    viewModel.updateList(group)
-                }
-                viewModel.getListById(groupId).observe(this, observerGroup)
-            }
+            builder.setPositiveButton("Ok"){ _, _ -> }
 // ***Add functionality for changing the group's name here
             builder.setNegativeButton("Cancel"){_, _ -> }
 
