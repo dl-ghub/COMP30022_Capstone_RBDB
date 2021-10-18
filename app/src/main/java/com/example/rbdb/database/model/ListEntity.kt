@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "list_entity")
 data class ListEntity (
     @PrimaryKey(autoGenerate = true) val listId: Long = 0,
-    @ColumnInfo(name = "name") val name: String = ""
+    @ColumnInfo(name = "name") var name: String = ""
 )
