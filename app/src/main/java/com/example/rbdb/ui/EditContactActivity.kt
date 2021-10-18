@@ -28,6 +28,7 @@ class EditContactActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = "Edit Contact"
         contactId = intent.getLongExtra("contact id",-1)
         viewModel.init(AppDatabase.getDatabase(this))
         val contactObserver = Observer<CardEntity> { contact->
