@@ -3,6 +3,8 @@ package com.example.rbdb.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
@@ -83,14 +85,16 @@ class EditContactActivity : AppCompatActivity() {
             viewModel.updateCard(contact)
         }
         viewModel.getCardById(contactId).observe(this, updateObserver)
-
         //Return to Homepage or previous page code
         /*val intent = Intent(this,MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)*/
         //
-        super.onBackPressed()
-        finish()
+        //super.onBackPressed()
+        val handler = Handler(Looper.getMainLooper())
+        handler.postDelayed({
+            finish()
+        },500)
     }
 
     override fun onSupportNavigateUp(): Boolean {
