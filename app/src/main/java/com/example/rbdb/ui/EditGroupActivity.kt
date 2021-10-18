@@ -44,16 +44,28 @@ class EditGroupActivity : AppCompatActivity(), ContactCardInterface {
         supportActionBar?.title = "Edit $groupTitle"
 
         groupId = intent.getLongExtra("group_id", -1)
+        Log.d("group id", groupId.toString())
 
         // Identify contacts belonging to this group
+        var groupContactEntities: List<CardEntity>? = null
         selectedContactIdsList = mutableListOf()
-        val groupContactEntities = viewModel.getCardsInList(groupId).value
-        if (groupContactEntities != null) {
-            for (contact in groupContactEntities) {
-                selectedContactIdsList.add(contact.cardId)
-                Log.d("Contact in $groupId", contact.name)
+        val groupObserver = Observer<List<CardEntity>> { contacts ->
+            groupContactEntities = contacts
+            Log.d("observe", contacts.toString())
+            Log.d("observeGroup", groupContactEntities.toString())
+            if (groupContactEntities != null) {
+                for (contact in groupContactEntities!!) {
+                    selectedContactIdsList.add(contact.cardId)
+                    Log.d("Contact in $groupId", contact.name)
+                }
             }
         }
+        Log.d("groupContactEntities", groupContactEntities.toString())
+        viewModel.getCardsInList(groupId).observe(this,groupObserver)
+        //val groupContactEntities = viewModel.getCardsInList(groupId).value
+
+
+        Log.d("initial ids", selectedContactIdsList.toString())
 
         // Initialize RecyclerView
         val recyclerView: RecyclerView = binding.rvContacts
@@ -64,14 +76,16 @@ class EditGroupActivity : AppCompatActivity(), ContactCardInterface {
         val observerAllContacts = Observer<List<CardEntity>> { contacts ->
             adapter.swapData(contacts)
             allContactsList = contacts
+            Log.d("all contacts", allContactsList.toString())
         }
         viewModel.getAllCards().observe(this, observerAllContacts)
 
+        //adapter.swapSelectedContacts(selectedContactIdsList)
         // Set up Save Changes Button
         binding.btnSaveChanges.setOnClickListener {
             updateGroupContacts(groupId, selectedContactIdsList)
         }
-    adapter.swapSelectedContacts(selectedContactIdsList)
+
 
     }
 

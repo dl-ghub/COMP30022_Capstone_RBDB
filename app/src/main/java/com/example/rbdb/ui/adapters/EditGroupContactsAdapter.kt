@@ -65,7 +65,6 @@ class EditGroupContactsAdapter(
                 binding.contactAvatar.setImageDrawable(drawable)
             }
 
-
             binding.contactName.text = contactData.name
             binding.contactCompany.text = contactData.business
             binding.contactPhone.text = contactData.phone

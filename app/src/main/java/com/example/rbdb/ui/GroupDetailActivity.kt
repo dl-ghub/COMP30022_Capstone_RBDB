@@ -150,11 +150,20 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val observerContact = Observer<List<CardEntity>> { contacts ->
+            adapter.swapData(contacts)
+            contactList = contacts
+            Log.d("contacts in $groupTitle", contactList.toString())
+        }
+        viewModel.getCardsInList(groupId).observe(this, observerContact)
+    }
+
     private fun deleteGroup(groupId: Long) {
 //        Log.d("groupId to be deleted", groupId.toString())
         viewModel.deleteByListId(groupId)
     }
-
     private fun updateListName(name: String, groupId: Long) {
         viewModel.updateListName(name, groupId)
     }
