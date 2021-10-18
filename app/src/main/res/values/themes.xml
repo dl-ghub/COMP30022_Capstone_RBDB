@@ -60,6 +60,7 @@
         <item name="android:windowBackground">@color/white</item>
         <item name="title">@color/black</item>
         <item name="colorSecondary">@color/primaryBlue</item>
+        <item name="colorControlNormal">@color/primaryBlue</item>
         <item name="buttonBarPositiveButtonStyle">@style/buttonStyle</item>
         <item name="textAppearanceListItem">@color/black</item>
         <item name="textColorAlertDialogListItem">@color/black</item>
