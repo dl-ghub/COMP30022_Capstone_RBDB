@@ -59,7 +59,7 @@ class EditGroupContactsAdapter(
 
             // Conditional formatting of avatar/green tick if selected
             if (contactData.cardId in selectedContacts) {
-                binding.contactAvatar.setImageResource(R.drawable.einstein)
+                binding.contactAvatar.setImageResource(R.drawable.ic_baseline_check_24)
             }
             else {
                 binding.contactAvatar.setImageDrawable(drawable)

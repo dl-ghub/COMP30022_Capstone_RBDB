@@ -86,7 +86,6 @@ class EditGroupActivity : AppCompatActivity(), ContactCardInterface {
             updateGroupContacts(groupId, selectedContactIdsList)
         }
 
-
     }
 
     // NOT WORKING YET
