@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.13645833333333332" />
         <entry key="app/src/main/res/font/font.xml" value="0.2682291666666667" />
         <entry key="app/src/main/res/layout/activity_contact_detail.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_edit_contact.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_group.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.21955716542187756" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.25" />
