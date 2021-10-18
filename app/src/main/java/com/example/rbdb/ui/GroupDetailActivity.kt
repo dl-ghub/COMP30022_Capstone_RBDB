@@ -141,7 +141,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(resources.getColor(R.color.warningRed))
+                .setTextColor(ContextCompat.getColor(this,R.color.warningRed))
 
             true
         }

@@ -19,7 +19,6 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <!-- Customize your theme here. -->
         <item name="tabStyle">@style/Widget.App.TabLayout</item>
-       s
     </style>
 
 
@@ -55,6 +54,7 @@
     <style name="MyCheckboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="buttonTint">@color/primaryBlueVariant</item>
     </style>
+
 
 
 </resources>
