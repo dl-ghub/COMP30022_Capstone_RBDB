@@ -12,6 +12,7 @@ data class CardEntity(
     val dateAdded: String = "",
     val phone: String? = null,
     val email: String? = null,
-    val description: String? = null
+    val description: String? = null,
+    var isSelected: Boolean = false
 )
 

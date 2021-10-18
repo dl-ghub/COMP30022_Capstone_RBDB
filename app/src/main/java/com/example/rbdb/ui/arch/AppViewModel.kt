@@ -156,4 +156,9 @@ class AppViewModel : ViewModel() {
         viewModelScope.launch { result.postValue(repository.getAllUsers()) }
         return result
     }
+
+    // Call repository methods for CardListCrossRefs
+    fun deleteAllByListId(listId: Long) {
+        viewModelScope.launch {repository.deleteAllByListId(listId)}
+    }
 }

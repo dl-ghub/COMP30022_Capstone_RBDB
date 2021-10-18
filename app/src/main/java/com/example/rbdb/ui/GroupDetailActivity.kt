@@ -31,6 +31,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
     private lateinit var binding: ActivityGroupBinding
     private val viewModel: AppViewModel by viewModels()
     private var groupId: Long = 0
+    private lateinit var groupTitle: String
     private lateinit var adapter: ContactAdapter
     private lateinit var contactList: List<CardEntity>
 
@@ -46,11 +47,9 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-
-
         viewModel.init(AppDatabase.getDatabase(this))
 
-        val groupTitle = intent.getStringExtra("group_name")
+        groupTitle = intent.getStringExtra("group_name").toString()
         groupId = intent.getLongExtra("group_id", -1)
         val observerGroup = Observer<ListEntity> { group ->
             supportActionBar?.title = group.name
@@ -125,7 +124,14 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
             true
         }
         R.id.edit_gMembers ->{
-            Toast.makeText(this, "edit group members pressed", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "edit group members pressed", Toast.LENGTH_SHORT).show()
+            // Navigate to EditGroupActivity
+            val intent = Intent(this, EditGroupActivity::class.java).apply {
+                putExtra("group_id", groupId)
+                putExtra("group_name", groupTitle)
+            }
+            startActivity(intent)
+
             true
         }
         R.id.delete_g -> {

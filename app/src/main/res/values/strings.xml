@@ -49,4 +49,5 @@
     <string name="edit_group_members">Edit Group Members</string>
     <string name="change_group_name">Change Group Name</string>
     <string name="delete_group">Delete Group</string>
+    <string name="save_changes">Save Changes</string>
 </resources>
