@@ -3,12 +3,15 @@ package com.example.rbdb.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
@@ -82,11 +85,13 @@ class ContactDetailActivity : AppCompatActivity() {
             builder.setPositiveButton("Delete") { _, _ ->
                 deleteContact(contactId)
                 // Return to Homepage
-                val intent = Intent(this, MainActivity::class.java)
+                /*val intent = Intent(this, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-
-                finish()
+                startActivity(intent)*/
+                val handler = Handler(Looper.getMainLooper())
+                handler.postDelayed({
+                    finish()
+                },300)
             }
 
             builder.setNegativeButton("Cancel") { _, _ -> }
@@ -94,7 +99,7 @@ class ContactDetailActivity : AppCompatActivity() {
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(resources.getColor(R.color.warningRed))
+                .setTextColor(ContextCompat.getColor(this,R.color.warningRed))
 
             true
         }

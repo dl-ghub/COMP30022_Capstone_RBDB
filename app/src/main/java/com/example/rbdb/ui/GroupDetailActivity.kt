@@ -2,6 +2,8 @@ package com.example.rbdb.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -133,7 +135,10 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
                 deleteGroup(groupId)
 
                 // Return to Homepage
-                this.onBackPressed()
+                val handler = Handler(Looper.getMainLooper())
+                handler.postDelayed({
+                    finish()
+                },300)
             }
 
             builder.setNegativeButton("Cancel") { _, _ -> }
