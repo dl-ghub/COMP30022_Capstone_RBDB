@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
@@ -15,7 +14,6 @@ import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.database.model.CardListCrossRef
 import com.example.rbdb.databinding.ActivityEditGroupBinding
-import com.example.rbdb.ui.adapters.ContactAdapter
 import com.example.rbdb.ui.adapters.ContactCardInterface
 import com.example.rbdb.ui.adapters.EditGroupContactsAdapter
 import com.example.rbdb.ui.arch.AppViewModel
@@ -99,7 +97,8 @@ class EditGroupActivity : AppCompatActivity(), ContactCardInterface {
     private fun updateGroupContacts(groupId: Long, selectedContactIdsList: MutableList<Long>) {
 
         /* Start by deleting all crossRefs for the desired list */
-        viewModel.deleteByListId(groupId)
+        viewModel.deleteAllCrossRefByListId(groupId)
+
 
         /* Iterate through each contact in contactIds and add crossRef to list */
         for (contactId in selectedContactIdsList) {
@@ -129,23 +128,9 @@ class EditGroupActivity : AppCompatActivity(), ContactCardInterface {
         }
     }
 
-
     override fun onSupportNavigateUp(): Boolean {
         this.onBackPressed()
         return true
     }
 
-    override fun onBackPressed() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.confirm_leave_title)
-        builder.setMessage(R.string.confirm_leave_txt)
-
-        builder.setPositiveButton("Yes") { _, _ -> super.onBackPressed() }
-
-        builder.setNegativeButton("Cancel") { _, _ -> }
-
-        val alertDialog: AlertDialog = builder.create()
-        alertDialog.setCancelable(false)
-        alertDialog.show()
-    }
 }

@@ -51,10 +51,6 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
 
         groupTitle = intent.getStringExtra("group_name").toString()
         groupId = intent.getLongExtra("group_id", -1)
-        val observerGroup = Observer<ListEntity> { group ->
-            supportActionBar?.title = group.name
-        }
-        viewModel.getListById(groupId).observe(this, observerGroup)
 
         val recyclerView: RecyclerView = binding.rvContacts
 
@@ -63,22 +59,18 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
 
         val observerContact = Observer<List<CardEntity>> { contacts ->
             adapter.swapData(contacts)
-            contactList = contacts  }
-
+            contactList = contacts
+            Log.d("contacts in $groupTitle", contactList.toString())
+        }
         viewModel.getCardsInList(groupId).observe(this, observerContact)
 
         supportActionBar?.title = groupTitle
     }
+
     override fun onContactCardClick(position: Int) {
         val contact = contactList[position]
         val intent = Intent(this, ContactDetailActivity::class.java).apply {
             putExtra("contact_id", contact.cardId)
-            /*putExtra("contact_name", contact.name)
-            putExtra("contact_business", contact.business)
-            putExtra("contact_dateAdded", contact.dateAdded)
-            putExtra("contact_phone", contact.phone)
-            putExtra("contact_email", contact.email)
-            putExtra("contact_description", contact.description)*/
         }
         startActivity(intent)
     }
