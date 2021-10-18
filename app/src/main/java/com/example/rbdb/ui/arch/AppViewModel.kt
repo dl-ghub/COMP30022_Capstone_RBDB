@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.dao.CardEntityDao_Impl
 import com.example.rbdb.database.model.*
@@ -34,9 +35,21 @@ class AppViewModel : ViewModel() {
         viewModelScope.launch { repository.updateCard(cardEntity) }
     }
 
+    fun getCardById(id:Long): LiveData<CardEntity>{
+        val result = MutableLiveData<CardEntity>()
+        viewModelScope.launch { result.postValue(repository.getCardById(id)) }
+        return result
+    }
+
     fun getAllCards(): LiveData<List<CardEntity>> {
         val result = MutableLiveData<List<CardEntity>>()
         viewModelScope.launch { result.postValue(repository.getAllCards()) }
+        return result
+    }
+
+    fun getCardsInList(id:Long): LiveData<List<CardEntity>> {
+        val result = MutableLiveData<List<CardEntity>>()
+        viewModelScope.launch { result.postValue(repository.getListWithCardsByListId(id).cards) }
         return result
     }
 
@@ -59,6 +72,11 @@ class AppViewModel : ViewModel() {
     }
 
     // Call repository methods for list
+    fun getListById(id: Long): LiveData<ListEntity> {
+        val result = MutableLiveData<ListEntity>()
+        viewModelScope.launch { result.postValue(repository.getListById(id)) }
+        return result
+    }
     fun insertList(listEntity: ListEntity) {
         viewModelScope.launch { repository.insertList(listEntity) }
     }
@@ -67,8 +85,16 @@ class AppViewModel : ViewModel() {
         viewModelScope.launch { repository.deleteList(listEntity) }
     }
 
+    fun deleteByListId(listId: Long) {
+        viewModelScope.launch { repository.deleteByListId(listId) }
+    }
+
     fun updateList(listEntity: ListEntity) {
         viewModelScope.launch { repository.updateList(listEntity) }
+    }
+
+    fun updateListName(name: String, listId: Long) {
+        viewModelScope.launch { repository.updateListName(name, listId)}
     }
 
     fun getAllLists(): LiveData<List<ListEntity>> {
@@ -81,6 +107,10 @@ class AppViewModel : ViewModel() {
         val result = MutableLiveData<List<ListWithCardsEntity>>()
         viewModelScope.launch { result.postValue(repository.getListWithCards()) }
         return result
+    }
+
+    fun insertCardToList(crossRef: CardListCrossRef) {
+        viewModelScope.launch { repository.insertCardListCrossRef(crossRef)}
     }
 
     // Call repository methods for tag

@@ -9,19 +9,22 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
+import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.ActivityContactDetailBinding
 import com.example.rbdb.ui.arch.AppViewModel
+
 
 
 class ContactDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityContactDetailBinding
     private val viewModel: AppViewModel by viewModels()
     private var contactId: Long = 0
-
+    val CONTACT_ID = "contact id"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityContactDetailBinding.inflate(layoutInflater)
@@ -36,22 +39,19 @@ class ContactDetailActivity : AppCompatActivity() {
         viewModel.init(AppDatabase.getDatabase(this))
 
         contactId = intent.getLongExtra("contact_id", -1)
-        val contactName = intent.getStringExtra("contact_name")
-        val contactBusiness = intent.getStringExtra("contact_business")
-        val contactDateAdded = intent.getStringExtra("contact_dateAdded")
-        val contactPhone = intent.getStringExtra("contact_phone")
-        val contactEmail = intent.getStringExtra("contact_email")
-        val contactDescription = intent.getStringExtra("contact_description")
 
-        /* Generate Default Letter Circle Avatar */
-        val avatar = contactName?.let { createAvatar(it) }
+        val observer = Observer<CardEntity> { card ->
+            val contactName = card.name
+            val avatar = contactName?.let { createAvatar(it) }
+            binding.contactPhoto.setImageDrawable(avatar)
+            binding.contactName.text = contactName
+            binding.tvCompany.text = card.business
+            binding.phoneNumber.text = card.phone
+            binding.email.text = card.email
+            binding.description.text = card.description
 
-        binding.contactPhoto.setImageDrawable(avatar)
-        binding.contactName.text = contactName
-        binding.tvCompany.text = contactBusiness
-        binding.phoneNumber.text = contactPhone
-        binding.email.text = contactEmail
-        binding.description.text = contactDescription
+        }
+        viewModel.getCardById(contactId).observe(this,observer)
 
     }
 
@@ -70,7 +70,10 @@ class ContactDetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.edit_menu_item -> {
-            Toast.makeText(this, "edit pressed", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "edit pressed", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, EditContactActivity::class.java)
+            intent.putExtra(CONTACT_ID, contactId)
+            startActivity(intent)
             true
         }
 
@@ -79,7 +82,6 @@ class ContactDetailActivity : AppCompatActivity() {
             builder.setMessage(R.string.confirm_delete_contact)
             builder.setPositiveButton("Delete") { _, _ ->
                 deleteContact(contactId)
-
                 // Return to Homepage
                 val intent = Intent(this, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -102,6 +104,22 @@ class ContactDetailActivity : AppCompatActivity() {
             // Invoke the superclass to handle it.
             super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val observer = Observer<CardEntity> { card ->
+            val contactName = card.name
+            val avatar = contactName?.let { createAvatar(it) }
+            binding.contactPhoto.setImageDrawable(avatar)
+            binding.contactName.text = contactName
+            binding.tvCompany.text = card.business
+            binding.phoneNumber.text = card.phone
+            binding.email.text = card.email
+            binding.description.text = card.description
+
+        }
+        viewModel.getCardById(contactId).observe(this,observer)
     }
 
     private fun createAvatar(name: String): TextDrawable {

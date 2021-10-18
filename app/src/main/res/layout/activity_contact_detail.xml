@@ -82,21 +82,6 @@
                 app:layout_constraintTop_toBottomOf="@id/contactName"
                 tools:text="RedBull" />
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="40dp"
-                android:fontFamily="@font/roboto"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textStyle="italic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCompany"
-                tools:text="Not as pretty as the guy in the pic. Also is a serial bed wetter." />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/contactInfoConstraint"
@@ -105,7 +90,7 @@
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description">
+                app:layout_constraintTop_toBottomOf="@+id/tvCompany">
 
                 <TextView
                     android:id="@+id/contactInfoTitle"
@@ -216,7 +201,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/meetingConstraint"
+                android:id="@+id/descriptionConstraint"
                 android:layout_width="0dp"
                 android:layout_height="175dp"
                 android:layout_marginTop="20dp"
@@ -227,12 +212,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/contactInfoConstraint">
 
                 <TextView
-                    android:id="@+id/meetingLabel"
+                    android:id="@+id/descriptionLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/roboto"
-                    android:text="@string/meeting_information"
+                    android:text="Description"
                     android:textAppearance="@style/Toolbar.TitleText"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -240,7 +225,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/meeting_info"
+                    android:id="@+id/description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -256,7 +241,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/meetingLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/descriptionLabel"
                     tools:text="@string/test_string_large" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
