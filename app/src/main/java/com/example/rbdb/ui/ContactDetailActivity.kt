@@ -34,7 +34,7 @@ class ContactDetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         viewModel.init(AppDatabase.getDatabase(this))
 
@@ -42,7 +42,7 @@ class ContactDetailActivity : AppCompatActivity() {
 
         val observer = Observer<CardEntity> { card ->
             val contactName = card.name
-            val avatar = contactName?.let { createAvatar(it) }
+            val avatar = createAvatar(contactName)
             binding.contactPhoto.setImageDrawable(avatar)
             binding.contactName.text = contactName
             binding.tvCompany.text = card.business

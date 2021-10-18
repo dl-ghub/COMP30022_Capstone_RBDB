@@ -13,6 +13,9 @@ interface CardListCrossRefDao {
     @Delete
     suspend fun delete(cardListCrossRef: CardListCrossRef)
 
+    @Query("DELETE FROM card_list_cross_ref WHERE listId = :listId")
+    suspend fun deleteAllByListId(listId: Long)
+
     @Query("DELETE FROM card_list_cross_ref WHERE cardId = :cardId")
     suspend fun deleteByCardId(cardId: Long)
 

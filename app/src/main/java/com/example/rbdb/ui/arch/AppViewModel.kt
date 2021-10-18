@@ -4,9 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.rbdb.database.AppDatabase
-import com.example.rbdb.database.dao.CardEntityDao_Impl
 import com.example.rbdb.database.model.*
 import kotlinx.coroutines.launch
 
@@ -161,5 +159,10 @@ class AppViewModel : ViewModel() {
         val result = MutableLiveData<List<UserEntity>>()
         viewModelScope.launch { result.postValue(repository.getAllUsers()) }
         return result
+    }
+
+    // Call repository methods for CardListCrossRefs
+    fun deleteAllCrossRefByListId(listId: Long) {
+        viewModelScope.launch {repository.deleteAllCrossRefByListId(listId)}
     }
 }
