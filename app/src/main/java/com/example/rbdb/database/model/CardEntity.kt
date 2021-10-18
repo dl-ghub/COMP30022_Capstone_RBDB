@@ -10,9 +10,9 @@ data class CardEntity(
     @ColumnInfo(name = "name") var name: String = "",
     var business: String = "",
     val dateAdded: String = "",
-    val phone: String? = null,
-    val email: String? = null,
-    val description: String? = null,
+    var phone: String? = null,
+    var email: String? = null,
+    var description: String? = null,
     var isSelected: Boolean = false
 )
 
