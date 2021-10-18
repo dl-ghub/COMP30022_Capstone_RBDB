@@ -24,7 +24,6 @@ class ContactDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityContactDetailBinding
     private val viewModel: AppViewModel by viewModels()
     private var contactId: Long = 0
-    val CONTACT_ID = "contact id"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityContactDetailBinding.inflate(layoutInflater)
@@ -135,5 +134,9 @@ class ContactDetailActivity : AppCompatActivity() {
     private fun deleteContact(contactId: Long) {
         Log.d("contactId to be deleted", contactId.toString())
         viewModel.deleteCardAndCrossRefByCardId(contactId)
+    }
+
+    companion object {
+        const val CONTACT_ID = "contact id"
     }
 }

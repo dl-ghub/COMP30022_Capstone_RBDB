@@ -30,7 +30,7 @@ class EditContactActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.title = "Edit Contact"
-        contactId = intent.getLongExtra("contact id",-1)
+        contactId = intent.getLongExtra(ContactDetailActivity.CONTACT_ID,-1)
         viewModel.init(AppDatabase.getDatabase(this))
         val contactObserver = Observer<CardEntity> { contact->
             binding.firstNameInput.setText(contact.name)
