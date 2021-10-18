@@ -9,19 +9,18 @@ import androidx.lifecycle.Observer
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.CardEntity
-import com.example.rbdb.databinding.ActivityNewContactPageBinding
+import com.example.rbdb.databinding.ActivityEditContactBinding
 import com.example.rbdb.ui.arch.AppViewModel
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EditContactActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityNewContactPageBinding
+    private lateinit var binding: ActivityEditContactBinding
     private val viewModel: AppViewModel by viewModels()
     private var contactId: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityNewContactPageBinding.inflate(layoutInflater)
+        binding = ActivityEditContactBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         val toolbar = binding.topAppBar
@@ -83,13 +82,14 @@ class EditContactActivity : AppCompatActivity() {
             contact.description = description
             viewModel.updateCard(contact)
         }
-        viewModel.getCardById(contactId).observe(this,updateObserver)
+        viewModel.getCardById(contactId).observe(this, updateObserver)
 
         //Return to Homepage or previous page code
         /*val intent = Intent(this,MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)*/
         //
+        super.onBackPressed()
         finish()
     }
 
