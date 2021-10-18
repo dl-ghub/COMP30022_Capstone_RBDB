@@ -10,9 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RBDB">
         <activity
+            android:name=".ui.EditContactActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.NewContactActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.ContactDetailActivity"
             android:exported="true" />
@@ -21,7 +24,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.EditGroupActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
