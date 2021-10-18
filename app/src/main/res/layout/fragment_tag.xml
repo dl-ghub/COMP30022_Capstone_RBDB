@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="abc company"
+                android:text="Raid Shadow Legend"
                 style="@style/MyCheckboxStyle" />
             <CheckBox
                 android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="I don't remember who is this"
+                android:text="Hololive"
                 style="@style/MyCheckboxStyle" />
             <CheckBox
                 android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="helpful"
+                android:text="Nijisanji"
                 style="@style/MyCheckboxStyle"/>
             <CheckBox
                 android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="exam is on 11/11 kinda ironic"
+                android:text="vshojo"
                 style="@style/MyCheckboxStyle"/>
             <CheckBox
                 android:layout_width="wrap_content"
