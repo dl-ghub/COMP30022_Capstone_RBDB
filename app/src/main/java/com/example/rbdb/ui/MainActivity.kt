@@ -1,6 +1,7 @@
 package com.example.rbdb.ui
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.os.Bundle
@@ -39,18 +40,6 @@ class MainActivity : AppCompatActivity() {
         // Prepopulate database for testing
         viewModel.init(AppDatabase.getDatabase(this))
         // End of db / vm init
-        /*val cardTest: CardEntity = CardEntity(0 , "sam","unimelb",
-            "0922","444222999","test@email.com","I am a cool guy")
-        val cardTest2: CardEntity = CardEntity(0 , "bob","unimelb",
-            "0922","444222999","test@email.com","I am a pool guy")*/
-//        viewModel.insertCard(cardTest)
-//        viewModel.insertCard(cardTest2)
-        //val groupTest1: ListEntity = ListEntity(1, "group test 1")
-        //val groupTest2: ListEntity = ListEntity(2, "group test 2")
-//        viewModel.insertList(groupTest1)
-//        viewModel.insertList(groupTest2)
-        //val cardListCross: CardListCrossRef = CardListCrossRef(1,1)
-        //viewModel.insertCardToList(cardListCross)
 
         val tabLayout = binding.TabLayout
       
@@ -58,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 // Handle tab select
+                
 
             }
 
@@ -86,9 +76,11 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
     }
+
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.search -> {
-            Toast.makeText(this, "search bar pressed", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, SearchActivity::class.java)
+            this.startActivity(intent)
             true
         }
 
@@ -103,6 +95,7 @@ class MainActivity : AppCompatActivity() {
             super.onOptionsItemSelected(item)
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
