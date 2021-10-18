@@ -112,7 +112,6 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
                     viewModel.updateList(group)
                 }
                 viewModel.getListById(groupId).observe(this, observerGroup)
-                finish()
             }
 // ***Add functionality for changing the group's name here
             builder.setNegativeButton("Cancel"){_, _ -> }
@@ -144,7 +143,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(this,R.color.warningRed))
+                .setTextColor(resources.getColor(R.color.warningRed))
 
             true
         }
