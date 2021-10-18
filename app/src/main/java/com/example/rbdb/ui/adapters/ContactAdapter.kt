@@ -11,7 +11,7 @@ import com.example.rbdb.ui.ContactFragment
 
 class ContactAdapter(
     private val data: MutableList<CardEntity>,
-    private val contactCardInterface: ContactFragment
+    private val contactCardInterface: ContactCardInterface
 ) : RecyclerView.Adapter<ContactAdapter.ContactViewHolder>() {
 
 

@@ -5,6 +5,9 @@ import com.example.rbdb.database.model.*
 
 @Dao
 interface ListEntityDao {
+    @Query("SELECT * FROM list_entity WHERE listId = :listId")
+    suspend fun getListById(listId: Long): ListEntity
+
     @Insert
     suspend fun insert(ItemEntity: ListEntity)
 

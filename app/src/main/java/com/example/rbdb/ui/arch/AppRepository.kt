@@ -78,6 +78,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
     }
 
     // List dao interaction
+    suspend fun getListById(id: Long): ListEntity{return appDatabase.listEntityDao().getListById(id)}
+
     suspend fun insertList(listEntity: ListEntity){appDatabase.listEntityDao().insert(listEntity)}
 
     suspend fun deleteList(listEntity: ListEntity){appDatabase.listEntityDao().delete(listEntity)}

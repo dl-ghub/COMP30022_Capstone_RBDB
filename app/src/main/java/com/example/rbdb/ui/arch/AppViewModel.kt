@@ -66,6 +66,11 @@ class AppViewModel : ViewModel() {
     }
 
     // Call repository methods for list
+    fun getListById(id: Long): LiveData<ListEntity> {
+        val result = MutableLiveData<ListEntity>()
+        viewModelScope.launch { result.postValue(repository.getListById(id)) }
+        return result
+    }
     fun insertList(listEntity: ListEntity) {
         viewModelScope.launch { repository.insertList(listEntity) }
     }
