@@ -3,6 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/dylan/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/activity_contact_detail.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/dylan/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/activity_edit_group.xml" value="0.25" />
+        <entry key="..\:/Users/dylan/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/activity_group.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/dylan/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/activity_new_contact_page.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/dylan/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/fragment_add_card_entity.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/dylan/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/fragment_contact.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/dylan/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/fragment_group.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/dylan/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/fragment_group_contact.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/dylan/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/fragment_tag.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/dylan/Documents/GitHub/IT-Project-RBDB/app/src/main/res/layout/view_holder_contact.xml" value="0.21388888888888888" />
+        <entry key="..\:/Users/dylan/Documents/GitHub/IT-Project-RBDB/app/src/main/res/menu/activity_group_menu.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/drawable/ic_baseline.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.17291666666666666" />
         <entry key="..\:/Users/user/OneDrive/Documents/GitHub/IT-Project-RBDB/app/src/main/res/drawable/ic_baseline_save_24.xml" value="0.26614583333333336" />
