@@ -1,5 +1,7 @@
 package com.example.rbdb.ui.arch
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.room.*
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.*
@@ -76,8 +78,39 @@ class AppRepository(private val appDatabase: AppDatabase) {
         return appDatabase.cardEntityDao().getCardByTagIds(query)
 
     }
+    //TODO: change this
+    //Get cards by tag ids in OR relationship. You  have to provide at least one tag Id
+    @SuppressLint("LongLogTag")
+    suspend fun getCardByKeywordInSelectedColumns(keyword: String, columns: List<String>): List<CardEntity>{
 
-    suspend fun getCardsByName(input : String): List<CardEntity>{return appDatabase.cardEntityDao().getCardsByName(input)}
+        if(columns.isEmpty()){
+            //throw an exception if there is no column chosen
+            throw Exception("You have to choose at least one column to search")
+        }
+
+        //SELECT * FROM card_entity WHERE name like '%1%' OR business like '%1%'
+        //construct the query string
+        var queryString:String = "SELECT * FROM card_entity WHERE "
+        val formattedQuery:String = " like '%$keyword%' "
+        val logicQuery:String = " OR "
+
+
+        for (column: String in columns){
+            queryString += column
+            queryString += formattedQuery
+            queryString += logicQuery
+        }
+
+        queryString = queryString.dropLast(logicQuery.length);
+//        println("Query:getCardByKeywordInSelectedColumns = "+ queryString)
+        Log.d("Query:getCardByKeywordInSelectedColumns",queryString)
+
+        //perform query
+        val query = SimpleSQLiteQuery(queryString)
+        return appDatabase.cardEntityDao().getCardByKeywordInSelectedColumns(query)
+
+    }
+
 
     // List dao interaction
     suspend fun getListById(id: Long): ListEntity{return appDatabase.listEntityDao().getListById(id)}

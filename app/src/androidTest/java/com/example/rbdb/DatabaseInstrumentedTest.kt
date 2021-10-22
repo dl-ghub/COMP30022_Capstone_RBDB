@@ -428,6 +428,33 @@ class DatabaseInstrumentedTest {
 
     }
 
+    @Test
+    @Throws(Exception::class)
+    fun getCardByKeywordInSelectedFields() = runBlocking {
+        val cardEntity1: CardEntity = CardEntity(
+            1, "sam", "unimelb",
+            "0922", "444222999", "testr@email.com", "I am a cool guy"
+        )
+        val cardEntity2: CardEntity = CardEntity(
+            2, "jack", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a red guy"
+        )
+        val cardEntity3: CardEntity = CardEntity(
+            3, "peter", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a blue guy"
+        )
+        cardEntityDao.insert(cardEntity1)
+        cardEntityDao.insert(cardEntity2)
+        cardEntityDao.insert(cardEntity3)
+
+        val keyword = "r"
+        val columns = listOf<String>("name","description","email")
+        val results = appRepository.getCardByKeywordInSelectedColumns(keyword,columns)
+
+        assertThat(results.size, equalTo(3))
+
+    }
+
 
     //TODO: implement this test
     /*@Test

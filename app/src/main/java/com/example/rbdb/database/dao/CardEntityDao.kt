@@ -53,5 +53,9 @@ interface CardEntityDao {
     @RawQuery
     suspend fun getCardByTagIds(query: SupportSQLiteQuery):List<CardEntity>
 
+    //Search a card by keyword in selected columns. It currently only support single keyword as the keyword.
+    // The columns are selected by the user.
+    @RawQuery
+    suspend fun getCardByKeywordInSelectedColumns(query: SupportSQLiteQuery):List<CardEntity>
 
 }
