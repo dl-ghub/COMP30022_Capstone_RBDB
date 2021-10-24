@@ -1,6 +1,8 @@
 package com.example.rbdb.ui.arch
 
-import androidx.room.Transaction
+import android.annotation.SuppressLint
+import android.util.Log
+import androidx.room.*
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.*
 
@@ -19,6 +21,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     suspend fun deleteCard(cardEntity: CardEntity){appDatabase.cardEntityDao().delete(cardEntity)}
 
+    suspend fun getCardById(id: Long): CardEntity{return appDatabase.cardEntityDao().getCardById(id)}
+
     @Transaction
     suspend fun deleteCardAndCrossRefByCardId(cardId: Long){
 
@@ -36,6 +40,14 @@ class AppRepository(private val appDatabase: AppDatabase) {
     suspend fun getCardWithTags(): List<CardWithTagsEntity>{return appDatabase.cardEntityDao().getCardWithTags()}
 
     suspend fun getCardWithLists(): List<CardWithListsEntity>{return appDatabase.cardEntityDao().getCardWithLists()}
+
+    //search the require cards by name.
+    //it returns cards that contain cardName as a substring, ordered by the length of the names of the cards
+    suspend fun getCardsByName(cardName:String):List<CardEntity>{return appDatabase.cardEntityDao().getCardsByName(cardName)}
+
+    suspend fun getAllCardsOrderByName():List<CardEntity>{return appDatabase.cardEntityDao().getAllCardsOrderByName()}
+
+    suspend fun getCardsByKeywordInDescription(keyword:String):List<CardEntity>{return appDatabase.cardEntityDao().getCardsByKeywordInDescription(keyword)}
 
     // Get cards by tag ids in OR relationship. You  have to provide at least one tag Id
     suspend fun getCardByTagIds(vararg tagIds: Long): List<CardEntity>{
@@ -66,15 +78,52 @@ class AppRepository(private val appDatabase: AppDatabase) {
         return appDatabase.cardEntityDao().getCardByTagIds(query)
 
     }
+    //TODO: change this
+    //Get cards by tag ids in OR relationship. You  have to provide at least one tag Id
+    @SuppressLint("LongLogTag")
+    suspend fun getCardByKeywordInSelectedColumns(keyword: String, columns: List<String>): List<CardEntity>{
 
-    suspend fun getCardsByName(input : String): List<CardEntity>{return appDatabase.cardEntityDao().getCardsByName(input)}
+        if(columns.isEmpty()){
+            //throw an exception if there is no column chosen
+            throw Exception("You have to choose at least one column to search")
+        }
+
+        //SELECT * FROM card_entity WHERE name like '%1%' OR business like '%1%'
+        //construct the query string
+        var queryString:String = "SELECT * FROM card_entity WHERE "
+        val formattedQuery:String = " like '%$keyword%' "
+        val logicQuery:String = " OR "
+
+
+        for (column: String in columns){
+            queryString += column
+            queryString += formattedQuery
+            queryString += logicQuery
+        }
+
+        queryString = queryString.dropLast(logicQuery.length);
+//        println("Query:getCardByKeywordInSelectedColumns = "+ queryString)
+        Log.d("Query:getCardByKeywordInSelectedColumns",queryString)
+
+        //perform query
+        val query = SimpleSQLiteQuery(queryString)
+        return appDatabase.cardEntityDao().getCardByKeywordInSelectedColumns(query)
+
+    }
+
 
     // List dao interaction
+    suspend fun getListById(id: Long): ListEntity{return appDatabase.listEntityDao().getListById(id)}
+
     suspend fun insertList(listEntity: ListEntity){appDatabase.listEntityDao().insert(listEntity)}
 
     suspend fun deleteList(listEntity: ListEntity){appDatabase.listEntityDao().delete(listEntity)}
 
     suspend fun updateList(listEntity: ListEntity){appDatabase.listEntityDao().update(listEntity)}
+
+    suspend fun updateListName(name: String, listId: Long){appDatabase.listEntityDao().updateListName(name, listId)}
+
+    suspend fun deleteByListId(listId: Long){appDatabase.listEntityDao().deleteByListId(listId)}
 
     suspend fun getAllLists(): List<ListEntity>{return appDatabase.listEntityDao().getAllLists()}
 
@@ -103,5 +152,27 @@ class AppRepository(private val appDatabase: AppDatabase) {
     suspend fun updateUser(userEntity : UserEntity){appDatabase.userEntityDao().update(userEntity)}
 
     suspend fun getAllUsers(): List<UserEntity>{return appDatabase.userEntityDao().getAllUsers()}
+
+    // CardListCrossRefDao interaction
+    suspend fun insertCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().insert(cardListCrossRef)}
+        
+    suspend fun deleteCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().delete(cardListCrossRef)}
+
+    suspend fun deleteCardListCrossRefByCardId(cardId: Long){appDatabase.cardListCrossRefDao().deleteByCardId(cardId)}
+
+    suspend fun updateCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().update(cardListCrossRef)}
+
+    suspend fun getAllCardListCrossRef(): List<CardListCrossRef>{return appDatabase.cardListCrossRefDao().getAllCardListCrossRef()}
+
+    // CardTagCrossRefDao interaction
+    suspend fun insertCardTagCrossRef(cardTagCrossRef: CardTagCrossRef){appDatabase.cardTagCrossRefDao().insert(cardTagCrossRef)}
+
+    suspend fun deleteCardTagCrossRef(cardTagCrossRef: CardTagCrossRef){appDatabase.cardTagCrossRefDao().delete(cardTagCrossRef)}
+
+    suspend fun deleteCardTagCrossRefByCardId(cardId: Long){appDatabase.cardTagCrossRefDao().deleteByCardId(cardId)}
+
+    suspend fun updateCardTagCrossRef(cardTagCrossRef: CardTagCrossRef){appDatabase.cardTagCrossRefDao().update(cardTagCrossRef)}
+
+    suspend fun getAllCardTagCrossRef(): List<CardTagCrossRef>{return appDatabase.cardTagCrossRefDao().getAllCardTagCrossRef()}
 
 }

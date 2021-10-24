@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.CardEntity
+import com.example.rbdb.database.model.CardListCrossRef
 import com.example.rbdb.database.model.ListEntity
 import com.example.rbdb.databinding.ActivityMainBinding
 import com.example.rbdb.ui.adapters.FragmentAdapter
@@ -60,22 +61,18 @@ class MainActivity : AppCompatActivity() {
         })
         val viewPager = binding.pager
 
-
         viewPager.adapter = FragmentAdapter(this)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> {
                     tab.text = "ALL"
-
                 }
                 1 -> {
                     tab.text = "GROUPS"
-
                 }
                 2->{
                     tab.text = "TAGS"
                 }
-
             }
         }.attach()
     }

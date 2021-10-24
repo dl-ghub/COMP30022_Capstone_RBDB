@@ -115,6 +115,14 @@ class GroupFragment : Fragment(), GroupCardInterface {
         startActivity(intent)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAllLists().observe(requireActivity(), { groups ->
+            adapter.swapData(groups)
+            groupList = groups
+        })
+    }
+
     private fun saveGroupToDatabase(groupName: String) {
         // TODO Check for Empty inputs
         Log.d("groupName", groupName)

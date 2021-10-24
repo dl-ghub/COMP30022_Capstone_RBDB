@@ -5,6 +5,9 @@ import com.example.rbdb.database.model.*
 
 @Dao
 interface ListEntityDao {
+    @Query("SELECT * FROM list_entity WHERE listId = :listId")
+    suspend fun getListById(listId: Long): ListEntity
+
     @Insert
     suspend fun insert(ItemEntity: ListEntity)
 
@@ -13,6 +16,13 @@ interface ListEntityDao {
 
     @Update
     suspend fun update(ItemEntity: ListEntity)
+
+    /* Update list name by id */
+    @Query("UPDATE list_entity SET name = :name WHERE listId = :listId")
+    suspend fun updateListName(name: String, listId: Long)
+
+    @Query("DELETE FROM list_entity WHERE listId = :listId")
+    suspend fun deleteByListId(listId: Long)
 
     @Transaction
     @Query("SELECT * FROM list_entity ORDER BY name")
