@@ -71,6 +71,12 @@ class AppViewModel : ViewModel() {
         return result
     }
 
+    fun getCardByKeywordInSelectedColumns(keyword: String, columns: List<String>): LiveData<List<CardEntity>>{
+        val result = MutableLiveData<List<CardEntity>>()
+        viewModelScope.launch { result.postValue(repository.getCardByKeywordInSelectedColumns(keyword, columns)) }
+        return result
+    }
+
     // Call repository methods for list
     fun getListById(id: Long): LiveData<ListEntity> {
         val result = MutableLiveData<ListEntity>()
