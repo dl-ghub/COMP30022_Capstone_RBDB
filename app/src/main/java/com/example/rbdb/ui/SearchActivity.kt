@@ -69,18 +69,11 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
     fun displaySearch(input : String){
         Log.d("input", input)
         Log.d("list", queryList().toString())
-        viewModel.getCardsByName(input).observe(this, { contacts ->
+        viewModel.getCardByKeywordInSelectedColumns(input, queryList()).observe(this, { contacts ->
             adapter.swapData(contacts)
             searchList = contacts
         })
         adapter.notifyDataSetChanged()
-
-        // CODE FOR WHEN QUERY IS IMPLEMENTED VVVV
-//        viewModel.getCardsByField(input,queryList()).observe(this, { contacts ->
-//            adapter.swapData(contacts)
-//            searchList = contacts
-//        })
-//        adapter.notifyDataSetChanged()
     }
 
     private fun queryList() : List<String>{
