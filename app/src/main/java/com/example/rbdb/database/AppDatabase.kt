@@ -13,7 +13,7 @@ import com.example.rbdb.database.model.*
         CardTagCrossRef::class,
         ListEntity::class,
         TagEntity::class],
-    version = 3
+    version = 4
 )
 abstract class AppDatabase : RoomDatabase(){
     // Singleton pattern for database initialization

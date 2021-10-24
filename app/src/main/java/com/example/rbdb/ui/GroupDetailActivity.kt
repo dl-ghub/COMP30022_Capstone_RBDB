@@ -2,6 +2,8 @@ package com.example.rbdb.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -31,6 +33,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
     private lateinit var binding: ActivityGroupBinding
     private val viewModel: AppViewModel by viewModels()
     private var groupId: Long = 0
+    private lateinit var groupTitle: String
     private lateinit var adapter: ContactAdapter
     private lateinit var contactList: List<CardEntity>
 
@@ -46,16 +49,10 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-
-
         viewModel.init(AppDatabase.getDatabase(this))
 
-        val groupTitle = intent.getStringExtra("group_name")
+        groupTitle = intent.getStringExtra("group_name").toString()
         groupId = intent.getLongExtra("group_id", -1)
-        val observerGroup = Observer<ListEntity> { group ->
-            supportActionBar?.title = group.name
-        }
-        viewModel.getListById(groupId).observe(this, observerGroup)
 
         val recyclerView: RecyclerView = binding.rvContacts
 
@@ -64,22 +61,18 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
 
         val observerContact = Observer<List<CardEntity>> { contacts ->
             adapter.swapData(contacts)
-            contactList = contacts  }
-
+            contactList = contacts
+            Log.d("contacts in $groupTitle", contactList.toString())
+        }
         viewModel.getCardsInList(groupId).observe(this, observerContact)
 
         supportActionBar?.title = groupTitle
     }
+
     override fun onContactCardClick(position: Int) {
         val contact = contactList[position]
         val intent = Intent(this, ContactDetailActivity::class.java).apply {
             putExtra("contact_id", contact.cardId)
-            /*putExtra("contact_name", contact.name)
-            putExtra("contact_business", contact.business)
-            putExtra("contact_dateAdded", contact.dateAdded)
-            putExtra("contact_phone", contact.phone)
-            putExtra("contact_email", contact.email)
-            putExtra("contact_description", contact.description)*/
         }
         startActivity(intent)
     }
@@ -125,7 +118,14 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
             true
         }
         R.id.edit_gMembers ->{
-            Toast.makeText(this, "edit group members pressed", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "edit group members pressed", Toast.LENGTH_SHORT).show()
+            // Navigate to EditGroupActivity
+            val intent = Intent(this, EditGroupActivity::class.java).apply {
+                putExtra("group_id", groupId)
+                putExtra("group_name", groupTitle)
+            }
+            startActivity(intent)
+
             true
         }
         R.id.delete_g -> {
@@ -135,7 +135,10 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
                 deleteGroup(groupId)
 
                 // Return to Homepage
-                this.onBackPressed()
+                val handler = Handler(Looper.getMainLooper())
+                handler.postDelayed({
+                    finish()
+                },300)
             }
 
             builder.setNegativeButton("Cancel") { _, _ -> }
@@ -152,11 +155,20 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val observerContact = Observer<List<CardEntity>> { contacts ->
+            adapter.swapData(contacts)
+            contactList = contacts
+            Log.d("contacts in $groupTitle", contactList.toString())
+        }
+        viewModel.getCardsInList(groupId).observe(this, observerContact)
+    }
+
     private fun deleteGroup(groupId: Long) {
 //        Log.d("groupId to be deleted", groupId.toString())
         viewModel.deleteByListId(groupId)
     }
-
     private fun updateListName(name: String, groupId: Long) {
         viewModel.updateListName(name, groupId)
     }

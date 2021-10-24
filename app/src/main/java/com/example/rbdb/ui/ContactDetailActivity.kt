@@ -3,12 +3,15 @@ package com.example.rbdb.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
@@ -24,7 +27,6 @@ class ContactDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityContactDetailBinding
     private val viewModel: AppViewModel by viewModels()
     private var contactId: Long = 0
-    val CONTACT_ID = "contact id"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityContactDetailBinding.inflate(layoutInflater)
@@ -34,7 +36,7 @@ class ContactDetailActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         viewModel.init(AppDatabase.getDatabase(this))
 
@@ -42,7 +44,7 @@ class ContactDetailActivity : AppCompatActivity() {
 
         val observer = Observer<CardEntity> { card ->
             val contactName = card.name
-            val avatar = contactName?.let { createAvatar(it) }
+            val avatar = createAvatar(contactName)
             binding.contactPhoto.setImageDrawable(avatar)
             binding.contactName.text = contactName
             binding.tvCompany.text = card.business
@@ -83,11 +85,13 @@ class ContactDetailActivity : AppCompatActivity() {
             builder.setPositiveButton("Delete") { _, _ ->
                 deleteContact(contactId)
                 // Return to Homepage
-                val intent = Intent(this, MainActivity::class.java)
+                /*val intent = Intent(this, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-
-                finish()
+                startActivity(intent)*/
+                val handler = Handler(Looper.getMainLooper())
+                handler.postDelayed({
+                    finish()
+                },300)
             }
 
             builder.setNegativeButton("Cancel") { _, _ -> }
@@ -95,7 +99,7 @@ class ContactDetailActivity : AppCompatActivity() {
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(resources.getColor(R.color.warningRed))
+                .setTextColor(ContextCompat.getColor(this,R.color.warningRed))
 
             true
         }
@@ -135,5 +139,9 @@ class ContactDetailActivity : AppCompatActivity() {
     private fun deleteContact(contactId: Long) {
         Log.d("contactId to be deleted", contactId.toString())
         viewModel.deleteCardAndCrossRefByCardId(contactId)
+    }
+
+    companion object {
+        const val CONTACT_ID = "contact id"
     }
 }

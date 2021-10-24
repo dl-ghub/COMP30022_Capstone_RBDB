@@ -111,7 +111,6 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     }
 
-
     // List dao interaction
     suspend fun getListById(id: Long): ListEntity{return appDatabase.listEntityDao().getListById(id)}
 
@@ -157,6 +156,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
     suspend fun insertCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().insert(cardListCrossRef)}
         
     suspend fun deleteCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().delete(cardListCrossRef)}
+
+    suspend fun deleteAllCrossRefByListId(listId: Long){appDatabase.cardListCrossRefDao().deleteAllByListId(listId)}
 
     suspend fun deleteCardListCrossRefByCardId(cardId: Long){appDatabase.cardListCrossRefDao().deleteByCardId(cardId)}
 
