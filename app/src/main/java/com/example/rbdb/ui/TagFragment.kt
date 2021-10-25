@@ -8,12 +8,10 @@ import android.view.ViewGroup
 import com.example.rbdb.R
 import com.example.rbdb.databinding.FragmentTagBinding
 import android.widget.Toast
-
-import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.chip.Chip
 import java.lang.StringBuilder
-
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,42 +39,23 @@ class TagFragment : Fragment() {
     }
 
     fun addListenerOnButtonClick() {
-        val tagList = ArrayList<CheckBox>()
-        val ll = binding.checkBoxLayout
-        val childCount = ll.childCount
-
-        for (i in 0..childCount) {
-            val view = ll.getChildAt(i)
-            if (view is CheckBox) {
-                tagList.add(view)
+        val chipGroup = binding.tagChipGroup
+        val chipList = ArrayList<Chip>()
+        for (i in 0 until chipGroup.childCount) {
+            val chip = chipGroup.getChildAt(i) as Chip
+            chip.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) { chipList.add(chip) }
             }
         }
 
-        val fabSearch = binding.tagFabSearch
-        val fabAdd = binding.tagFabAdd
-        val fabDelete = binding.tagFabDelete
-
-        fabSearch.setOnClickListener { view ->
-            val result = StringBuilder()
-            result.append("Selected Items:")
-
-            for (tag in tagList) {
-                if (tag.isChecked) {
-                    result.append("\n" + tag.text.toString())
-                }
-            }
-
-            Toast.makeText(view.context, result.toString(), Toast.LENGTH_LONG).show()
-        }
-
-        fabAdd.setOnClickListener { view ->
+        binding.tagFabAdd.setOnClickListener { view ->
             val builder = AlertDialog.Builder(view.context)
             builder.setMessage(R.string.new_tag_name)
             val inflater = requireActivity().layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
             builder.setView(inflater)
             val input = inflater.findViewById<View>(R.id.new_name) as EditText
 
-            // Send the name to the database to create a new group (need to implement)
+            // Send the name to the database to create a new tag (need to implement)
             builder.setPositiveButton("Ok"){ _, _ -> }
 
             builder.setNegativeButton("Cancel"){_, _ -> }
@@ -85,24 +64,19 @@ class TagFragment : Fragment() {
             alertDialog.show()
         }
 
-        fabDelete.setOnClickListener { view ->
-            val result = StringBuilder()
-            result.append("Selected Items:")
-
-            for (tag in tagList) {
-                if (tag.isChecked) {
-                    result.append("\n" + tag.text.toString())
+        binding.tagFabDelete.setOnClickListener { view ->
+            val result = StringBuilder().append("Selected Items:")
+            for (chip in chipList) {
+                if (chip.isChecked) {
+                    result.append("\n" + chip.text.toString())
                 }
             }
-
             Toast.makeText(view.context, result.toString(), Toast.LENGTH_LONG).show()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         _binding = FragmentTagBinding.inflate(inflater,container,false)
         val view = binding.root
