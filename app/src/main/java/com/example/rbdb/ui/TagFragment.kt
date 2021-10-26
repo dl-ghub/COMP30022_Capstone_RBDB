@@ -45,13 +45,15 @@ class TagFragment : Fragment() {
             val chip = chipGroup.getChildAt(i) as Chip
             chip.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) { chipList.add(chip) }
+                else { chipList.remove(chip) }
             }
         }
 
         binding.tagFabAdd.setOnClickListener { view ->
             val builder = AlertDialog.Builder(view.context)
             builder.setMessage(R.string.new_tag_name)
-            val inflater = requireActivity().layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
+            val inflater =
+                requireActivity().layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
             builder.setView(inflater)
             val input = inflater.findViewById<View>(R.id.new_name) as EditText
 
