@@ -14,4 +14,5 @@
     <color name="primaryBackground">#F6F5F5</color>
     <color name="primaryText">#242424</color>
     <color name="warningRed">#ff0f0f</color>
+    <color name="secondaryText">#A5A5A5</color>
 </resources>

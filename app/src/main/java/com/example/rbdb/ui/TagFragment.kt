@@ -38,7 +38,7 @@ class TagFragment : Fragment() {
         }
     }
 
-    fun addListenerOnButtonClick() {
+    private fun addListenerOnButtonClick() {
         val chipGroup = binding.tagChipGroup
         val chipList = ArrayList<Chip>()
         for (i in 0 until chipGroup.childCount) {
