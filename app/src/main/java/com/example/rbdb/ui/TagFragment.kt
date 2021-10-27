@@ -67,8 +67,16 @@ class TagFragment : Fragment() {
             builder.setView(inflater)
             val input = inflater.findViewById<View>(R.id.new_name) as EditText
 
-            // Send the name to the database to create a new tag (need to implement)
-            builder.setPositiveButton("Ok") { _, _ -> }
+            // Send the name to the database to create a new tag
+            builder.setPositiveButton("Ok") { _, _ ->
+                saveTagToDatabase(
+                    input.text.toString().trim()
+                )
+                viewModel.getAllTags().observe(requireActivity(), { tags ->
+                    tagsList = tags
+                    updateChips(tags)
+                })
+            }
 
             builder.setNegativeButton("Cancel") { _, _ -> }
 
@@ -113,7 +121,7 @@ class TagFragment : Fragment() {
 
         val chipGroup = binding.tagChipGroup
 
-        addListenerOnButtonClick()
+
     }
 
     override fun onDestroyView() {
@@ -123,12 +131,22 @@ class TagFragment : Fragment() {
 
     private fun updateChips(tags: List<TagEntity>) {
         val chipGroup = binding.tagChipGroup
+        chipGroup.removeAllViewsInLayout()
         for (tag in tags) {
             val chip = layoutInflater.inflate(R.layout.layout_chip_choice, chipGroup, false) as Chip
             chip.text = (tag.name)
             chipGroup.addView(chip)
         }
+        addListenerOnButtonClick()
+    }
 
+    private fun saveTagToDatabase(tagName: String) {
+        // TODO Check for Empty inputs
+        Log.d("tagName", tagName)
+        val tagEntity = TagEntity(
+            name = tagName
+        )
+        viewModel.insertTag(tagEntity)
     }
 
     companion object {
