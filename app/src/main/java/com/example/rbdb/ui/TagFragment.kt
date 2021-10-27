@@ -55,14 +55,22 @@ class TagFragment : Fragment(), ContactCardInterface {
 
     private fun addListenerOnButtonClick() {
         val chipGroup = binding.tagChipGroup
-        val chipList = ArrayList<Chip>()
+        val chipList = ArrayList<TagEntity>()
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
             chip.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
-                    chipList.add(chip)
+                    for (tag in tagsList) {
+                        if (tag.tagId == chip.id.toLong()) {
+                            chipList.add(tag)
+                        }
+                    }
                 } else {
-                    chipList.remove(chip)
+                    for (tag in tagsList) {
+                        if (tag.tagId == chip.id.toLong()) {
+                            chipList.remove(tag)
+                        }
+                    }
                 }
                 // TODO Need to change chipList to somehow include tagIds
                 displaySearch(chipList)
@@ -94,21 +102,19 @@ class TagFragment : Fragment(), ContactCardInterface {
             alertDialog.show()
         }
 
-        binding.tagFabDelete.setOnClickListener { view ->
-            val result = StringBuilder().append("Selected Items:")
-            for (chip in chipList) {
-                if (chip.isChecked) {
-                    result.append("\n" + chip.text.toString())
-                }
-            }
-            Toast.makeText(view.context, result.toString(), Toast.LENGTH_LONG).show()
-        }
+//        binding.tagFabDelete.setOnClickListener { view ->
+//            val result = StringBuilder().append("Selected Items:")
+//            for (chip in chipList) {
+//                if (chip.isChecked) {
+//                    result.append("\n" + chip.text.toString())
+//                }
+//            }
+//            Toast.makeText(view.context, result.toString(), Toast.LENGTH_LONG).show()
+//        }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         _binding = FragmentTagBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -148,6 +154,7 @@ class TagFragment : Fragment(), ContactCardInterface {
         for (tag in tags) {
             val chip = layoutInflater.inflate(R.layout.layout_chip_choice, chipGroup, false) as Chip
             chip.text = (tag.name)
+            chip.id = (tag.tagId.toInt())
             chipGroup.addView(chip)
         }
         addListenerOnButtonClick()
