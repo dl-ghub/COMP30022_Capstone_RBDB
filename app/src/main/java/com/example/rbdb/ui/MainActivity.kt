@@ -17,6 +17,7 @@ import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.database.model.CardListCrossRef
 import com.example.rbdb.database.model.ListEntity
+import com.example.rbdb.database.model.TagEntity
 import com.example.rbdb.databinding.ActivityMainBinding
 import com.example.rbdb.ui.adapters.FragmentAdapter
 import com.example.rbdb.ui.arch.AppViewModel
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         // Prepopulate database for testing
         viewModel.init(AppDatabase.getDatabase(this))
+
         // End of db / vm init
 
         val tabLayout = binding.TabLayout

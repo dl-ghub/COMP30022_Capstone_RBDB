@@ -1,6 +1,7 @@
 package com.example.rbdb.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,10 @@ import com.example.rbdb.databinding.FragmentTagBinding
 import android.widget.Toast
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModelProvider
+import com.example.rbdb.database.AppDatabase
+import com.example.rbdb.database.model.TagEntity
+import com.example.rbdb.ui.arch.AppViewModel
 import com.google.android.material.chip.Chip
 import java.lang.StringBuilder
 
@@ -29,6 +34,8 @@ class TagFragment : Fragment() {
     private var param2: String? = null
     private var _binding: FragmentTagBinding? = null
     private val binding get() = _binding!!
+    private var tagsList: List<TagEntity> = mutableListOf()
+    private lateinit var viewModel: AppViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +51,11 @@ class TagFragment : Fragment() {
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
             chip.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) { chipList.add(chip) }
-                else { chipList.remove(chip) }
+                if (isChecked) {
+                    chipList.add(chip)
+                } else {
+                    chipList.remove(chip)
+                }
             }
         }
 
@@ -58,9 +68,9 @@ class TagFragment : Fragment() {
             val input = inflater.findViewById<View>(R.id.new_name) as EditText
 
             // Send the name to the database to create a new tag (need to implement)
-            builder.setPositiveButton("Ok"){ _, _ -> }
+            builder.setPositiveButton("Ok") { _, _ -> }
 
-            builder.setNegativeButton("Cancel"){_, _ -> }
+            builder.setNegativeButton("Cancel") { _, _ -> }
 
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
@@ -77,22 +87,48 @@ class TagFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentTagBinding.inflate(inflater,container,false)
+        _binding = FragmentTagBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        // initialise viewmodel/database for this fragment
+        viewModel = ViewModelProvider(this).get(AppViewModel::class.java)
+        viewModel.init(AppDatabase.getDatabase(requireActivity()))
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // ChipGroup implementation
+        viewModel.getAllTags().observe(requireActivity(), { tags ->
+            tagsList = tags
+            updateChips(tags)
+        })
+
+        val chipGroup = binding.tagChipGroup
+
         addListenerOnButtonClick()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun updateChips(tags: List<TagEntity>) {
+        val chipGroup = binding.tagChipGroup
+        for (tag in tags) {
+            val chip = layoutInflater.inflate(R.layout.layout_chip_choice, chipGroup, false) as Chip
+            chip.text = (tag.name)
+            chipGroup.addView(chip)
+        }
+
     }
 
     companion object {
@@ -113,6 +149,7 @@ class TagFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
         fun newInstance() =
             TagFragment()
     }
