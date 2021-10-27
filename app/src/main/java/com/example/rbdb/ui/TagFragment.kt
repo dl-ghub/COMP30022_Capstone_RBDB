@@ -1,5 +1,6 @@
 package com.example.rbdb.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,8 +13,12 @@ import android.widget.Toast
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.database.AppDatabase
+import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.database.model.TagEntity
+import com.example.rbdb.ui.adapters.ContactAdapter
+import com.example.rbdb.ui.adapters.ContactCardInterface
 import com.example.rbdb.ui.arch.AppViewModel
 import com.google.android.material.chip.Chip
 import java.lang.StringBuilder
@@ -28,7 +33,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [TagFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class TagFragment : Fragment() {
+class TagFragment : Fragment(), ContactCardInterface {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -36,6 +41,9 @@ class TagFragment : Fragment() {
     private val binding get() = _binding!!
     private var tagsList: List<TagEntity> = mutableListOf()
     private lateinit var viewModel: AppViewModel
+    private lateinit var searchList: List<CardEntity>
+    private lateinit var recycler: RecyclerView
+    private lateinit var adapter: ContactAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +64,8 @@ class TagFragment : Fragment() {
                 } else {
                     chipList.remove(chip)
                 }
+                // TODO Need to change chipList to somehow include tagIds
+                displaySearch(chipList)
             }
         }
 
@@ -119,7 +129,10 @@ class TagFragment : Fragment() {
             updateChips(tags)
         })
 
-        val chipGroup = binding.tagChipGroup
+        // RecyclerView implementation for search results
+        recycler = binding.rvContacts
+        adapter = ContactAdapter(mutableListOf(), this)
+        recycler.adapter = adapter
 
 
     }
@@ -147,6 +160,27 @@ class TagFragment : Fragment() {
             name = tagName
         )
         viewModel.insertTag(tagEntity)
+    }
+
+    private fun displaySearch(input : List<TagEntity>) {
+        val tagIdList: ArrayList<Long> = ArrayList()
+        for (tag in input) {
+            tagIdList.add(tag.tagId)
+        }
+        Log.d("input", input.toString())
+        viewModel.getCardByTagIds(tagIdList).observe(requireActivity(), { contacts ->
+            adapter.swapData(contacts)
+            searchList = contacts
+        })
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun onContactCardClick(position: Int) {
+        val contact = searchList[position]
+        val intent = Intent(this.requireActivity(), ContactDetailActivity::class.java).apply {
+            putExtra("contact_id", contact.cardId)
+        }
+        startActivity(intent)
     }
 
     companion object {

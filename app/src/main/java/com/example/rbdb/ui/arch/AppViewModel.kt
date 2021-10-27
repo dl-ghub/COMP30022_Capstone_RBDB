@@ -148,6 +148,12 @@ class AppViewModel : ViewModel() {
         return result
     }
 
+    fun getCardByTagIds(tagIds: ArrayList<Long>): LiveData<List<CardEntity>> {
+        val result = MutableLiveData<List<CardEntity>>()
+        viewModelScope.launch { result.postValue(repository.getCardByTagIds(tagIds))}
+        return result
+    }
+
     // Call repository methods for user
     fun insertUser(userEntity: UserEntity) {
         viewModelScope.launch { repository.insertUser(userEntity) }
@@ -170,5 +176,10 @@ class AppViewModel : ViewModel() {
     // Call repository methods for CardListCrossRefs
     fun deleteAllCrossRefByListId(listId: Long) {
         viewModelScope.launch {repository.deleteAllCrossRefByListId(listId)}
+    }
+
+    // Call repository methods for CardTagCrossRefs
+    fun insertCardTagCrossRef(cardTagCrossRef: CardTagCrossRef) {
+        viewModelScope.launch {repository.insertCardTagCrossRef(cardTagCrossRef)}
     }
 }

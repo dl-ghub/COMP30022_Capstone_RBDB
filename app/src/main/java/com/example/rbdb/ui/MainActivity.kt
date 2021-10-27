@@ -14,10 +14,7 @@ import androidx.navigation.NavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
-import com.example.rbdb.database.model.CardEntity
-import com.example.rbdb.database.model.CardListCrossRef
-import com.example.rbdb.database.model.ListEntity
-import com.example.rbdb.database.model.TagEntity
+import com.example.rbdb.database.model.*
 import com.example.rbdb.databinding.ActivityMainBinding
 import com.example.rbdb.ui.adapters.FragmentAdapter
 import com.example.rbdb.ui.arch.AppViewModel
