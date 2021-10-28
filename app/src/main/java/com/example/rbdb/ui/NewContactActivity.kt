@@ -3,6 +3,7 @@ package com.example.rbdb.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -59,10 +60,22 @@ class NewContactActivity : AppCompatActivity() {
         }
         else{binding.businessNameField.error = null}
 
+        val phoneNumber = binding.phoneInput.text.toString().trim()
+        if (isPhoneValid(binding.phoneInput.text) && phoneNumber.isNotEmpty()){
+            binding.phoneField.error = "* Invalid Phone Number"
+            fieldError = true
+        }
+        else{binding.phoneField.error = null}
+
+        val email = binding.emailInput.text.toString().trim()
+        if (isEmailValid(binding.emailInput.text) && email.isNotEmpty()){
+            binding.emailField.error = "* Invalid Email"
+            fieldError = true
+        }
+        else{binding.emailField.error = null}
+
         if (fieldError){return}
 
-        val phoneNumber = binding.phoneInput.text.toString().trim()
-        val email = binding.emailInput.text.toString().trim()
         val description = binding.descriptionInput.text.toString().trim()
 
         val cardEntity = CardEntity(
@@ -79,10 +92,17 @@ class NewContactActivity : AppCompatActivity() {
         val intent = Intent(this,MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
-        //
+
         finish()
     }
 
+    private fun isEmailValid(email: CharSequence?): Boolean {
+        return !Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun isPhoneValid(phone: CharSequence?): Boolean {
+        return !Patterns.PHONE.matcher(phone).matches()
+    }
     
     override fun onSupportNavigateUp(): Boolean {
         this.onBackPressed()
