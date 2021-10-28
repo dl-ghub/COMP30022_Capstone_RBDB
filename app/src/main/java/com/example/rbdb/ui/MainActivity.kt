@@ -3,20 +3,13 @@ package com.example.rbdb.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import androidx.viewpager2.widget.ViewPager2
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
-import com.example.rbdb.database.model.CardEntity
-import com.example.rbdb.database.model.CardListCrossRef
-import com.example.rbdb.database.model.ListEntity
 import com.example.rbdb.databinding.ActivityMainBinding
 import com.example.rbdb.ui.adapters.FragmentAdapter
 import com.example.rbdb.ui.arch.AppViewModel
@@ -24,9 +17,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
-    // Added by Mattias for database / viewModel initialization
     private val viewModel: AppViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

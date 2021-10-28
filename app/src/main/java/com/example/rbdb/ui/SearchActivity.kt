@@ -7,13 +7,11 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.example.rbdb.ui.arch.AppViewModel
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
@@ -21,13 +19,6 @@ import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.SearchActivityBinding
 import com.example.rbdb.ui.adapters.ContactAdapter
 import com.example.rbdb.ui.adapters.ContactCardInterface
-import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import androidx.appcompat.widget.SearchView
-import androidx.core.view.marginRight
-
 
 class SearchActivity : AppCompatActivity(), ContactCardInterface {
     private lateinit var binding: SearchActivityBinding
@@ -77,7 +68,7 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
     }
 
     private fun queryList() : List<String>{
-        var returnList : MutableList<String> = mutableListOf()
+        val returnList : MutableList<String> = mutableListOf()
         for (i in selectedSearchesArray.indices){
             if(checkSearchesArray[i]){ returnList.add(adaptedArray[i]) }
         }
@@ -110,7 +101,7 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
 
             val builder = AlertDialog.Builder(this, R.style.MyDialogStyle)
             builder.setTitle("Select Search Fields")
-            builder.setMultiChoiceItems(selectedSearchesArray, checkSearchesArray, ) { _, which, isChecked ->
+            builder.setMultiChoiceItems(selectedSearchesArray, checkSearchesArray) { _, which, isChecked ->
                 checkSearchesArray[which] = isChecked
             }
             builder.setPositiveButton("OK"){ dialog, _ ->

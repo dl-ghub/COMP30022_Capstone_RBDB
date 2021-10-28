@@ -1,6 +1,5 @@
 package com.example.rbdb.ui
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -56,7 +55,7 @@ class GroupFragment : Fragment(), GroupCardInterface {
         _binding = FragmentGroupBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // initialise viewmodel/database for this fragment
+        // initialise view model/database for this fragment
         viewModel = ViewModelProvider(this).get(AppViewModel::class.java)
         viewModel.init(AppDatabase.getDatabase(requireActivity()))
 

@@ -1,6 +1,5 @@
 package com.example.rbdb.ui
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -13,7 +12,6 @@ import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.ActivityEditContactBinding
 import com.example.rbdb.ui.arch.AppViewModel
-import java.util.*
 
 class EditContactActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditContactBinding

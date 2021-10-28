@@ -4,10 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.CardEntity
@@ -61,14 +59,14 @@ class NewContactActivity : AppCompatActivity() {
         else{binding.businessNameField.error = null}
 
         val phoneNumber = binding.phoneInput.text.toString().trim()
-        if (isPhoneValid(binding.phoneInput.text) && phoneNumber.isNotEmpty()){
+        if (isPhoneValid(binding.phoneInput.text!!) && phoneNumber.isNotEmpty()){
             binding.phoneField.error = "* Invalid Phone Number"
             fieldError = true
         }
         else{binding.phoneField.error = null}
 
         val email = binding.emailInput.text.toString().trim()
-        if (isEmailValid(binding.emailInput.text) && email.isNotEmpty()){
+        if (isEmailValid(binding.emailInput.text!!) && email.isNotEmpty()){
             binding.emailField.error = "* Invalid Email"
             fieldError = true
         }
@@ -81,7 +79,7 @@ class NewContactActivity : AppCompatActivity() {
         val cardEntity = CardEntity(
             name = "$firstName $lastName",
             business = businessName,
-            dateAdded = SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(Date()),
+            dateAdded = SimpleDateFormat("dd/M/yyyy hh:mm:ss", Locale.getDefault()).format(Date()),
             phone = phoneNumber,
             email = email,
             description = description
@@ -96,11 +94,11 @@ class NewContactActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun isEmailValid(email: CharSequence?): Boolean {
+    private fun isEmailValid(email: CharSequence): Boolean {
         return !Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    private fun isPhoneValid(phone: CharSequence?): Boolean {
+    private fun isPhoneValid(phone: CharSequence): Boolean {
         return !Patterns.PHONE.matcher(phone).matches()
     }
     
