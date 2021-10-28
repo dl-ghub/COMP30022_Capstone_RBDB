@@ -50,11 +50,13 @@ class AppRepository(private val appDatabase: AppDatabase) {
     suspend fun getCardsByKeywordInDescription(keyword:String):List<CardEntity>{return appDatabase.cardEntityDao().getCardsByKeywordInDescription(keyword)}
 
     // Get cards by tag ids in OR relationship. You  have to provide at least one tag Id
-    suspend fun getCardByTagIds(tagIds: ArrayList<Long>): List<CardEntity>{
+    suspend fun getCardByTagIds(tagIds: List<Long>): List<CardEntity>{
 
         if(tagIds.size==0){
-            //throw an exception if there is no tag ID provided
-            throw Exception("You have to provide at least one tag Id")
+
+            // return empty card entity list if there is no tag selected
+            return listOf<CardEntity>()
+
         }
         //construct the query string
         var queryString:String = "SELECT CE.cardId,CE.name,CE.business,CE.dateAdded,CE.phone,CE.email,CE.description " +

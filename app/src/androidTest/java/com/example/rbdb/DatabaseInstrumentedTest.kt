@@ -416,15 +416,18 @@ class DatabaseInstrumentedTest {
 
         val cardTagCrossRef1:CardTagCrossRef = CardTagCrossRef(1,100)
         val cardTagCrossRef2:CardTagCrossRef = CardTagCrossRef(2,100)
-        val cardTagCrossRef3:CardTagCrossRef = CardTagCrossRef(3,200)
-        val cardTagCrossRef4:CardTagCrossRef = CardTagCrossRef(1,200)
+        val cardTagCrossRef3:CardTagCrossRef = CardTagCrossRef(2,200)
+//        val cardTagCrossRef4:CardTagCrossRef = CardTagCrossRef(1,200)
         cardTagCrossRefDao.insert(cardTagCrossRef1)
         cardTagCrossRefDao.insert(cardTagCrossRef2)
         cardTagCrossRefDao.insert(cardTagCrossRef3)
-        cardTagCrossRefDao.insert(cardTagCrossRef4)
+//        cardTagCrossRefDao.insert(cardTagCrossRef4)
 
-        val result = appRepository.getCardByTagIds(100,200)
-        assertThat(result.size, equalTo(3))
+        val tags = listOf<Long>()
+
+        val result = appRepository.getCardByTagIds(tags)
+//        println(result)
+        assertThat(result.size, equalTo(0))
 
     }
 
