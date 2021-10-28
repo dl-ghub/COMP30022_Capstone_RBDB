@@ -27,6 +27,13 @@ interface TagEntityDao {
     @Query("SELECT * FROM tag_entity")
     suspend fun getTagWithCards(): List<TagWithCardsEntity>
 
+    @Query("SELECT TE.tagId, TE.name FROM tag_entity TE INNER JOIN card_tag_cross_ref CR ON CR.tagId = TE.tagId WHERE CR.cardId = :cardId")
+    suspend fun getTagsByCardId(cardId: Long): List<TagEntity>
+
+
+    //TODO: need to be renamed according to the naming convention
     @Query("SELECT tagId FROM tag_entity WHERE tag_entity.name == :nameOfTag")
     suspend fun getTagID(nameOfTag: String): Long
+
+
 }
