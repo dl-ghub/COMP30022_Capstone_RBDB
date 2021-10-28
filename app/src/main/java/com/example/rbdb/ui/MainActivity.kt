@@ -38,12 +38,6 @@ class MainActivity : AppCompatActivity() {
         // Prepopulate database for testing
         viewModel.init(AppDatabase.getDatabase(this))
 
-        val a = CardTagCrossRef(
-            cardId = 4,
-            tagId = 4
-        )
-
-        viewModel.insertCardTagCrossRef(a)
 
         // End of db / vm init
 
