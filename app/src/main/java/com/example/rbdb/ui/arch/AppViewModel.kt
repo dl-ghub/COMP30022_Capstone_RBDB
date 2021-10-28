@@ -146,6 +146,12 @@ class AppViewModel : ViewModel() {
         return result
     }
 
+    fun getTagsByCardId(cardId: Long): LiveData<List<TagEntity>> {
+        val result = MutableLiveData<List<TagEntity>>()
+        viewModelScope.launch { result.postValue(repository.getTagsByCardId(cardId)) }
+        return result
+    }
+
     fun getTagID(nameOfTag: String): LiveData<Long> {
         val result = MutableLiveData<Long>()
         viewModelScope.launch { result.postValue(repository.getTagID(nameOfTag)) }

@@ -19,7 +19,7 @@ interface TagEntityDao {
     suspend fun update(ItemEntity: TagEntity)
 
     @Transaction
-    @Query("SELECT * FROM tag_entity")
+    @Query("SELECT * FROM tag_entity ORDER BY name")
     suspend fun getAllTags(): List<TagEntity>
 
     // Relational Queries for Tag <-> Card relation

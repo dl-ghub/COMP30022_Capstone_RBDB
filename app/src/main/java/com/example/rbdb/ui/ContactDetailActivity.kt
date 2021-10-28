@@ -18,9 +18,10 @@ import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.CardEntity
+import com.example.rbdb.database.model.TagEntity
 import com.example.rbdb.databinding.ActivityContactDetailBinding
 import com.example.rbdb.ui.arch.AppViewModel
-
+import com.google.android.material.chip.Chip
 
 
 class ContactDetailActivity : AppCompatActivity() {
@@ -33,6 +34,7 @@ class ContactDetailActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         val toolbar = binding.cDetailTopAppBar
+        val chipGroup = binding.tagChipGroup
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -54,6 +56,10 @@ class ContactDetailActivity : AppCompatActivity() {
 
         }
         viewModel.getCardById(contactId).observe(this,observer)
+
+        viewModel.getTagsByCardId(contactId).observe(this, { tags ->
+            updateChips(tags)
+        })
 
     }
 
@@ -139,6 +145,17 @@ class ContactDetailActivity : AppCompatActivity() {
     private fun deleteContact(contactId: Long) {
         Log.d("contactId to be deleted", contactId.toString())
         viewModel.deleteCardAndCrossRefByCardId(contactId)
+    }
+
+    private fun updateChips(tags: List<TagEntity>) {
+        val chipGroup = binding.tagChipGroup
+        for (tag in tags) {
+            val chip = layoutInflater.inflate(R.layout.layout_chip_nonclickable, chipGroup, false) as Chip
+            chip.text = (tag.name)
+            chip.id = (tag.tagId.toInt())
+            chip.isEnabled = false
+            chipGroup.addView(chip)
+        }
     }
 
     companion object {
