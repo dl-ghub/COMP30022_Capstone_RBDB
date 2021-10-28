@@ -120,6 +120,15 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     suspend fun deleteList(listEntity: ListEntity){appDatabase.listEntityDao().delete(listEntity)}
 
+    @Transaction
+    suspend fun deleteListAndCrossRefByListId(listId: Long) {
+
+        // remove the cross references in "cardListCrossRef"
+        appDatabase.cardListCrossRefDao().deleteAllByListId(listId)
+        // remove the list entity from the list entity table
+        appDatabase.listEntityDao().deleteByListId(listId)
+    }
+
     suspend fun updateList(listEntity: ListEntity){appDatabase.listEntityDao().update(listEntity)}
 
     suspend fun updateListName(name: String, listId: Long){appDatabase.listEntityDao().updateListName(name, listId)}
@@ -136,6 +145,16 @@ class AppRepository(private val appDatabase: AppDatabase) {
     suspend fun insertTag(tagEntity: TagEntity){appDatabase.tagEntityDao().insert(tagEntity)}
 
     suspend fun deleteTag(tagEntity: TagEntity){appDatabase.tagEntityDao().delete(tagEntity)}
+
+    @Transaction
+    suspend fun deleteTagAndCrossRefByTagId(tagId: Long){
+
+        // NOTE: had to do it in this order to solve a front-end bug
+        // remove the tag entity from the tag entity table
+        appDatabase.tagEntityDao().deleteByTagId(tagId)
+        // remove the cross references in "cardTagCrossRef"
+        appDatabase.cardTagCrossRefDao().deleteByTagId(tagId)
+    }
 
     suspend fun updateTag(tagEntity: TagEntity){appDatabase.tagEntityDao().update(tagEntity)}
 

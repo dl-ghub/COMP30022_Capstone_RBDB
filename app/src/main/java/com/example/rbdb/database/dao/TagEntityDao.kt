@@ -12,6 +12,9 @@ interface TagEntityDao {
     @Delete
     suspend fun delete(ItemEntity: TagEntity)
 
+    @Query("DELETE FROM tag_entity WHERE tagId = :tagId")
+    suspend fun deleteByTagId(tagId: Long)
+
     @Update
     suspend fun update(ItemEntity: TagEntity)
 

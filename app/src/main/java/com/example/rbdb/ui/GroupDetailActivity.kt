@@ -167,7 +167,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
 
     private fun deleteGroup(groupId: Long) {
 //        Log.d("groupId to be deleted", groupId.toString())
-        viewModel.deleteByListId(groupId)
+        viewModel.deleteListAndCrossRefByListId(groupId)
     }
     private fun updateListName(name: String, groupId: Long) {
         viewModel.updateListName(name, groupId)

@@ -89,8 +89,8 @@ class AppViewModel : ViewModel() {
         viewModelScope.launch { repository.deleteList(listEntity) }
     }
 
-    fun deleteByListId(listId: Long) {
-        viewModelScope.launch { repository.deleteByListId(listId) }
+    fun deleteListAndCrossRefByListId(listId: Long) {
+        viewModelScope.launch { repository.deleteListAndCrossRefByListId(listId) }
     }
 
     fun updateList(listEntity: ListEntity) {
@@ -124,6 +124,10 @@ class AppViewModel : ViewModel() {
 
     fun deleteTag(tagEntity: TagEntity) {
         viewModelScope.launch { repository.deleteTag(tagEntity) }
+    }
+
+    fun deleteTagAndCrossRefByTagId(tagId: Long) {
+        viewModelScope.launch { repository.deleteTagAndCrossRefByTagId(tagId) }
     }
 
     fun updateTag(tagEntity: TagEntity) {

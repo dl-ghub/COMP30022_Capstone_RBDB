@@ -12,6 +12,7 @@ import com.example.rbdb.databinding.FragmentTagBinding
 import android.widget.Toast
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.database.AppDatabase
@@ -102,15 +103,26 @@ class TagFragment : Fragment(), ContactCardInterface {
             alertDialog.show()
         }
 
-//        binding.tagFabDelete.setOnClickListener { view ->
-//            val result = StringBuilder().append("Selected Items:")
-//            for (chip in chipList) {
-//                if (chip.isChecked) {
-//                    result.append("\n" + chip.text.toString())
-//                }
-//            }
-//            Toast.makeText(view.context, result.toString(), Toast.LENGTH_LONG).show()
-//        }
+        binding.tagFabDelete.setOnClickListener { view ->
+            val builder = AlertDialog.Builder(view.context)
+            builder.setMessage(R.string.confirm_delete_tags)
+
+            builder.setPositiveButton("Delete") { _, _ ->
+                deleteTags(chipList)
+                viewModel.getAllTags().observe(requireActivity(), { tags ->
+                    tagsList = tags
+                    updateChips(tags)
+                })
+            }
+
+            builder.setNegativeButton("Cancel") { _, _ -> }
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(requireActivity(),R.color.warningRed))
+
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -174,12 +186,18 @@ class TagFragment : Fragment(), ContactCardInterface {
         for (tag in input) {
             tagIdList.add(tag.tagId)
         }
-        Log.d("input", input.toString())
         viewModel.getCardByTagIds(tagIdList).observe(requireActivity(), { contacts ->
             adapter.swapData(contacts)
             searchList = contacts
         })
         adapter.notifyDataSetChanged()
+    }
+
+    private fun deleteTags(tags: List<TagEntity>) {
+        for (tag in tags) {
+            viewModel.deleteTagAndCrossRefByTagId(tag.tagId)
+        }
+        displaySearch(listOf())
     }
 
     override fun onContactCardClick(position: Int) {
