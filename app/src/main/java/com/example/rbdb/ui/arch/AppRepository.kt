@@ -164,6 +164,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     suspend fun getTagID(nameOfTag: String): Long{return appDatabase.tagEntityDao().getTagID(nameOfTag)}
 
+    suspend fun getTagsByCardId(cardId: Long): List<TagEntity>{return appDatabase.tagEntityDao().getTagsByCardId(cardId)}
+
     // User dao interaction
     suspend fun insertUser(userEntity : UserEntity){appDatabase.userEntityDao().insert(userEntity)}
 
