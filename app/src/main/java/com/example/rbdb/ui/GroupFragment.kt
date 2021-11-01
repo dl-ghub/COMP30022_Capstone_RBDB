@@ -145,7 +145,6 @@ class GroupFragment : Fragment(), GroupCardInterface {
         val observer = Observer<Long> { id->
             val intent = Intent(requireActivity(), EditGroupActivity::class.java).apply {
                 putExtra("group_id", id)
-
                 putExtra("group_name", listEntity.name)
             }
             startActivity(intent)
