@@ -8,7 +8,6 @@ import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -120,7 +119,7 @@ class ContactDetailActivity : AppCompatActivity() {
         super.onResume()
         val observer = Observer<CardEntity> { card ->
             val contactName = card.name
-            val avatar = contactName?.let { createAvatar(it) }
+            val avatar = createAvatar(contactName)
             binding.contactPhoto.setImageDrawable(avatar)
             binding.contactName.text = contactName
             binding.tvCompany.text = card.business
