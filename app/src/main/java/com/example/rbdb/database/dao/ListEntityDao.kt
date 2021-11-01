@@ -8,8 +8,8 @@ interface ListEntityDao {
     @Query("SELECT * FROM list_entity WHERE listId = :listId")
     suspend fun getListById(listId: Long): ListEntity
 
-    @Insert
-    suspend fun insert(ItemEntity: ListEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(ItemEntity: ListEntity):Long
 
     @Delete
     suspend fun delete(ItemEntity: ListEntity)

@@ -2,6 +2,8 @@ package com.example.rbdb.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.R
@@ -38,7 +41,6 @@ class GroupFragment : Fragment(), GroupCardInterface {
     private lateinit var groupList: List<ListEntity>
     private lateinit var viewModel: AppViewModel
     private lateinit var adapter: GroupAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -88,13 +90,24 @@ class GroupFragment : Fragment(), GroupCardInterface {
 
             // Send the name to the database to create a new group
             builder.setPositiveButton("Ok") {_, _ ->
-                saveGroupToDatabase(
+                val groupId = saveGroupToDatabase(
                     input.text.toString().trim()
                 )
+                Log.d("groupId gFrag", groupId.toString())
                 viewModel.getAllLists().observe(requireActivity(), { groups ->
                     adapter.swapData(groups)
                     groupList = groups
                 })
+                /*val handler = Handler(Looper.getMainLooper())
+                handler.postDelayed({
+                    val intent = Intent(requireActivity(), EditGroupActivity::class.java).apply {
+                        putExtra("group_id", groupId)
+
+                        putExtra("group_name", newGroupName)
+                    }
+                    startActivity(intent)
+                },1000)*/
+
             }
 
             builder.setNegativeButton("Cancel") { _, _ -> }
@@ -124,12 +137,20 @@ class GroupFragment : Fragment(), GroupCardInterface {
 
     private fun saveGroupToDatabase(groupName: String) {
         // TODO Check for Empty inputs
-        Log.d("groupName", groupName)
+        //Log.d("groupName", groupName)
         val listEntity = ListEntity(
             name = groupName
         )
-        viewModel.insertList(listEntity)
+        //var listId: Long = 0
+        val observer = Observer<Long> { id->
+            val intent = Intent(requireActivity(), EditGroupActivity::class.java).apply {
+                putExtra("group_id", id)
 
+                putExtra("group_name", listEntity.name)
+            }
+            startActivity(intent)
+        }
+        viewModel.insertList(listEntity).observe(requireActivity(),observer)
     }
 
     override fun onDestroyView() {
