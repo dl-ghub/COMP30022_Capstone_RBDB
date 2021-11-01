@@ -416,15 +416,18 @@ class DatabaseInstrumentedTest {
 
         val cardTagCrossRef1:CardTagCrossRef = CardTagCrossRef(1,100)
         val cardTagCrossRef2:CardTagCrossRef = CardTagCrossRef(2,100)
-        val cardTagCrossRef3:CardTagCrossRef = CardTagCrossRef(3,200)
-        val cardTagCrossRef4:CardTagCrossRef = CardTagCrossRef(1,200)
+        val cardTagCrossRef3:CardTagCrossRef = CardTagCrossRef(2,200)
+//        val cardTagCrossRef4:CardTagCrossRef = CardTagCrossRef(1,200)
         cardTagCrossRefDao.insert(cardTagCrossRef1)
         cardTagCrossRefDao.insert(cardTagCrossRef2)
         cardTagCrossRefDao.insert(cardTagCrossRef3)
-        cardTagCrossRefDao.insert(cardTagCrossRef4)
+//        cardTagCrossRefDao.insert(cardTagCrossRef4)
 
-        val result = appRepository.getCardByTagIds(100,200)
-        assertThat(result.size, equalTo(3))
+        val tags = listOf<Long>()
+
+        val result = appRepository.getCardByTagIds(tags)
+//        println(result)
+        assertThat(result.size, equalTo(0))
 
     }
 
@@ -452,6 +455,49 @@ class DatabaseInstrumentedTest {
         val results = appRepository.getCardByKeywordInSelectedColumns(keyword,columns)
 
         assertThat(results.size, equalTo(3))
+
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun getTagsByCardId() = runBlocking {
+
+        /*val result: List<CardEntity> = appRepository.getCardByTagIds()
+        println(result)*/
+
+        val tagEntity1:TagEntity = TagEntity(100,"first tag")
+        val tagEntity2:TagEntity = TagEntity(200,"second tag")
+        tagEntityDao.insert(tagEntity1)
+        tagEntityDao.insert(tagEntity2)
+
+        val cardEntity1: CardEntity = CardEntity(
+            1, "sam", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a cool guy"
+        )
+        val cardEntity2: CardEntity = CardEntity(
+            2, "jack", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a red guy"
+        )
+        val cardEntity3: CardEntity = CardEntity(
+            3, "peter", "unimelb",
+            "0922", "444222999", "test@email.com", "I am a blue guy"
+        )
+        cardEntityDao.insert(cardEntity1)
+        cardEntityDao.insert(cardEntity2)
+        cardEntityDao.insert(cardEntity3)
+
+        val cardTagCrossRef1:CardTagCrossRef = CardTagCrossRef(1,100)
+//        val cardTagCrossRef2:CardTagCrossRef = CardTagCrossRef(2,100)
+        val cardTagCrossRef3:CardTagCrossRef = CardTagCrossRef(2,200)
+        val cardTagCrossRef4:CardTagCrossRef = CardTagCrossRef(1,200)
+        cardTagCrossRefDao.insert(cardTagCrossRef1)
+//        cardTagCrossRefDao.insert(cardTagCrossRef2)
+        cardTagCrossRefDao.insert(cardTagCrossRef3)
+        cardTagCrossRefDao.insert(cardTagCrossRef4)
+
+        val result = appRepository.getTagsByCardId(1)
+        println(result)
+        assertThat(result.size, equalTo(2))
 
     }
 

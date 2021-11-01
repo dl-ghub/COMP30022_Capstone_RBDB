@@ -11,26 +11,33 @@
         android:theme="@style/Theme.RBDB">
         <activity
             android:name=".ui.EditContactActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.RBDB.NoActionBar"/>
         <activity
             android:name=".ui.NewContactActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.RBDB.NoActionBar"/>
         <activity
             android:name=".ui.ContactDetailActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.RBDB.NoActionBar"/>
         <activity
             android:name=".ui.GroupDetailActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.RBDB.NoActionBar"/>
         <activity
             android:name=".ui.EditGroupActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.RBDB.NoActionBar"/>
         <activity
             android:name=".ui.SearchActivity"
-            android:exported="true"/>
+            android:exported="true"
+            android:theme="@style/Theme.RBDB.NoActionBar"/>
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.RBDB.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

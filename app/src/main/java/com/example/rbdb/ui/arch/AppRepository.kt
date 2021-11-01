@@ -68,11 +68,12 @@ class AppRepository(private val appDatabase: AppDatabase) {
     }
 
     // Get cards by tag ids in OR relationship. You  have to provide at least one tag Id
-    suspend fun getCardByTagIds(vararg tagIds: Long): List<CardEntity> {
+    suspend fun getCardByTagIds(tagIds: List<Long>): List<CardEntity>{
 
-        if (tagIds.size == 0) {
-            //throw an exception if there is no tag ID provided
-            throw Exception("You have to provide at least one tag Id")
+        if(tagIds.size==0){
+
+            // return empty card entity list if there is no tag selected
+            return listOf<CardEntity>()
         }
         //construct the query string
         var queryString: String =
@@ -149,9 +150,16 @@ class AppRepository(private val appDatabase: AppDatabase) {
         appDatabase.listEntityDao().delete(listEntity)
     }
 
-    suspend fun updateList(listEntity: ListEntity) {
-        appDatabase.listEntityDao().update(listEntity)
+    @Transaction
+    suspend fun deleteListAndCrossRefByListId(listId: Long) {
+
+        // remove the cross references in "cardListCrossRef"
+        appDatabase.cardListCrossRefDao().deleteAllByListId(listId)
+        // remove the list entity from the list entity table
+        appDatabase.listEntityDao().deleteByListId(listId)
     }
+
+    suspend fun updateList(listEntity: ListEntity){appDatabase.listEntityDao().update(listEntity)}
 
     suspend fun updateListName(name: String, listId: Long) {
         appDatabase.listEntityDao().updateListName(name, listId)
@@ -182,9 +190,17 @@ class AppRepository(private val appDatabase: AppDatabase) {
         appDatabase.tagEntityDao().delete(tagEntity)
     }
 
-    suspend fun updateTag(tagEntity: TagEntity) {
-        appDatabase.tagEntityDao().update(tagEntity)
+    @Transaction
+    suspend fun deleteTagAndCrossRefByTagId(tagId: Long){
+
+        // NOTE: had to do it in this order to solve a front-end bug
+        // remove the tag entity from the tag entity table
+        appDatabase.tagEntityDao().deleteByTagId(tagId)
+        // remove the cross references in "cardTagCrossRef"
+        appDatabase.cardTagCrossRefDao().deleteByTagId(tagId)
     }
+
+    suspend fun updateTag(tagEntity: TagEntity){appDatabase.tagEntityDao().update(tagEntity)}
 
     suspend fun getAllTags(): List<TagEntity> {
         return appDatabase.tagEntityDao().getAllTags()
@@ -197,6 +213,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
     suspend fun getTagID(nameOfTag: String): Long {
         return appDatabase.tagEntityDao().getTagID(nameOfTag)
     }
+
+    suspend fun getTagsByCardId(cardId: Long): List<TagEntity>{return appDatabase.tagEntityDao().getTagsByCardId(cardId)}
 
     // User dao interaction
     suspend fun insertUser(userEntity: UserEntity) {

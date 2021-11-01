@@ -91,8 +91,8 @@ class AppViewModel : ViewModel() {
         viewModelScope.launch { repository.deleteList(listEntity) }
     }
 
-    fun deleteByListId(listId: Long) {
-        viewModelScope.launch { repository.deleteByListId(listId) }
+    fun deleteListAndCrossRefByListId(listId: Long) {
+        viewModelScope.launch { repository.deleteListAndCrossRefByListId(listId) }
     }
 
     fun updateList(listEntity: ListEntity) {
@@ -128,6 +128,10 @@ class AppViewModel : ViewModel() {
         viewModelScope.launch { repository.deleteTag(tagEntity) }
     }
 
+    fun deleteTagAndCrossRefByTagId(tagId: Long) {
+        viewModelScope.launch { repository.deleteTagAndCrossRefByTagId(tagId) }
+    }
+
     fun updateTag(tagEntity: TagEntity) {
         viewModelScope.launch { repository.updateTag(tagEntity) }
     }
@@ -144,9 +148,21 @@ class AppViewModel : ViewModel() {
         return result
     }
 
+    fun getTagsByCardId(cardId: Long): LiveData<List<TagEntity>> {
+        val result = MutableLiveData<List<TagEntity>>()
+        viewModelScope.launch { result.postValue(repository.getTagsByCardId(cardId)) }
+        return result
+    }
+
     fun getTagID(nameOfTag: String): LiveData<Long> {
         val result = MutableLiveData<Long>()
         viewModelScope.launch { result.postValue(repository.getTagID(nameOfTag)) }
+        return result
+    }
+
+    fun getCardByTagIds(tagIds: ArrayList<Long>): LiveData<List<CardEntity>> {
+        val result = MutableLiveData<List<CardEntity>>()
+        viewModelScope.launch { result.postValue(repository.getCardByTagIds(tagIds))}
         return result
     }
 
@@ -172,5 +188,10 @@ class AppViewModel : ViewModel() {
     // Call repository methods for CardListCrossRefs
     fun deleteAllCrossRefByListId(listId: Long) {
         viewModelScope.launch {repository.deleteAllCrossRefByListId(listId)}
+    }
+
+    // Call repository methods for CardTagCrossRefs
+    fun insertCardTagCrossRef(cardTagCrossRef: CardTagCrossRef) {
+        viewModelScope.launch {repository.insertCardTagCrossRef(cardTagCrossRef)}
     }
 }
