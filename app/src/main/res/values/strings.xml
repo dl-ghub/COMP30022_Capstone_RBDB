@@ -21,6 +21,7 @@
     <string name="name_label">Name</string>
     <string name="contact_info_label">Contact Information</string>
     <string name="description_label">Description</string>
+    <string name="tag_label">Tags</string>
     <string name="first_name_hint">First name</string>
     <string name="last_name_hint">Last name</string>
     <string name="business_name_hint">Business name</string>
