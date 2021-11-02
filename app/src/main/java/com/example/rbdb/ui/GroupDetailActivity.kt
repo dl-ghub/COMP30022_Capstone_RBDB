@@ -23,10 +23,8 @@ import com.example.rbdb.ui.adapters.ContactAdapter
 import com.example.rbdb.ui.adapters.ContactCardInterface
 import com.example.rbdb.ui.arch.AppViewModel
 import android.text.style.ForegroundColorSpan
-
 import android.text.SpannableString
 import androidx.core.content.ContextCompat
-import com.example.rbdb.database.model.ListEntity
 
 
 class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {

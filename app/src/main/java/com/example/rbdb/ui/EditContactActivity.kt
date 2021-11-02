@@ -1,11 +1,11 @@
 package com.example.rbdb.ui
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.util.Patterns
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
@@ -77,13 +77,6 @@ class EditContactActivity : AppCompatActivity() {
             binding.firstNameField.error = null
         }
 
-        /*val lastName = binding.lastNameInput.text.toString().trim()
-        if (lastName.isEmpty()){
-            binding.lastNameField.error = "* Required Field"
-            fieldError = true
-        }
-        else{binding.lastNameField.error = null}*/
-
         val businessName = binding.businessNameInput.text.toString().trim()
         if (businessName.isEmpty()) {
             binding.businessNameField.error = "* Required Field"
@@ -97,7 +90,21 @@ class EditContactActivity : AppCompatActivity() {
         }
 
         val phoneNumber = binding.phoneInput.text.toString().trim()
+        if (isPhoneValid(binding.phoneInput.text!!) && phoneNumber.isNotEmpty()){
+            binding.phoneField.error = "* Invalid Phone Number"
+            fieldError = true
+        }
+        else{binding.phoneField.error = null}
+
         val email = binding.emailInput.text.toString().trim()
+        if (isEmailValid(binding.emailInput.text!!) && email.isNotEmpty()){
+            binding.emailField.error = "* Invalid Email"
+            fieldError = true
+        }
+        else{binding.emailField.error = null}
+
+        if (fieldError){return}
+
         val description = binding.descriptionInput.text.toString().trim()
 
         val updateObserver = Observer<CardEntity> { contact ->
@@ -120,6 +127,14 @@ class EditContactActivity : AppCompatActivity() {
         handler.postDelayed({
             finish()
         }, 500)
+    }
+
+    private fun isEmailValid(email: CharSequence): Boolean {
+        return !Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun isPhoneValid(phone: CharSequence): Boolean {
+        return !Patterns.PHONE.matcher(phone).matches()
     }
 
     override fun onSupportNavigateUp(): Boolean {
