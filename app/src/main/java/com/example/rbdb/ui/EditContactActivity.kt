@@ -58,12 +58,13 @@ class EditContactActivity : AppCompatActivity() {
             for (tag in contactTags) {
                 chipList.add(tag)
             }
+            viewModel.getAllTags().observe(this, { allTags ->
+                allTagsList = allTags
+                updateChips(allTags)
+            })
         })
 
-        viewModel.getAllTags().observe(this, { allTags ->
-            allTagsList = allTags
-            updateChips(allTags)
-        })
+
     }
 
     private fun saveItemToDatabase() {
@@ -90,20 +91,24 @@ class EditContactActivity : AppCompatActivity() {
         }
 
         val phoneNumber = binding.phoneInput.text.toString().trim()
-        if (isPhoneValid(binding.phoneInput.text!!) && phoneNumber.isNotEmpty()){
+        if (isPhoneValid(binding.phoneInput.text!!) && phoneNumber.isNotEmpty()) {
             binding.phoneField.error = "* Invalid Phone Number"
             fieldError = true
+        } else {
+            binding.phoneField.error = null
         }
-        else{binding.phoneField.error = null}
 
         val email = binding.emailInput.text.toString().trim()
-        if (isEmailValid(binding.emailInput.text!!) && email.isNotEmpty()){
+        if (isEmailValid(binding.emailInput.text!!) && email.isNotEmpty()) {
             binding.emailField.error = "* Invalid Email"
             fieldError = true
+        } else {
+            binding.emailField.error = null
         }
-        else{binding.emailField.error = null}
 
-        if (fieldError){return}
+        if (fieldError) {
+            return
+        }
 
         val description = binding.descriptionInput.text.toString().trim()
 
@@ -184,7 +189,7 @@ class EditContactActivity : AppCompatActivity() {
     }
 
     private fun updateChips(allTags: List<TagEntity>) {
-        Log.d("contactTags", contactTagsList.toString())
+        Log.d("contactTagsList", contactTagsList.toString())
         val chipGroup = binding.tagChipGroup
         chipGroup.removeAllViewsInLayout()
         for (tag in allTags) {

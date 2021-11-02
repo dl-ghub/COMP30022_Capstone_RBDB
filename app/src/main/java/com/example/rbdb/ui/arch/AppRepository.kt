@@ -239,10 +239,6 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     suspend fun deleteCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().delete(cardListCrossRef)}
 
-    suspend fun deleteCardListCrossRef(cardListCrossRef: CardListCrossRef) {
-        appDatabase.cardListCrossRefDao().delete(cardListCrossRef)
-    }
-
     suspend fun deleteAllCrossRefByListId(listId: Long) {
         appDatabase.cardListCrossRefDao().deleteAllByListId(listId)
     }
