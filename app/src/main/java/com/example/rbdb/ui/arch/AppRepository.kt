@@ -199,4 +199,5 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     suspend fun getAllCardTagCrossRef(): List<CardTagCrossRef>{return appDatabase.cardTagCrossRefDao().getAllCardTagCrossRef()}
 
+    suspend fun deleteAllTagCrossRefByCardId(cardId: Long){appDatabase.cardTagCrossRefDao().deleteAllByCardId(cardId)}
 }

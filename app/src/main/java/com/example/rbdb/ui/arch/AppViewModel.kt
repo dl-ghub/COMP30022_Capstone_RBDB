@@ -194,4 +194,8 @@ class AppViewModel : ViewModel() {
     fun insertCardTagCrossRef(cardTagCrossRef: CardTagCrossRef) {
         viewModelScope.launch {repository.insertCardTagCrossRef(cardTagCrossRef)}
     }
+
+    fun deleteAllTagCrossRefByCardId(cardId: Long) {
+        viewModelScope.launch {repository.deleteAllTagCrossRefByCardId(cardId)}
+    }
 }

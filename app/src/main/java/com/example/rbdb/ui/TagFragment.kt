@@ -73,7 +73,6 @@ class TagFragment : Fragment(), ContactCardInterface {
                         }
                     }
                 }
-                // TODO Need to change chipList to somehow include tagIds
                 displaySearch(chipList)
             }
         }
