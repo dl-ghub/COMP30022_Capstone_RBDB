@@ -26,4 +26,7 @@ interface CardTagCrossRefDao {
     @Query("SELECT * FROM card_tag_cross_ref")
     suspend fun getAllCardTagCrossRef(): List<CardTagCrossRef>
 
+    @Query("DELETE FROM card_tag_cross_ref WHERE cardId = :cardId")
+    suspend fun deleteAllByCardId(cardId: Long)
+
 }

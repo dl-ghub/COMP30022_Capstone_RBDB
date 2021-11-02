@@ -15,9 +15,8 @@ class AppRepository(private val appDatabase: AppDatabase) {
     // its not technically necessary right now, but makes code extendable
 
     // Card dao interaction
-    suspend fun insertCard(cardEntity: CardEntity) {
-        appDatabase.cardEntityDao().insert(cardEntity)
-    }
+    suspend fun insertCard(cardEntity: CardEntity): Long {return appDatabase.cardEntityDao().insert(cardEntity)}
+
 
     suspend fun deleteCard(cardEntity: CardEntity) {
         appDatabase.cardEntityDao().delete(cardEntity)
@@ -33,7 +32,7 @@ class AppRepository(private val appDatabase: AppDatabase) {
         // remove the cross reference in "cardListCrossRef" table and "cardTagCrossRef" table
         appDatabase.cardListCrossRefDao().deleteByCardId(cardId)
         appDatabase.cardTagCrossRefDao().deleteByCardId(cardId)
-        // finally, remove the card entity from the card enetity table
+        // finally, remove the card entity from the card entity table
         appDatabase.cardEntityDao().deleteCardById(cardId)
     }
 
@@ -90,8 +89,9 @@ class AppRepository(private val appDatabase: AppDatabase) {
             argsList.add(tagId)
         }
 
-        queryString = queryString.dropLast(formattedQuery.length) + ")" + " GROUP BY CR.cardId";
-        println("Query:getCardByTagIds = " + queryString)
+        queryString = queryString.dropLast(formattedQuery.length)+")"+" GROUP BY CR.cardId" + " ORDER BY UPPER(CE.name) ASC"
+        println("Query:getCardByTagIds = "+ queryString)
+
 
         //perform query
         val query = SimpleSQLiteQuery(queryString, argsList.toArray())
@@ -126,6 +126,7 @@ class AppRepository(private val appDatabase: AppDatabase) {
         }
 
         queryString = queryString.dropLast(logicQuery.length);
+        queryString += " ORDER BY UPPER(name) ASC"
 //        println("Query:getCardByKeywordInSelectedColumns = "+ queryString)
         Log.d("Query:getCardByKeywordInSelectedColumns", queryString)
 
@@ -234,9 +235,9 @@ class AppRepository(private val appDatabase: AppDatabase) {
     }
 
     // CardListCrossRefDao interaction
-    suspend fun insertCardListCrossRef(cardListCrossRef: CardListCrossRef) {
-        appDatabase.cardListCrossRefDao().insert(cardListCrossRef)
-    }
+    suspend fun insertCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().insert(cardListCrossRef)}
+
+    suspend fun deleteCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().delete(cardListCrossRef)}
 
     suspend fun deleteCardListCrossRef(cardListCrossRef: CardListCrossRef) {
         appDatabase.cardListCrossRefDao().delete(cardListCrossRef)
@@ -279,4 +280,5 @@ class AppRepository(private val appDatabase: AppDatabase) {
         return appDatabase.cardTagCrossRefDao().getAllCardTagCrossRef()
     }
 
+    suspend fun deleteAllTagCrossRefByCardId(cardId: Long){appDatabase.cardTagCrossRefDao().deleteAllByCardId(cardId)}
 }

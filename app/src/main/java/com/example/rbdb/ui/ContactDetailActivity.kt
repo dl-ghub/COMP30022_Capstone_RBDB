@@ -129,6 +129,9 @@ class ContactDetailActivity : AppCompatActivity() {
 
         }
         viewModel.getCardById(contactId).observe(this,observer)
+        viewModel.getTagsByCardId(contactId).observe(this, { tags ->
+            updateChips(tags)
+        })
     }
 
     private fun createAvatar(name: String): TextDrawable {
@@ -148,6 +151,7 @@ class ContactDetailActivity : AppCompatActivity() {
 
     private fun updateChips(tags: List<TagEntity>) {
         val chipGroup = binding.tagChipGroup
+        chipGroup.removeAllViewsInLayout()
         for (tag in tags) {
             val chip = layoutInflater.inflate(R.layout.layout_chip_nonclickable, chipGroup, false) as Chip
             chip.text = (tag.name)

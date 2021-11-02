@@ -17,8 +17,10 @@ class AppViewModel : ViewModel() {
     }
 
     // Call repository methods for card
-    fun insertCard(cardEntity: CardEntity) {
-        viewModelScope.launch { repository.insertCard(cardEntity) }
+    fun insertCard(cardEntity: CardEntity): LiveData<Long>{
+        var result = MutableLiveData<Long>()
+        viewModelScope.launch { result.postValue(repository.insertCard(cardEntity)) }
+        return result
     }
 
     fun deleteCard(cardEntity: CardEntity) {
@@ -193,5 +195,9 @@ class AppViewModel : ViewModel() {
     // Call repository methods for CardTagCrossRefs
     fun insertCardTagCrossRef(cardTagCrossRef: CardTagCrossRef) {
         viewModelScope.launch {repository.insertCardTagCrossRef(cardTagCrossRef)}
+    }
+
+    fun deleteAllTagCrossRefByCardId(cardId: Long) {
+        viewModelScope.launch {repository.deleteAllTagCrossRefByCardId(cardId)}
     }
 }

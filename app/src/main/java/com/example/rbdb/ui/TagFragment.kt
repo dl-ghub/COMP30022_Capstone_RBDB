@@ -73,7 +73,6 @@ class TagFragment : Fragment(), ContactCardInterface {
                         }
                     }
                 }
-                // TODO Need to change chipList to somehow include tagIds
                 displaySearch(chipList)
             }
         }
@@ -151,8 +150,6 @@ class TagFragment : Fragment(), ContactCardInterface {
         recycler = binding.rvContacts
         adapter = ContactAdapter(mutableListOf(), this)
         recycler.adapter = adapter
-
-
     }
 
     override fun onDestroyView() {
