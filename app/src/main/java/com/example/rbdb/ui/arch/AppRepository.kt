@@ -72,7 +72,7 @@ class AppRepository(private val appDatabase: AppDatabase) {
             argsList.add(tagId)
         }
 
-        queryString = queryString.dropLast(formattedQuery.length)+")"+" GROUP BY CR.cardId";
+        queryString = queryString.dropLast(formattedQuery.length)+")"+" GROUP BY CR.cardId" + " ORDER BY UPPER(CE.name) ASC"
         println("Query:getCardByTagIds = "+ queryString)
 
         //perform query
@@ -104,6 +104,7 @@ class AppRepository(private val appDatabase: AppDatabase) {
         }
 
         queryString = queryString.dropLast(logicQuery.length);
+        queryString += " ORDER BY UPPER(name) ASC"
 //        println("Query:getCardByKeywordInSelectedColumns = "+ queryString)
         Log.d("Query:getCardByKeywordInSelectedColumns",queryString)
 
