@@ -3,6 +3,7 @@ package com.example.rbdb.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -43,6 +44,8 @@ class NewContactActivity : AppCompatActivity() {
         binding.saveButton.setOnClickListener {
             saveItemToDatabase()
         }
+        binding.phoneInput.addTextChangedListener(PhoneNumberFormattingTextWatcher("AU"))
+
         viewModel.init(AppDatabase.getDatabase(this))
         viewModel.getAllTags().observe(this, { tags ->
             tagsList = tags

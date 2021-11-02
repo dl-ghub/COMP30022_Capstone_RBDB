@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
 import android.util.Patterns
 import androidx.activity.viewModels
@@ -39,6 +40,9 @@ class EditContactActivity : AppCompatActivity() {
         supportActionBar?.title = "Edit Contact"
         contactId = intent.getLongExtra(ContactDetailActivity.CONTACT_ID, -1)
         viewModel.init(AppDatabase.getDatabase(this))
+
+        binding.phoneInput.addTextChangedListener(PhoneNumberFormattingTextWatcher("AU"))
+
         val contactObserver = Observer<CardEntity> { contact ->
             binding.firstNameInput.setText(contact.name)
             //binding.lastNameInput.setText(contact.name)
