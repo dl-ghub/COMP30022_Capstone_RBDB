@@ -17,7 +17,7 @@ class AppRepository(private val appDatabase: AppDatabase) {
     // its not technically necessary right now, but makes code extendable
 
     // Card dao interaction
-    suspend fun insertCard(cardEntity: CardEntity){appDatabase.cardEntityDao().insert(cardEntity)}
+    suspend fun insertCard(cardEntity: CardEntity): Long {return appDatabase.cardEntityDao().insert(cardEntity)}
 
     suspend fun deleteCard(cardEntity: CardEntity){appDatabase.cardEntityDao().delete(cardEntity)}
 
@@ -29,7 +29,7 @@ class AppRepository(private val appDatabase: AppDatabase) {
         // remove the cross reference in "cardListCrossRef" table and "cardTagCrossRef" table
         appDatabase.cardListCrossRefDao().deleteByCardId(cardId)
         appDatabase.cardTagCrossRefDao().deleteByCardId(cardId)
-        // finally, remove the card entity from the card enetity table
+        // finally, remove the card entity from the card entity table
         appDatabase.cardEntityDao().deleteCardById(cardId)
     }
 
@@ -177,7 +177,7 @@ class AppRepository(private val appDatabase: AppDatabase) {
 
     // CardListCrossRefDao interaction
     suspend fun insertCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().insert(cardListCrossRef)}
-        
+
     suspend fun deleteCardListCrossRef(cardListCrossRef: CardListCrossRef){appDatabase.cardListCrossRefDao().delete(cardListCrossRef)}
 
     suspend fun deleteAllCrossRefByListId(listId: Long){appDatabase.cardListCrossRefDao().deleteAllByListId(listId)}

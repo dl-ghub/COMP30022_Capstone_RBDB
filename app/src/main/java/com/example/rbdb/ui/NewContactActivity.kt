@@ -3,6 +3,7 @@ package com.example.rbdb.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -13,6 +14,7 @@ import androidx.core.content.ContextCompat
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
 import com.example.rbdb.database.model.CardEntity
+import com.example.rbdb.database.model.CardTagCrossRef
 import com.example.rbdb.database.model.TagEntity
 import com.example.rbdb.databinding.ActivityNewContactPageBinding
 import com.example.rbdb.ui.arch.AppViewModel
@@ -24,6 +26,7 @@ class NewContactActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewContactPageBinding
     private val viewModel: AppViewModel by viewModels()
     private var tagsList: List<TagEntity> = mutableListOf()
+    private var chipList = ArrayList<TagEntity>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +38,7 @@ class NewContactActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        binding.saveButton.setOnClickListener{
+        binding.saveButton.setOnClickListener {
             saveItemToDatabase()
         }
         viewModel.init(AppDatabase.getDatabase(this))
@@ -49,27 +52,32 @@ class NewContactActivity : AppCompatActivity() {
         var fieldError = false
 
         val firstName = binding.firstNameInput.text.toString().trim()
-        if (firstName.isEmpty()){
+        if (firstName.isEmpty()) {
             binding.firstNameField.error = "* Required Field"
             fieldError = true
+        } else {
+            binding.firstNameField.error = null
         }
-        else{ binding.firstNameField.error = null }
 
         val lastName = binding.lastNameInput.text.toString().trim()
-        if (lastName.isEmpty()){
+        if (lastName.isEmpty()) {
             binding.lastNameField.error = "* Required Field"
             fieldError = true
+        } else {
+            binding.lastNameField.error = null
         }
-        else{binding.lastNameField.error = null}
 
         val businessName = binding.businessNameInput.text.toString().trim()
-        if (businessName.isEmpty()){
+        if (businessName.isEmpty()) {
             binding.businessNameField.error = "* Required Field"
             fieldError = true
+        } else {
+            binding.businessNameField.error = null
         }
-        else{binding.businessNameField.error = null}
 
-        if (fieldError){return}
+        if (fieldError) {
+            return
+        }
 
         val phoneNumber = binding.phoneInput.text.toString().trim()
         val email = binding.emailInput.text.toString().trim()
@@ -83,17 +91,31 @@ class NewContactActivity : AppCompatActivity() {
             email = email,
             description = description
         )
-        viewModel.insertCard(cardEntity)
+
+        // Insert card to database. Also creates and inserts all the CardTagCrossRefs
+        viewModel.insertCard(cardEntity).observe(this, { newContactId ->
+            Log.d("New contact Id", newContactId.toString())
+            // Insert tag cross references to database.
+            for (selectedTag in chipList) {
+                val cardTagCrossRef = CardTagCrossRef(
+                    cardId = newContactId,
+                    tagId = selectedTag.tagId
+                )
+                viewModel.insertCardTagCrossRef(cardTagCrossRef)
+                Log.d("cardTagCrossRef add", cardTagCrossRef.toString())
+            }
+        })
+
 
         //Return to Homepage or previous page code
-        val intent = Intent(this,MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         //
         finish()
     }
 
-    
+
     override fun onSupportNavigateUp(): Boolean {
         this.onBackPressed()
 
@@ -107,9 +129,9 @@ class NewContactActivity : AppCompatActivity() {
         builder.setTitle(R.string.confirm_leave_title)
         builder.setMessage(R.string.confirm_leave_txt)
 
-        builder.setPositiveButton("Yes"){ _, _ -> super.onBackPressed() }
+        builder.setPositiveButton("Yes") { _, _ -> super.onBackPressed() }
 
-        builder.setNegativeButton("Cancel"){_, _ -> }
+        builder.setNegativeButton("Cancel") { _, _ -> }
 
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)
@@ -119,7 +141,6 @@ class NewContactActivity : AppCompatActivity() {
 
     private fun addListenerOnButtonClick() {
         val chipGroup = binding.tagChipGroup
-        val chipList = ArrayList<TagEntity>()
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
             chip.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -127,12 +148,14 @@ class NewContactActivity : AppCompatActivity() {
                     for (tag in tagsList) {
                         if (tag.tagId == chip.id.toLong()) {
                             chipList.add(tag)
+                            Log.d("chipList", chipList.toString())
                         }
                     }
                 } else {
                     for (tag in tagsList) {
                         if (tag.tagId == chip.id.toLong()) {
                             chipList.remove(tag)
+                            Log.d("chipList", chipList.toString())
                         }
                     }
                 }
