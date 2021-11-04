@@ -1,6 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.RBDB" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Font -->
+        <item name="android:fontFamily">@font/roboto</item>
+
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryBlue</item>
         <item name="colorPrimaryVariant">@color/primaryBlueVariant</item>
@@ -35,20 +38,25 @@
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">21sp</item>
     </style>
+
     <style name="Widget.App.TabLayout" parent="Widget.MaterialComponents.TabLayout">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.TabLayout</item>
         <item name="tabTextAppearance">@style/TextAppearance.AppCompat.Button</item>
     </style>
+
     <style name="ThemeOverlay.App.TabLayout" parent="">
         <item name="colorPrimary">@color/white</item>
         <item name="colorSurface">@color/primaryBlue</item>
         <item name="colorOnSurface">@color/white</item>
     </style>
+
     <style name="Theme.RBDB.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="Theme.RBDB.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="Theme.RBDB.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="MyCheckboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
