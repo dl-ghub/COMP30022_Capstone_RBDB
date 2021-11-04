@@ -18,7 +18,7 @@ class AppViewModel : ViewModel() {
 
     // Call repository methods for card
     fun insertCard(cardEntity: CardEntity): LiveData<Long>{
-        var result = MutableLiveData<Long>()
+        val result = MutableLiveData<Long>()
         viewModelScope.launch { result.postValue(repository.insertCard(cardEntity)) }
         return result
     }

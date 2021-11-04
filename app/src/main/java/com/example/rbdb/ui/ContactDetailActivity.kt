@@ -33,7 +33,6 @@ class ContactDetailActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         val toolbar = binding.cDetailTopAppBar
-        val chipGroup = binding.tagChipGroup
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -104,7 +103,7 @@ class ContactDetailActivity : AppCompatActivity() {
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(this,R.color.warningRed))
+                .setTextColor(ContextCompat.getColor(this,R.color.light_error))
 
             true
         }

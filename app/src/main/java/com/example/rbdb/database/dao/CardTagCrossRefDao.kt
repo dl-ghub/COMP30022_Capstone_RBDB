@@ -1,7 +1,6 @@
 package com.example.rbdb.database.dao
 
 import androidx.room.*
-import com.example.rbdb.database.model.CardListCrossRef
 import com.example.rbdb.database.model.CardTagCrossRef
 
 

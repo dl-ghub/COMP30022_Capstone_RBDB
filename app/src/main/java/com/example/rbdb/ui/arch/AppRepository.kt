@@ -69,10 +69,10 @@ class AppRepository(private val appDatabase: AppDatabase) {
     // Get cards by tag ids in OR relationship. You  have to provide at least one tag Id
     suspend fun getCardByTagIds(tagIds: List<Long>): List<CardEntity>{
 
-        if(tagIds.size==0){
+        if(tagIds.isEmpty()){
 
             // return empty card entity list if there is no tag selected
-            return listOf<CardEntity>()
+            return listOf()
         }
         //construct the query string
         var queryString: String =
@@ -81,16 +81,16 @@ class AppRepository(private val appDatabase: AppDatabase) {
                     "INNER JOIN tag_entity TE ON CR.tagId = TE.tagId WHERE CR.tagId IN ("
         val formattedQuery: String = ","
 
-        var argsList: ArrayList<Long> = arrayListOf()
+        val argsList: ArrayList<Long> = arrayListOf()
 
         for (tagId: Long in tagIds) {
-            queryString = queryString + "?"
-            queryString = queryString + formattedQuery
+            queryString += "?"
+            queryString += formattedQuery
             argsList.add(tagId)
         }
 
         queryString = queryString.dropLast(formattedQuery.length)+")"+" GROUP BY CR.cardId" + " ORDER BY UPPER(CE.name) ASC"
-        println("Query:getCardByTagIds = "+ queryString)
+        println("Query:getCardByTagIds = $queryString")
 
 
         //perform query
@@ -125,7 +125,7 @@ class AppRepository(private val appDatabase: AppDatabase) {
             queryString += logicQuery
         }
 
-        queryString = queryString.dropLast(logicQuery.length);
+        queryString = queryString.dropLast(logicQuery.length)
         queryString += " ORDER BY UPPER(name) ASC"
 //        println("Query:getCardByKeywordInSelectedColumns = "+ queryString)
         Log.d("Query:getCardByKeywordInSelectedColumns", queryString)

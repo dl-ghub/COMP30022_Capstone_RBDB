@@ -47,12 +47,12 @@ class GroupContactFragment : Fragment(), ContactCardInterface {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentGroupContactBinding.inflate(inflater, container, false)
         val view = binding.root
 
         // initialise viewmodel/database for this fragment
-        viewModel = ViewModelProvider(this).get(AppViewModel::class.java)
+        viewModel = ViewModelProvider(this)[AppViewModel::class.java]
         viewModel.init(AppDatabase.getDatabase(requireActivity()))
 
         return view
@@ -127,7 +127,5 @@ class GroupContactFragment : Fragment(), ContactCardInterface {
                     putString(ARG_PARAM2, param2)
                 }
             }
-        fun newInstance() =
-            ContactFragment()
     }
 }
