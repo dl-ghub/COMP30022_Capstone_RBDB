@@ -125,13 +125,13 @@ class TagFragment : Fragment(), ContactCardInterface {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         _binding = FragmentTagBinding.inflate(inflater, container, false)
         val view = binding.root
 
         // initialise viewmodel/database for this fragment
-        viewModel = ViewModelProvider(this).get(AppViewModel::class.java)
+        viewModel = ViewModelProvider(this)[AppViewModel::class.java]
         viewModel.init(AppDatabase.getDatabase(requireActivity()))
 
         return view

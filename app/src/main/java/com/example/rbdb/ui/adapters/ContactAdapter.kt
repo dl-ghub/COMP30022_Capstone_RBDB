@@ -7,10 +7,6 @@ import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.ViewHolderContactBinding
-import com.example.rbdb.ui.SearchActivity
-import com.example.rbdb.ui.dataclasses.Contact
-import de.hdodenhof.circleimageview.CircleImageView
-import com.example.rbdb.ui.ContactFragment
 
 class ContactAdapter(
     private val data: MutableList<CardEntity>,
@@ -37,9 +33,6 @@ class ContactAdapter(
         this.data.addAll(data)
         notifyDataSetChanged()
     }
-
-    fun getSelectedContactsList() = data.filter { contact -> contact.isSelected}
-
 
     inner class ContactViewHolder(private val binding: ViewHolderContactBinding) :
         RecyclerView.ViewHolder(

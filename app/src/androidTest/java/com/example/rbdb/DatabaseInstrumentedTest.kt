@@ -55,7 +55,7 @@ class DatabaseInstrumentedTest {
         cardListCrossRefDao = db.cardListCrossRefDao()
         listEntityDao = db.listEntityDao()
         cardTagCrossRefDao = db.cardTagCrossRefDao()
-        appRepository= AppRepository(db);
+        appRepository= AppRepository(db)
     }
 //
 //    @After
@@ -96,7 +96,7 @@ class DatabaseInstrumentedTest {
         cardEntityDao.insert(cardEntity)
 
         val allCards = cardEntityDao.getAllCards()
-        println(allCards);
+        println(allCards)
 
         assertThat(allCards.isEmpty(), equalTo(false))
     }
@@ -135,7 +135,7 @@ class DatabaseInstrumentedTest {
         cardEntityDao.insert(cardEntity4)
         cardEntityDao.insert(cardEntity5)
 
-        val cards = appRepository.getCardsByName("Sam");
+        val cards = appRepository.getCardsByName("Sam")
 
         for(card in cards){
             println(card)
@@ -177,10 +177,10 @@ class DatabaseInstrumentedTest {
         cardEntityDao.insert(cardEntity4)
         cardEntityDao.insert(cardEntity5)
 
-        val cards = appRepository.getAllCardsOrderByName();
+        val cards = appRepository.getAllCardsOrderByName()
         println("0930 hello")
         for (card in cards) {
-            println(card);
+            println(card)
         }
 
         assertThat(cards[0].name, equalTo("adam"))
@@ -226,14 +226,14 @@ class DatabaseInstrumentedTest {
         cardEntityDao.insert(cardEntity4)
         cardEntityDao.insert(cardEntity5)
 
-        val cards = appRepository.getCardsByKeywordInDescription("green");
+        val cards = appRepository.getCardsByKeywordInDescription("green")
         println("0930 hello")
         for (card in cards) {
-            println(card);
+            println(card)
         }
 
-        assertThat(cards.size, equalTo(1));
-        assertThat(cards[0], equalTo(cardEntity4));
+        assertThat(cards.size, equalTo(1))
+        assertThat(cards[0], equalTo(cardEntity4))
 
 //        assertThat(cards[0], equalTo(cardEntity))
     }
@@ -242,17 +242,17 @@ class DatabaseInstrumentedTest {
     @Throws(Exception::class)
     fun insertCardListCrossReference() = runBlocking {
 
-        val cardListCrossRef: CardListCrossRef = CardListCrossRef(100, 200);
+        val cardListCrossRef: CardListCrossRef = CardListCrossRef(100, 200)
 
-        cardListCrossRefDao.insert(cardListCrossRef);
-        val results: List<CardListCrossRef> = cardListCrossRefDao.getAllCardListCrossRef();
+        cardListCrossRefDao.insert(cardListCrossRef)
+        val results: List<CardListCrossRef> = cardListCrossRefDao.getAllCardListCrossRef()
 
         println("0930 hello")
         for (result in results) {
-            println(result);
+            println(result)
         }
 
-        assertThat(results[0], equalTo(cardListCrossRef));
+        assertThat(results[0], equalTo(cardListCrossRef))
 
     }
 
@@ -260,8 +260,8 @@ class DatabaseInstrumentedTest {
     @Throws(Exception::class)
     fun getListsWithCards() = runBlocking {
 
-        val cardListCrossRef: CardListCrossRef = CardListCrossRef(100, 200);
-        val cardListCrossRef2: CardListCrossRef = CardListCrossRef(50, 200);
+        val cardListCrossRef: CardListCrossRef = CardListCrossRef(100, 200)
+        val cardListCrossRef2: CardListCrossRef = CardListCrossRef(50, 200)
         val cardEntity: CardEntity = CardEntity(
             100, "Zerg", "unimelb",
             "0922", "444222999", "test@email.com", "I am a yellow guy"
@@ -278,14 +278,14 @@ class DatabaseInstrumentedTest {
         listEntityDao.insert(listEntity2)
         cardEntityDao.insert(cardEntity)
         cardEntityDao.insert(cardEntity2)
-        cardListCrossRefDao.insert(cardListCrossRef);
-        cardListCrossRefDao.insert(cardListCrossRef2);
+        cardListCrossRefDao.insert(cardListCrossRef)
+        cardListCrossRefDao.insert(cardListCrossRef2)
 
         val results: List<ListWithCardsEntity> = listEntityDao.getListWithCards()
 
         println("0930 hello")
         for (result in results) {
-            println(result);
+            println(result)
         }
 
 //        assertThat(results[0], equalTo(cardListCrossRef));
@@ -305,9 +305,9 @@ class DatabaseInstrumentedTest {
 
         cardEntityDao.deleteCardById(id)
 
-        cardEntity = cardEntityDao.getCardById(id);
+        cardEntity = cardEntityDao.getCardById(id)
 
-        assertThat(cardEntity, equalTo(null));
+        assertThat(cardEntity, equalTo(null))
 
     }
 
@@ -315,23 +315,23 @@ class DatabaseInstrumentedTest {
     @Throws(Exception::class)
     fun deleteCardWithCrossRefByCardId() = runBlocking {
 
-        var cardEntity: CardEntity = CardEntity(
+        val cardEntity: CardEntity = CardEntity(
             10, "sam", "unimelb",
             "0922", "444222999", "test@email.com", "I am a cool guy"
         )
         val id = cardEntityDao.insert(cardEntity)
 
-        var cardListCrossRef:CardListCrossRef = CardListCrossRef(id, 100);
+        val cardListCrossRef:CardListCrossRef = CardListCrossRef(id, 100)
         cardListCrossRefDao.insert(cardListCrossRef)
 
-        var cardTagCrossRef:CardTagCrossRef = CardTagCrossRef(id, 200);
+        val cardTagCrossRef:CardTagCrossRef = CardTagCrossRef(id, 200)
         cardTagCrossRefDao.insert(cardTagCrossRef)
 
-        appRepository.deleteCardAndCrossRefByCardId(id);
+        appRepository.deleteCardAndCrossRefByCardId(id)
 
-        assertThat(cardEntityDao.getCardById(id), equalTo(null));
-        assertThat(cardListCrossRefDao.getAllCardListCrossRef().isEmpty(), equalTo(true));
-        assertThat(cardTagCrossRefDao.getAllCardTagCrossRef().isEmpty(), equalTo(true));
+        assertThat(cardEntityDao.getCardById(id), equalTo(null))
+        assertThat(cardListCrossRefDao.getAllCardListCrossRef().isEmpty(), equalTo(true))
+        assertThat(cardTagCrossRefDao.getAllCardTagCrossRef().isEmpty(), equalTo(true))
 
     }
 
@@ -379,10 +379,10 @@ class DatabaseInstrumentedTest {
 
         val listWithCardsEntity:ListWithCardsEntity = listEntityDao.getListWithCardsByListId(100)
 
-        assertThat(listWithCardsEntity.listEntity.listId, equalTo(100));
-        assertThat(listWithCardsEntity.cards[0].cardId, equalTo(1));
-        assertThat(listWithCardsEntity.cards[1].cardId, equalTo(2));
-        assertThat(listWithCardsEntity.cards[2].cardId, equalTo(3));
+        assertThat(listWithCardsEntity.listEntity.listId, equalTo(100))
+        assertThat(listWithCardsEntity.cards[0].cardId, equalTo(1))
+        assertThat(listWithCardsEntity.cards[1].cardId, equalTo(2))
+        assertThat(listWithCardsEntity.cards[2].cardId, equalTo(3))
 
     }
 
@@ -451,7 +451,7 @@ class DatabaseInstrumentedTest {
         cardEntityDao.insert(cardEntity3)
 
         val keyword = "r"
-        val columns = listOf<String>("name","description","email")
+        val columns = listOf("name","description","email")
         val results = appRepository.getCardByKeywordInSelectedColumns(keyword,columns)
 
         assertThat(results.size, equalTo(3))

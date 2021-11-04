@@ -50,7 +50,7 @@ class ContactFragment : Fragment(), ContactCardInterface {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         val view = binding.root
 //        val button = view.findViewById<Button>(R.id.buttonContact)
@@ -63,7 +63,7 @@ class ContactFragment : Fragment(), ContactCardInterface {
 //        }
 
         // initialise viewmodel/database for this fragment
-        viewModel = ViewModelProvider(this).get(AppViewModel::class.java)
+        viewModel = ViewModelProvider(this)[AppViewModel::class.java]
         viewModel.init(AppDatabase.getDatabase(requireActivity()))
         return view
     }

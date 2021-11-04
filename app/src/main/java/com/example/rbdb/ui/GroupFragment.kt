@@ -52,13 +52,13 @@ class GroupFragment : Fragment(), GroupCardInterface {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentGroupBinding.inflate(inflater, container, false)
         val view = binding.root
 
         // initialise view model/database for this fragment
-        viewModel = ViewModelProvider(this).get(AppViewModel::class.java)
+        viewModel = ViewModelProvider(this)[AppViewModel::class.java]
         viewModel.init(AppDatabase.getDatabase(requireActivity()))
 
         return view

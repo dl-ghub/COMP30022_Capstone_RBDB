@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">RBDB</string>
-    <string name="page_title">Contact</string>
+    <string name="page_title">Contacts</string>
     <string name="contact_fab_desc">Add new contact</string>
     <string name="group_fab_desc">Add new group</string>
     <string name="group_contact_fab_desc">Edit contacts in group</string>

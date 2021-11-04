@@ -33,7 +33,6 @@ class ContactDetailActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         val toolbar = binding.cDetailTopAppBar
-        val chipGroup = binding.tagChipGroup
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
