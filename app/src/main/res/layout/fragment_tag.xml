@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primaryBackground"
-    tools:context=".ui.TagFragment">
+    tools:context=".ui.TagFragment"
+    android:clipChildren="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -79,6 +80,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="12dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical"
         app:layout_dodgeInsetEdges="bottom">
 
@@ -86,6 +89,7 @@
             android:id="@+id/tag_fab_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
             android:layout_marginBottom="12dp"
             android:contentDescription="@string/tag_fab_delete_desc"
             android:src="@drawable/ic_delete"
@@ -96,6 +100,7 @@
             android:id="@+id/tag_fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
             android:contentDescription="@string/tag_fab_add_desc"
             android:src="@drawable/ic_plus_24"
             app:backgroundTint="@color/primaryBlue"
