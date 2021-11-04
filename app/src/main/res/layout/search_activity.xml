@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -28,10 +27,12 @@
                 android:id="@+id/searchInput"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Search Here ..."
-                android:textColorHint="@color/white"
-                android:textColor="@color/white"
-                android:inputType="text"
+                android:autofillHints="Search Query"
+                android:backgroundTint="@color/light_onPrimary"
+                android:hint="@string/search_hint"
+                android:inputType="textVisiblePassword"
+                android:textColor="@color/light_onPrimary"
+                android:textColorHint="@color/light_onPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -39,26 +40,26 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-<!--    <EditText-->
-<!--        android:id="@+id/searchInput"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Search Here ..."-->
-<!--        android:inputType="text"-->
-<!--        android:textSize="20sp"-->
-<!--        android:layout_marginTop="5dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />-->
+    <!--    <EditText-->
+    <!--        android:id="@+id/searchInput"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:hint="Search Here ..."-->
+    <!--        android:inputType="text"-->
+    <!--        android:textSize="20sp"-->
+    <!--        android:layout_marginTop="5dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchResults"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

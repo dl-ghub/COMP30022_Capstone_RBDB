@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryBackground"
     tools:context=".ui.GroupFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,8 +35,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/group_fab_desc"
-        android:src="@drawable/ic_plus_24"
-        app:backgroundTint="@color/primaryBlue"
-        app:tint="@color/white" />
+        android:src="@drawable/ic_plus_24"/>
 
 </FrameLayout>

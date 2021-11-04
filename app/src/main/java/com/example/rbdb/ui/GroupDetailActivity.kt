@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -24,7 +23,10 @@ import com.example.rbdb.ui.adapters.ContactCardInterface
 import com.example.rbdb.ui.arch.AppViewModel
 import android.text.style.ForegroundColorSpan
 import android.text.SpannableString
+import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 
 
 class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
@@ -34,6 +36,9 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
     private lateinit var groupTitle: String
     private lateinit var adapter: ContactAdapter
     private lateinit var contactList: List<CardEntity>
+    private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
+    private lateinit var customAlertDialogView: View
+    private lateinit var newGroupTextField: TextInputLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +70,11 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
         viewModel.getCardsInList(groupId).observe(this, observerContact)
 
         supportActionBar?.title = groupTitle
+
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(
+            this,
+            R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background
+        )
     }
 
     override fun onContactCardClick(position: Int) {
@@ -80,7 +90,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
         inflater.inflate(R.menu.activity_group_menu, menu)
         val item = menu?.findItem(R.id.delete_g)
         val s = SpannableString(resources.getString(R.string.delete_group))
-        val color = ContextCompat.getColor(this,R.color.warningRed)
+        val color = ContextCompat.getColor(this, R.color.light_error)
         s.setSpan(ForegroundColorSpan(color), 0, s.length, 0)
         item!!.title = s
         return true
@@ -93,29 +103,16 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.change_gName -> {
-            val builder = AlertDialog.Builder(this)
-            builder.setMessage(R.string.new_group_name)
-            val inflater = layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
-            builder.setView(inflater)
-            val input = inflater.findViewById<View>(R.id.new_name) as EditText
-
-            // Send the name to the database to create a new group (need to implement)
-            builder.setPositiveButton("Ok"){ _, _ ->
-                updateListName(input.text.toString(), groupId)
-                supportActionBar?.title = input.text.toString()
-                overridePendingTransition(0, 0)
-            }
-            builder.setNegativeButton("Cancel"){_, _ -> }
-
-            val alertDialog: AlertDialog = builder.create()
-            alertDialog.show()
+            customAlertDialogView = LayoutInflater.from(this)
+                .inflate(R.layout.view_holder_edit_text_dialog, null, false)
+            launchCustomAlertDialog()
             true
         }
         R.id.search -> {
             Toast.makeText(this, "search pressed", Toast.LENGTH_SHORT).show()
             true
         }
-        R.id.edit_gMembers ->{
+        R.id.edit_gMembers -> {
 //            Toast.makeText(this, "edit group members pressed", Toast.LENGTH_SHORT).show()
             // Navigate to EditGroupActivity
             val intent = Intent(this, EditGroupActivity::class.java).apply {
@@ -136,7 +133,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
                 val handler = Handler(Looper.getMainLooper())
                 handler.postDelayed({
                     finish()
-                },300)
+                }, 300)
             }
 
             builder.setNegativeButton("Cancel") { _, _ -> }
@@ -144,7 +141,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(this,R.color.warningRed))
+                .setTextColor(ContextCompat.getColor(this, R.color.light_error))
 
             true
         }
@@ -163,10 +160,33 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
         viewModel.getCardsInList(groupId).observe(this, observerContact)
     }
 
+    private fun launchCustomAlertDialog() {
+        newGroupTextField = customAlertDialogView.findViewById(R.id.new_group_name)
+
+        materialAlertDialogBuilder.setView(customAlertDialogView)
+            .setTitle("Enter the new group name")
+            .setPositiveButton("Ok") { dialog, _ ->
+                val newGroupName = newGroupTextField.editText?.text.toString().trim()
+                // TODO Null checking doesn't work yet
+                if (newGroupName.isEmpty()) {
+                    newGroupTextField.error = "You need to enter a name"
+                } else {
+                    updateListName(newGroupName, groupId)
+                    supportActionBar?.title = newGroupName
+                    overridePendingTransition(0, 0)
+                    dialog.dismiss()
+                }
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
     private fun deleteGroup(groupId: Long) {
-//        Log.d("groupId to be deleted", groupId.toString())
         viewModel.deleteListAndCrossRefByListId(groupId)
     }
+
     private fun updateListName(name: String, groupId: Long) {
         viewModel.updateListName(name, groupId)
     }

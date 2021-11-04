@@ -103,7 +103,7 @@ class ContactDetailActivity : AppCompatActivity() {
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(this,R.color.warningRed))
+                .setTextColor(ContextCompat.getColor(this,R.color.light_error))
 
             true
         }

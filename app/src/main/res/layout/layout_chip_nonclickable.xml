@@ -5,6 +5,4 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="8dp"
-    android:checkable="false"
-    app:chipBackgroundColor="@color/secondaryBlue"
-    android:textColor="@color/primaryBlueVariant"/>
+    android:checkable="false"/>

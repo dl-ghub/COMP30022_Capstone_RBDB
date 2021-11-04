@@ -32,7 +32,11 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:tabBackground="?colorPrimary"
+        app:tabTextColor="?colorOnPrimary"
+        app:tabIndicatorColor="?colorOnPrimary"
+        app:tabSelectedTextColor="?colorOnPrimary">
 
         <com.google.android.material.tabs.TabItem
 

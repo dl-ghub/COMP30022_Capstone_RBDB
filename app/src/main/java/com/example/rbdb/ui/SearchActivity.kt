@@ -97,8 +97,6 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.more -> {
-            Toast.makeText(this, "more button pressed", Toast.LENGTH_SHORT).show()
-
             val builder = AlertDialog.Builder(this, R.style.MyDialogStyle)
             builder.setTitle("Select Search Fields")
             builder.setMultiChoiceItems(selectedSearchesArray, checkSearchesArray) { _, which, isChecked ->

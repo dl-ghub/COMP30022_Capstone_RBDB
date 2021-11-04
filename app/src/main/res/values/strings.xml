@@ -55,4 +55,6 @@
     <string name="edit_contact">Edit Contact</string>
     <string name="results">Results</string>
     <string name="tags_label">Tags</string>
+    <string name="search_hint">Search Here…</string>
+    <string name="group_name">Group Name</string>
 </resources>

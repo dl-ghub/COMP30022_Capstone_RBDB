@@ -2,15 +2,11 @@ package com.example.rbdb.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +17,8 @@ import com.example.rbdb.databinding.FragmentGroupBinding
 import com.example.rbdb.ui.adapters.GroupAdapter
 import com.example.rbdb.ui.adapters.GroupCardInterface
 import com.example.rbdb.ui.arch.AppViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,12 +39,21 @@ class GroupFragment : Fragment(), GroupCardInterface {
     private lateinit var groupList: List<ListEntity>
     private lateinit var viewModel: AppViewModel
     private lateinit var adapter: GroupAdapter
+    private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
+    private lateinit var customAlertDialogView: View
+    private lateinit var newGroupTextField: TextInputLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(
+            requireActivity(),
+            R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background
+        )
     }
 
     override fun onCreateView(
@@ -80,42 +87,16 @@ class GroupFragment : Fragment(), GroupCardInterface {
 
 
         val fab = binding.groupFab
-        fab.setOnClickListener { view ->
-            val builder = AlertDialog.Builder(view.context)
-            builder.setMessage(R.string.new_group_name)
-            val inflater =
-                requireActivity().layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
-            builder.setView(inflater)
-            val input = inflater.findViewById<View>(R.id.new_name) as EditText
+        fab.setOnClickListener(View.OnClickListener {
+            // Inflate custom alert dialog view
+            customAlertDialogView = LayoutInflater.from(requireActivity())
+                .inflate(R.layout.view_holder_edit_text_dialog, null, false)
 
-            // Send the name to the database to create a new group
-            builder.setPositiveButton("Ok") {_, _ ->
-                val groupId = saveGroupToDatabase(
-                    input.text.toString().trim()
-                )
-                Log.d("groupId gFrag", groupId.toString())
-                viewModel.getAllLists().observe(requireActivity(), { groups ->
-                    adapter.swapData(groups)
-                    groupList = groups
-                })
-                /*val handler = Handler(Looper.getMainLooper())
-                handler.postDelayed({
-                    val intent = Intent(requireActivity(), EditGroupActivity::class.java).apply {
-                        putExtra("group_id", groupId)
-
-                        putExtra("group_name", newGroupName)
-                    }
-                    startActivity(intent)
-                },1000)*/
-
-            }
-
-            builder.setNegativeButton("Cancel") { _, _ -> }
-
-            val alertDialog: AlertDialog = builder.create()
-            alertDialog.show()
-        }
+            // Launching the custom alert dialog
+            launchCustomAlertDialog()
+        })
     }
+
 
     /* Access GroupCardInterface for recycler view item navigation */
     override fun onGroupCardClick(position: Int) {
@@ -135,21 +116,45 @@ class GroupFragment : Fragment(), GroupCardInterface {
         })
     }
 
+    private fun launchCustomAlertDialog() {
+        newGroupTextField = customAlertDialogView.findViewById(R.id.new_group_name)
+
+        materialAlertDialogBuilder.setView(customAlertDialogView)
+            .setTitle("Enter the new group name")
+            .setPositiveButton("Ok") { dialog, _ ->
+                val newGroupName = newGroupTextField.editText?.text.toString().trim()
+                // TODO Null checking doesn't work yet
+                if (newGroupName.isEmpty()) {
+                    newGroupTextField.error = "You need to enter a name"
+                } else {
+                    saveGroupToDatabase(newGroupName)
+                    dialog.dismiss()
+                }
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun displayMessage(message: String) {
+        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
+    }
+
     private fun saveGroupToDatabase(groupName: String) {
-        // TODO Check for Empty inputs
         //Log.d("groupName", groupName)
         val listEntity = ListEntity(
             name = groupName
         )
         //var listId: Long = 0
-        val observer = Observer<Long> { id->
+        val observer = Observer<Long> { id ->
             val intent = Intent(requireActivity(), EditGroupActivity::class.java).apply {
                 putExtra("group_id", id)
                 putExtra("group_name", listEntity.name)
             }
             startActivity(intent)
         }
-        viewModel.insertList(listEntity).observe(requireActivity(),observer)
+        viewModel.insertList(listEntity).observe(requireActivity(), observer)
     }
 
     override fun onDestroyView() {

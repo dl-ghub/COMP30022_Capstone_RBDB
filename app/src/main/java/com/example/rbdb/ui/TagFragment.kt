@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.rbdb.R
 import com.example.rbdb.databinding.FragmentTagBinding
-import android.widget.Toast
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -22,7 +20,8 @@ import com.example.rbdb.ui.adapters.ContactAdapter
 import com.example.rbdb.ui.adapters.ContactCardInterface
 import com.example.rbdb.ui.arch.AppViewModel
 import com.google.android.material.chip.Chip
-import java.lang.StringBuilder
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +44,9 @@ class TagFragment : Fragment(), ContactCardInterface {
     private lateinit var searchList: List<CardEntity>
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: ContactAdapter
+    private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
+    private lateinit var customAlertDialogView: View
+    private lateinit var newTagTextField: TextInputLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +54,11 @@ class TagFragment : Fragment(), ContactCardInterface {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        materialAlertDialogBuilder = MaterialAlertDialogBuilder(
+            requireActivity(),
+            R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background
+        )
     }
 
     private fun addListenerOnButtonClick() {
@@ -77,30 +84,14 @@ class TagFragment : Fragment(), ContactCardInterface {
             }
         }
 
-        binding.tagFabAdd.setOnClickListener { view ->
-            val builder = AlertDialog.Builder(view.context)
-            builder.setMessage(R.string.new_tag_name)
-            val inflater =
-                requireActivity().layoutInflater.inflate(R.layout.view_holder_new_dialog, null)
-            builder.setView(inflater)
-            val input = inflater.findViewById<View>(R.id.new_name) as EditText
+        binding.tagFabAdd.setOnClickListener(View.OnClickListener {
+            // Inflate custom alert dialog view
+            customAlertDialogView = LayoutInflater.from(requireActivity())
+                .inflate(R.layout.view_holder_edit_text_dialog, null, false)
 
-            // Send the name to the database to create a new tag
-            builder.setPositiveButton("Ok") { _, _ ->
-                saveTagToDatabase(
-                    input.text.toString().trim()
-                )
-                viewModel.getAllTags().observe(requireActivity(), { tags ->
-                    tagsList = tags
-                    updateChips(tags)
-                })
-            }
-
-            builder.setNegativeButton("Cancel") { _, _ -> }
-
-            val alertDialog: AlertDialog = builder.create()
-            alertDialog.show()
-        }
+            // Launching the custom alert dialog
+            launchCustomAlertDialog()
+        })
 
         binding.tagFabDelete.setOnClickListener { view ->
             val builder = AlertDialog.Builder(view.context)
@@ -119,7 +110,7 @@ class TagFragment : Fragment(), ContactCardInterface {
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(requireActivity(),R.color.warningRed))
+                .setTextColor(ContextCompat.getColor(requireActivity(),R.color.light_error))
 
         }
     }
@@ -155,6 +146,31 @@ class TagFragment : Fragment(), ContactCardInterface {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun launchCustomAlertDialog() {
+        newTagTextField = customAlertDialogView.findViewById(R.id.new_group_name)
+
+        materialAlertDialogBuilder.setView(customAlertDialogView)
+            .setTitle("Enter the new tag name")
+            .setPositiveButton("Ok") { dialog, _ ->
+                val newTagName = newTagTextField.editText?.text.toString().trim()
+                // TODO Null checking doesn't work yet
+                if (newTagName.isEmpty()) {
+                    newTagTextField.error = "You need to enter a name"
+                } else {
+                    saveTagToDatabase(newTagName)
+                    viewModel.getAllTags().observe(requireActivity(), { tags ->
+                        tagsList = tags
+                        updateChips(tags)
+                    })
+                    dialog.dismiss()
+                }
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun updateChips(tags: List<TagEntity>) {

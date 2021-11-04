@@ -41,7 +41,7 @@ class GroupAdapter(
 
         fun onBind(groupData: ListEntity, groupCardInterface: GroupCardInterface) {
             binding.groupName.text = groupData.name
-            binding.groupCard.setOnClickListener {
+            binding.cvGroups.setOnClickListener {
                 groupCardInterface.onGroupCardClick(absoluteAdapterPosition)
             }
         }

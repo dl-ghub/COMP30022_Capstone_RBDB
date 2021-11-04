@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryBackground"
-    tools:context=".ui.TagFragment"
-    android:clipChildren="false">
+    android:clipChildren="false"
+    tools:context=".ui.TagFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginStart="8dp"
-            android:background="@color/secondaryText"
+            android:background="?colorOutline"
             app:layout_constraintBottom_toBottomOf="@id/text"
             app:layout_constraintEnd_toStartOf="@id/text"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +41,7 @@
             android:layout_marginEnd="8dp"
             android:gravity="center"
             android:text="@string/results"
-            android:textColor="@color/secondaryText"
+            android:textColor="?colorOutline"
             app:layout_constraintEnd_toStartOf="@id/right_divider"
             app:layout_constraintStart_toEndOf="@id/left_divider"
             app:layout_constraintTop_toBottomOf="@id/tagChipGroup" />
@@ -52,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginEnd="8dp"
-            android:background="@color/secondaryText"
+            android:background="?colorOutline"
             app:layout_constraintBottom_toBottomOf="@id/text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text"
@@ -92,9 +91,7 @@
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="12dp"
             android:contentDescription="@string/tag_fab_delete_desc"
-            android:src="@drawable/ic_delete"
-            app:backgroundTint="@color/primaryBlue"
-            app:tint="@color/white" />
+            android:src="@drawable/ic_delete" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/tag_fab_add"
@@ -102,9 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:contentDescription="@string/tag_fab_add_desc"
-            android:src="@drawable/ic_plus_24"
-            app:backgroundTint="@color/primaryBlue"
-            app:tint="@color/white" />
+            android:src="@drawable/ic_plus_24" />
 
     </LinearLayout>
 
