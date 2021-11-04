@@ -23,7 +23,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="12"
-            tools:listitem="@layout/view_holder_group" />
+            tools:listitem="@layout/view_holder_group"
+            android:scrollbars="vertical"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

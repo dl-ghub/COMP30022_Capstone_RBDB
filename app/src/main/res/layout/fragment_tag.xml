@@ -69,7 +69,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text"
             tools:itemCount="12"
-            tools:listitem="@layout/view_holder_contact" />
+            tools:listitem="@layout/view_holder_contact"
+            android:scrollbars="vertical"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

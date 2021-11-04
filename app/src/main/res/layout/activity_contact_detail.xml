@@ -48,21 +48,20 @@
 
             <ImageView
                 android:id="@+id/contactPhoto"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
                 android:layout_marginTop="16dp"
+                android:contentDescription="TODO"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/profile"
-                android:contentDescription="TODO" />
+                tools:src="@drawable/profile" />
 
             <TextView
                 android:id="@+id/contactName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:fontFamily="@font/roboto"
                 android:textAlignment="textStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="36sp"
@@ -88,68 +87,73 @@
                 android:id="@+id/contactInfoConstraint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="28dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCompany">
 
-                <TextView
-                    android:id="@+id/contactInfoTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="@string/contact_information"
-                    android:textAppearance="@style/Toolbar.TitleText"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/phoneContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/contactInfoTitle">
+                    app:layout_constraintStart_toStartOf="parent">
 
-                    <TextView
-                        android:id="@+id/phoneLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/phoneIcon"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/roboto"
-                        android:text="@string/phone_number_label"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textSize="20sp"
+                        android:src="@drawable/ic_outline_phone_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/phoneNumber"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toStartOf="@+id/phoneLabel"
-                        app:layout_constraintTop_toBottomOf="@+id/phoneLabel"
-                        tools:text="0 6969 8008" />
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@id/phoneIcon"
+                        app:layout_constraintStart_toEndOf="@id/phoneIcon"
+                        app:layout_constraintTop_toTopOf="@id/phoneIcon">
+
+                        <TextView
+                            android:id="@+id/phoneNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:textColor="?colorOnSurface"
+                            android:textSize="16sp"
+                            tools:text="04 2918 3882"
+                            android:layout_marginVertical="2dp"/>
+
+                        <TextView
+                            android:id="@+id/phoneLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="@string/phone_number_label"
+                            android:textSize="14sp"
+                            android:layout_marginVertical="2dp"/>
+
+                    </LinearLayout>
+
 
                     <View
                         android:id="@+id/dividerPhone"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginEnd="10dp"
                         android:background="?android:attr/listDivider"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/phoneNumber" />
+                        app:layout_constraintTop_toBottomOf="@+id/phoneIcon" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -157,21 +161,20 @@
                     android:id="@+id/emailContainer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="2dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/phoneContainer">
 
-                    <TextView
-                        android:id="@+id/emailLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/emailIcon"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_marginStart="10dp"
-                        android:fontFamily="@font/roboto"
-                        android:text="@string/email_label"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textSize="20sp"
+                        android:src="@drawable/ic_outline_email_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -179,19 +182,20 @@
                         android:id="@+id/email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                        android:textSize="17sp"
-                        app:layout_constraintStart_toStartOf="@+id/emailLabel"
-                        app:layout_constraintTop_toBottomOf="@+id/emailLabel"
-                        tools:text="spicy@gmail.com" />
+                        android:layout_marginStart="10dp"
+                        android:textColor="?colorOnSurface"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/emailIcon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="spicy@gmail.com"
+                        android:textSize="16sp"/>
 
                     <View
                         android:id="@+id/dividerEmail"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginEnd="10dp"
                         android:background="?android:attr/listDivider"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -205,7 +209,7 @@
                 android:id="@+id/tagContainer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/contactInfoConstraint">
@@ -215,7 +219,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:fontFamily="@font/roboto"
                     android:text="@string/tags_label"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="24sp"
@@ -228,7 +231,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tagsLabel" />
@@ -239,7 +242,7 @@
                 android:id="@+id/descriptionConstraint"
                 android:layout_width="0dp"
                 android:layout_height="175dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="12dp"
                 android:paddingBottom="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -263,15 +266,11 @@
                     android:id="@+id/description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/share_rounded_corner_with_border"
-                    android:fontFamily="@font/roboto"
                     android:lineSpacingExtra="2sp"
-                    android:padding="5dp"
                     android:textAlignment="textStart"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

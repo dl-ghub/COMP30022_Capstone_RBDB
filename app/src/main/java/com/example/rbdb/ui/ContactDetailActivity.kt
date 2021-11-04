@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -51,6 +52,9 @@ class ContactDetailActivity : AppCompatActivity() {
             binding.phoneNumber.text = card.phone
             binding.email.text = card.email
             binding.description.text = card.description
+            if (card.description?.isEmpty() == true) {
+                binding.description.visibility = View.INVISIBLE
+            }
 
         }
         viewModel.getCardById(contactId).observe(this,observer)
@@ -125,7 +129,9 @@ class ContactDetailActivity : AppCompatActivity() {
             binding.phoneNumber.text = card.phone
             binding.email.text = card.email
             binding.description.text = card.description
-
+            if (card.description?.isEmpty() == true) {
+                binding.description.visibility = View.INVISIBLE
+            }
         }
         viewModel.getCardById(contactId).observe(this,observer)
         viewModel.getTagsByCardId(contactId).observe(this, { tags ->
