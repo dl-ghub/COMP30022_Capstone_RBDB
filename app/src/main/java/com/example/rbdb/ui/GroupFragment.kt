@@ -145,10 +145,7 @@ class GroupFragment : Fragment(), GroupCardInterface {
     }
 
     private fun launchCustomAlertDialog() {
-        binding.fabAddGroup.visibility = View.INVISIBLE
         newGroupTextField = customAlertDialogView.findViewById(R.id.new_group_name)
-
-        showSoftKeyboard(requireActivity(), newGroupTextField)
 
         materialAlertDialogBuilder.setView(customAlertDialogView)
             .setTitle("Enter the new group name")
@@ -186,13 +183,6 @@ class GroupFragment : Fragment(), GroupCardInterface {
             startActivity(intent)
         }
         viewModel.insertList(listEntity).observe(requireActivity(), observer)
-    }
-
-    private fun showSoftKeyboard(context: Context, v: View) {
-        val iim = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (v.requestFocus()) {
-            iim.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-        }
     }
 
     override fun onDestroyView() {

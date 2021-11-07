@@ -55,7 +55,7 @@
     <string name="edit_contact">Edit Contact</string>
     <string name="results">Results</string>
     <string name="tags_label">Tags</string>
-    <string name="search_hint">Search Here…</string>
+    <string name="search_hint">Search Contacts…</string>
     <string name="group_name">Group Name</string>
     <string name="mobile_label">Mobile</string>
     <string name="no_tags_label">Contact doesn\'t have any tags yet!\ </string>

@@ -111,25 +111,20 @@ class TagFragment : Fragment(), ContactCardInterface {
         val fabDeleteTag = binding.fabDeleteTag
         fabDeleteTag.visibility = View.INVISIBLE
 
+
         fabDeleteTag.setOnClickListener { view ->
-            val builder = AlertDialog.Builder(view.context)
-            builder.setMessage(R.string.confirm_delete_tags)
 
-            builder.setPositiveButton("Delete") { _, _ ->
-                deleteTags(selectedTagsList)
-                viewModel.getAllTags().observe(requireActivity(), { tags ->
-                    tagsList = tags
-                    updateChips(tags)
-                })
-            }
-
-            builder.setNegativeButton("Cancel") { _, _ -> }
-
-            val alertDialog: AlertDialog = builder.create()
-            alertDialog.show()
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(requireActivity(), R.color.light_error))
-
+            MaterialAlertDialogBuilder(requireActivity(), R.style.TagDeleteDialogTheme)
+                .setMessage(R.string.confirm_delete_tags)
+                .setNegativeButton("Cancel") { dialog, which -> }
+                .setPositiveButton("Delete") { dialog, which ->
+                    deleteTags(selectedTagsList)
+                    viewModel.getAllTags().observe(requireActivity(), { tags ->
+                        tagsList = tags
+                        updateChips(tags)
+                    })
+                }
+                .show()
         }
     }
 
@@ -168,8 +163,6 @@ class TagFragment : Fragment(), ContactCardInterface {
 
     private fun launchCustomAlertDialog() {
         newTagTextField = customAlertDialogView.findViewById(R.id.new_group_name)
-
-        showSoftKeyboard(requireActivity(), newTagTextField)
 
         materialAlertDialogBuilder.setView(customAlertDialogView)
             .setTitle("Enter the new tag name")
@@ -243,12 +236,6 @@ class TagFragment : Fragment(), ContactCardInterface {
         startActivity(intent)
     }
 
-    private fun showSoftKeyboard(context: Context, v: View) {
-        val iim = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (v.requestFocus()) {
-            iim.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-        }
-    }
 
     companion object {
         /**

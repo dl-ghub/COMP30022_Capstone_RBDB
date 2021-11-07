@@ -89,11 +89,22 @@
         <!-- Background Color -->
         <item name="android:background">@color/light_surface</item>
         <!-- Text Color for title and message -->
-        <item name="colorOnSurface">@color/light_onSurface</item>
+        <item name="colorOnSurface">?colorOnSurface</item>
     </style>
 
     <style name="buttonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/light_onSurface</item>
+        <item name="android:textColor">?colorOnSurface</item>
+    </style>
+
+    <!-- Custom Material Alert Dialog for Tag Deletion -->
+    <style name="TagDeleteDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:background">@color/light_surface</item>
+        <item name="colorOnSurface">@color/light_onSurface</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveDeletionButtonStyle</item>
+    </style>
+
+    <style name="PositiveDeletionButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/error</item>
     </style>
 
 
