@@ -1,6 +1,7 @@
 package com.example.rbdb.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.amulyakhare.textdrawable.TextDrawable
@@ -24,7 +25,7 @@ class EditGroupContactsAdapter(
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        holder.onBind(data[position], selectedContacts, contactCardInterface)
+        holder.onBind(data[position], selectedContacts, contactCardInterface, position)
 
     }
 
@@ -48,7 +49,12 @@ class EditGroupContactsAdapter(
             binding.root
         ) {
 
-        fun onBind(contactData: CardEntity, selectedContacts: MutableList<Long>, contactCardInterface: ContactCardInterface) {
+        fun onBind(
+            contactData: CardEntity,
+            selectedContacts: MutableList<Long>,
+            contactCardInterface: ContactCardInterface,
+            position: Int
+        ) {
             val generator: ColorGenerator = ColorGenerator.MATERIAL
             val firstInitial = contactData.name[0].toString() // used for avatar letter
             val whiteSpaceIndex = contactData.name.indexOf(" ")
@@ -57,17 +63,32 @@ class EditGroupContactsAdapter(
             val drawable: TextDrawable =
                 TextDrawable.builder().buildRound(firstInitial, generator.getColor(secondInitial))
 
+
+
             // Conditional formatting of avatar/green tick if selected
             if (contactData.cardId in selectedContacts) {
                 binding.contactAvatar.setImageResource(R.drawable.ic_baseline_check_24)
-            }
-            else {
+            } else {
                 binding.contactAvatar.setImageDrawable(drawable)
             }
 
             binding.contactName.text = contactData.name
             binding.contactCompany.text = contactData.business
             binding.contactPhone.text = contactData.phone
+            binding.letterDivider.text = firstInitial
+
+            // Check if this is the first contact with a new first letter
+
+            if (position == 0) {
+                binding.letterDivider.visibility = View.VISIBLE
+            } else {
+                val previousContactInitial = data[position - 1].name[0].toString()
+                if (firstInitial != previousContactInitial) {
+                    binding.letterDivider.visibility = View.VISIBLE
+                } else {
+                    binding.letterDivider.visibility = View.INVISIBLE
+                }
+            }
 
             binding.contactCard.setOnClickListener {
                 contactCardInterface.onContactCardClick(absoluteAdapterPosition)

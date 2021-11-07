@@ -76,15 +76,33 @@ class EditGroupActivity : AppCompatActivity(), ContactCardInterface {
         val observerAllContacts = Observer<List<CardEntity>> { contacts ->
             adapter.swapData(contacts)
             allContactsList = contacts
-            Log.d("all contacts", allContactsList.toString())
         }
+
         viewModel.getAllCards().observe(this, observerAllContacts)
 
-        //adapter.swapSelectedContacts(selectedContactIdsList)
-        // Set up Save Changes Button
-        binding.btnSaveChanges.setOnClickListener {
+        // Set up Save Changes FAB
+        val fabSaveChanges = binding.fabSaveChanges
+        fabSaveChanges.setOnClickListener {
             updateGroupContacts(groupId, selectedContactIdsList)
         }
+
+        binding.rvContacts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 10 && fabSaveChanges.isExtended) {
+                    fabSaveChanges.shrink()
+                }
+
+                if (dy < -10 && !fabSaveChanges.isExtended) {
+                    fabSaveChanges.extend()
+                }
+
+                if (!binding.rvContacts.canScrollVertically(-1)) {
+                    fabSaveChanges.extend()
+                }
+            }
+        })
 
     }
 

@@ -1,6 +1,7 @@
 package com.example.rbdb.ui
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -22,6 +23,7 @@ import com.example.rbdb.database.model.TagEntity
 import com.example.rbdb.databinding.ActivityContactDetailBinding
 import com.example.rbdb.ui.arch.AppViewModel
 import com.google.android.material.chip.Chip
+import javax.security.auth.Subject
 
 
 class ContactDetailActivity : AppCompatActivity() {
@@ -52,14 +54,35 @@ class ContactDetailActivity : AppCompatActivity() {
             binding.phoneNumber.text = card.phone
             binding.email.text = card.email
             binding.description.text = card.description
+            binding.noDescriptionPlaceholder.visibility = View.INVISIBLE
             if (card.description?.isEmpty() == true) {
                 binding.description.visibility = View.INVISIBLE
+                binding.noDescriptionPlaceholder.visibility = View.VISIBLE
+            }
+
+            val phoneButton = binding.phoneIconClickable
+            phoneButton.setOnClickListener { view ->
+                card.phone?.let { dialPhoneNumber(it) }
+            }
+
+            val smsButton = binding.smsIcon
+            smsButton.setOnClickListener { view ->
+                card.phone?.let {sendSMS(it)}
+            }
+
+            val emailButton = binding.emailIconClickable
+            emailButton.setOnClickListener { view ->
+                card.email?.let { sendEmail(arrayOf(it)) }
             }
 
         }
-        viewModel.getCardById(contactId).observe(this,observer)
+        viewModel.getCardById(contactId).observe(this, observer)
 
         viewModel.getTagsByCardId(contactId).observe(this, { tags ->
+            if (tags.isNotEmpty()) {
+                binding.noTagsPlaceholder.visibility = View.INVISIBLE
+            }
+
             updateChips(tags)
         })
 
@@ -99,7 +122,7 @@ class ContactDetailActivity : AppCompatActivity() {
                 val handler = Handler(Looper.getMainLooper())
                 handler.postDelayed({
                     finish()
-                },300)
+                }, 300)
             }
 
             builder.setNegativeButton("Cancel") { _, _ -> }
@@ -107,7 +130,7 @@ class ContactDetailActivity : AppCompatActivity() {
             val alertDialog: AlertDialog = builder.create()
             alertDialog.show()
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(this,R.color.light_error))
+                .setTextColor(ContextCompat.getColor(this, R.color.light_error))
 
             true
         }
@@ -129,12 +152,33 @@ class ContactDetailActivity : AppCompatActivity() {
             binding.phoneNumber.text = card.phone
             binding.email.text = card.email
             binding.description.text = card.description
+            binding.noDescriptionPlaceholder.visibility = View.INVISIBLE
             if (card.description?.isEmpty() == true) {
                 binding.description.visibility = View.INVISIBLE
+                binding.noDescriptionPlaceholder.visibility = View.VISIBLE
+            }
+
+            val phoneButton = binding.phoneIconClickable
+            phoneButton.setOnClickListener { view ->
+                card.phone?.let { dialPhoneNumber(it) }
+            }
+
+            val smsButton = binding.smsIcon
+            smsButton.setOnClickListener { view ->
+                card.phone?.let {sendSMS(it)}
+            }
+
+            val emailButton = binding.emailIconClickable
+            emailButton.setOnClickListener { view ->
+                card.email?.let { sendEmail(arrayOf(it)) }
             }
         }
-        viewModel.getCardById(contactId).observe(this,observer)
+        viewModel.getCardById(contactId).observe(this, observer)
         viewModel.getTagsByCardId(contactId).observe(this, { tags ->
+            if (tags.isNotEmpty()) {
+                binding.noTagsPlaceholder.visibility = View.INVISIBLE
+            }
+
             updateChips(tags)
         })
     }
@@ -158,11 +202,40 @@ class ContactDetailActivity : AppCompatActivity() {
         val chipGroup = binding.tagChipGroup
         chipGroup.removeAllViewsInLayout()
         for (tag in tags) {
-            val chip = layoutInflater.inflate(R.layout.layout_chip_nonclickable, chipGroup, false) as Chip
+            val chip =
+                layoutInflater.inflate(R.layout.layout_chip_nonclickable, chipGroup, false) as Chip
             chip.text = (tag.name)
             chip.id = (tag.tagId.toInt())
             chip.isEnabled = false
             chipGroup.addView(chip)
+        }
+    }
+
+    private fun dialPhoneNumber(phoneNumber: String) {
+        val intent = Intent(Intent.ACTION_DIAL).apply {
+            data = Uri.parse("tel:$phoneNumber")
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
+    }
+
+    private fun sendSMS(phoneNumber: String) {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("sms:$phoneNumber")
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
+    }
+
+    private fun sendEmail(address: Array<String>) {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, address)
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
         }
     }
 

@@ -32,7 +32,6 @@ class ContactFragment : Fragment(), ContactCardInterface {
     // TODO: Rename and change types of parameters
     private var home: Boolean = false
     private var groupId: Long? = null
-    //private lateinit var navHostFragment: NavHostFragment
     private var _binding: FragmentContactBinding? = null
     private val binding get() = _binding!!
     private lateinit var contactList: List<CardEntity>
@@ -47,20 +46,13 @@ class ContactFragment : Fragment(), ContactCardInterface {
         }
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         val view = binding.root
-//        val button = view.findViewById<Button>(R.id.buttonContact)
-//        //button.setOnClickListener { findNavController().navigate(R.id.action_contactFragment_to_contactDetailActivity) }
-//        button.setOnClickListener{
-//            //Toast.makeText(this.requireActivity(), "Button pressed", Toast.LENGTH_SHORT).show()
-//            val intent = Intent(this.requireActivity(), ContactDetailActivity::class.java)
-//            intent.putExtra("contactName",view.findViewById<Button>(R.id.buttonContact).text)
-//            requireActivity().startActivity(intent)
-//        }
 
         // initialise viewmodel/database for this fragment
         viewModel = ViewModelProvider(this)[AppViewModel::class.java]
@@ -78,20 +70,39 @@ class ContactFragment : Fragment(), ContactCardInterface {
         adapter = ContactAdapter(mutableListOf(), this)
         recyclerView.adapter = adapter
 
-        val observerContact = Observer<List<CardEntity>> {contacts ->
+        val observerContact = Observer<List<CardEntity>> { contacts ->
             adapter.swapData(contacts)
-            contactList = contacts  }
+            contactList = contacts
+        }
 
         viewModel.getAllCards().observe(requireActivity(), observerContact)
 
-        val fab = binding.contactFab
-        fab.setOnClickListener { view ->
-            /*Snackbar.make(view, "Add contact button clicked", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()*/
+
+        // Set up new contact FAB
+        val fabAddContact = binding.fabAddContact
+        fabAddContact.setOnClickListener { view ->
             val intent = Intent(this.requireActivity(), NewContactActivity::class.java)
             requireActivity().startActivity(intent)
         }
+
+        binding.rvContacts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 10 && fabAddContact.isExtended) {
+                    fabAddContact.shrink()
+                }
+
+                if (dy < -10 && !fabAddContact.isExtended) {
+                    fabAddContact.extend()
+                }
+
+                if (!binding.rvContacts.canScrollVertically(-1)) {
+                    fabAddContact.extend()
+                }
+            }
+        })
+
     }
 
 
@@ -100,29 +111,23 @@ class ContactFragment : Fragment(), ContactCardInterface {
         val contact = contactList[position]
         val intent = Intent(this.requireActivity(), ContactDetailActivity::class.java).apply {
             putExtra("contact_id", contact.cardId)
-            /*putExtra("contact_name", contact.name)
-            putExtra("contact_business", contact.business)
-            putExtra("contact_dateAdded", contact.dateAdded)
-            putExtra("contact_phone", contact.phone)
-            putExtra("contact_email", contact.email)
-            putExtra("contact_description", contact.description)*/
         }
         startActivity(intent)
     }
 
     override fun onResume() {
         super.onResume()
-        val observerContact = Observer<List<CardEntity>> {contacts ->
+        val observerContact = Observer<List<CardEntity>> { contacts ->
             adapter.swapData(contacts)
-            contactList = contacts  }
-
-        if (home){
-            viewModel.getAllCards().observe(requireActivity(), observerContact)
+            contactList = contacts
         }
-        else{
-            Log.d("groupId",groupId.toString())
+
+        if (home) {
+            viewModel.getAllCards().observe(requireActivity(), observerContact)
+        } else {
+            Log.d("groupId", groupId.toString())
             if (groupId != null) {
-                viewModel.getCardsInList(groupId!!).observe(requireActivity(),observerContact)
+                viewModel.getCardsInList(groupId!!).observe(requireActivity(), observerContact)
             }
         }
     }
@@ -150,6 +155,7 @@ class ContactFragment : Fragment(), ContactCardInterface {
                     putLong(GROUP_ID, groupId)
                 }
             }
+
         fun newInstance() =
             ContactFragment().apply {
                 arguments = Bundle().apply {

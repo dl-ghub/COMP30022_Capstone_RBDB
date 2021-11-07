@@ -63,45 +63,42 @@
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
             android:orientation="vertical"
+            android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text"
             tools:itemCount="12"
-            tools:listitem="@layout/view_holder_contact"
-            android:scrollbars="vertical"/>
+            tools:listitem="@layout/view_holder_contact" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabDeleteTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="26dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/new_tag"
+            android:textColor="?colorOnSurface"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintBottom_toTopOf="@id/fabAddTag"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:fabSize="mini"/>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/fabAddTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="26dp"
+            android:layout_marginBottom="26dp"
+            android:text="@string/new_tag"
+            android:textColor="?colorOnSurface"
+            app:icon="@drawable/ic_plus_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="12dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:orientation="vertical"
-        app:layout_dodgeInsetEdges="bottom">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/tag_fab_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="12dp"
-            android:contentDescription="@string/tag_fab_delete_desc"
-            android:src="@drawable/ic_delete" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/tag_fab_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:contentDescription="@string/tag_fab_add_desc"
-            android:src="@drawable/ic_plus_24" />
-
-    </LinearLayout>
 
 </FrameLayout>

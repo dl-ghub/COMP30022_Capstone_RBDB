@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">RBDB</string>
     <string name="page_title">Contacts</string>
-    <string name="contact_fab_desc">Add new contact</string>
-    <string name="group_fab_desc">Add new group</string>
+    <string name="new_contact">NEW CONTACT</string>
+    <string name="new_group">NEW GROUP</string>
     <string name="group_contact_fab_desc">Edit contacts in group</string>
     <string name="edit_group_fab_desc">Save changes</string>
-    <string name="tag_fab_add_desc">Add new tag</string>
+    <string name="new_tag">NEW TAG</string>
     <string name="tag_fab_search_desc">Search selected tag</string>
     <string name="tag_fab_delete_desc">Delete selected tag</string>
     <string name="new_contact_page_title">New Contact</string>
@@ -51,10 +51,13 @@
     <string name="edit_group_members">Edit Group Members</string>
     <string name="change_group_name">Change Group Name</string>
     <string name="delete_group">Delete Group</string>
-    <string name="save_changes">Save Changes</string>
+    <string name="save_changes">SAVE CHANGES</string>
     <string name="edit_contact">Edit Contact</string>
     <string name="results">Results</string>
     <string name="tags_label">Tags</string>
     <string name="search_hint">Search Here…</string>
     <string name="group_name">Group Name</string>
+    <string name="mobile_label">Mobile</string>
+    <string name="no_tags_label">Contact doesn\'t have any tags yet!\ </string>
+    <string name="no_description_label">Contact doesn\'t have a description yet!\ </string>
 </resources>

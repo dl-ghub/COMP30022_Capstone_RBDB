@@ -1,5 +1,7 @@
 package com.example.rbdb.ui
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,9 +9,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import com.example.rbdb.R
 import com.example.rbdb.databinding.FragmentTagBinding
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.ui.input.key.Key.Companion.D
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +25,7 @@ import com.example.rbdb.ui.adapters.ContactCardInterface
 import com.example.rbdb.ui.arch.AppViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 // TODO: Rename parameter arguments, choose names that match
@@ -47,6 +52,7 @@ class TagFragment : Fragment(), ContactCardInterface {
     private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
     private lateinit var customAlertDialogView: View
     private lateinit var newTagTextField: TextInputLayout
+    private var selectedTagsList: ArrayList<TagEntity> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,62 +67,10 @@ class TagFragment : Fragment(), ContactCardInterface {
         )
     }
 
-    private fun addListenerOnButtonClick() {
-        val chipGroup = binding.tagChipGroup
-        val chipList = ArrayList<TagEntity>()
-        for (i in 0 until chipGroup.childCount) {
-            val chip = chipGroup.getChildAt(i) as Chip
-            chip.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) {
-                    for (tag in tagsList) {
-                        if (tag.tagId == chip.id.toLong()) {
-                            chipList.add(tag)
-                        }
-                    }
-                } else {
-                    for (tag in tagsList) {
-                        if (tag.tagId == chip.id.toLong()) {
-                            chipList.remove(tag)
-                        }
-                    }
-                }
-                displaySearch(chipList)
-            }
-        }
-
-        binding.tagFabAdd.setOnClickListener(View.OnClickListener {
-            // Inflate custom alert dialog view
-            customAlertDialogView = LayoutInflater.from(requireActivity())
-                .inflate(R.layout.view_holder_edit_text_dialog, null, false)
-
-            // Launching the custom alert dialog
-            launchCustomAlertDialog()
-        })
-
-        binding.tagFabDelete.setOnClickListener { view ->
-            val builder = AlertDialog.Builder(view.context)
-            builder.setMessage(R.string.confirm_delete_tags)
-
-            builder.setPositiveButton("Delete") { _, _ ->
-                deleteTags(chipList)
-                viewModel.getAllTags().observe(requireActivity(), { tags ->
-                    tagsList = tags
-                    updateChips(tags)
-                })
-            }
-
-            builder.setNegativeButton("Cancel") { _, _ -> }
-
-            val alertDialog: AlertDialog = builder.create()
-            alertDialog.show()
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(requireActivity(),R.color.light_error))
-
-        }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentTagBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -141,6 +95,70 @@ class TagFragment : Fragment(), ContactCardInterface {
         recycler = binding.rvContacts
         adapter = ContactAdapter(mutableListOf(), this)
         recycler.adapter = adapter
+
+        // Set up new tag FAB
+        val fabAddTag = binding.fabAddTag
+        fabAddTag.setOnClickListener(View.OnClickListener {
+            // Inflate custom alert dialog view
+            customAlertDialogView = LayoutInflater.from(requireActivity())
+                .inflate(R.layout.view_holder_edit_text_dialog, null, false)
+
+            // Launching the custom alert dialog
+            launchCustomAlertDialog()
+        })
+
+        // Set up delete tag/s FAB
+        val fabDeleteTag = binding.fabDeleteTag
+        fabDeleteTag.visibility = View.INVISIBLE
+
+        fabDeleteTag.setOnClickListener { view ->
+            val builder = AlertDialog.Builder(view.context)
+            builder.setMessage(R.string.confirm_delete_tags)
+
+            builder.setPositiveButton("Delete") { _, _ ->
+                deleteTags(selectedTagsList)
+                viewModel.getAllTags().observe(requireActivity(), { tags ->
+                    tagsList = tags
+                    updateChips(tags)
+                })
+            }
+
+            builder.setNegativeButton("Cancel") { _, _ -> }
+
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(requireActivity(), R.color.light_error))
+
+        }
+    }
+
+    private fun addListenerOnButtonClick() {
+        val chipGroup = binding.tagChipGroup
+        for (i in 0 until chipGroup.childCount) {
+            val chip = chipGroup.getChildAt(i) as Chip
+            chip.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    for (tag in tagsList) {
+                        if (tag.tagId == chip.id.toLong()) {
+                            selectedTagsList.add(tag)
+                        }
+                    }
+                } else {
+                    for (tag in tagsList) {
+                        if (tag.tagId == chip.id.toLong()) {
+                            selectedTagsList.remove(tag)
+                        }
+                    }
+                }
+                if (selectedTagsList.isEmpty()) {
+                    binding.fabDeleteTag.visibility = View.INVISIBLE
+                } else {
+                    binding.fabDeleteTag.visibility = View.VISIBLE
+                }
+                displaySearch(selectedTagsList)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -150,6 +168,8 @@ class TagFragment : Fragment(), ContactCardInterface {
 
     private fun launchCustomAlertDialog() {
         newTagTextField = customAlertDialogView.findViewById(R.id.new_group_name)
+
+        showSoftKeyboard(requireActivity(), newTagTextField)
 
         materialAlertDialogBuilder.setView(customAlertDialogView)
             .setTitle("Enter the new tag name")
@@ -194,7 +214,7 @@ class TagFragment : Fragment(), ContactCardInterface {
         viewModel.insertTag(tagEntity)
     }
 
-    private fun displaySearch(input : List<TagEntity>) {
+    private fun displaySearch(input: List<TagEntity>) {
         val tagIdList: ArrayList<Long> = ArrayList()
         for (tag in input) {
             tagIdList.add(tag.tagId)
@@ -210,6 +230,8 @@ class TagFragment : Fragment(), ContactCardInterface {
         for (tag in tags) {
             viewModel.deleteTagAndCrossRefByTagId(tag.tagId)
         }
+        selectedTagsList = ArrayList()
+        binding.fabDeleteTag.visibility = View.INVISIBLE
         displaySearch(listOf())
     }
 
@@ -219,6 +241,13 @@ class TagFragment : Fragment(), ContactCardInterface {
             putExtra("contact_id", contact.cardId)
         }
         startActivity(intent)
+    }
+
+    private fun showSoftKeyboard(context: Context, v: View) {
+        val iim = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (v.requestFocus()) {
+            iim.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        }
     }
 
     companion object {

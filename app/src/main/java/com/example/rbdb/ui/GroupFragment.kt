@@ -1,16 +1,21 @@
 package com.example.rbdb.ui
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.DialogInterface.BUTTON1
 import android.content.DialogInterface.BUTTON_POSITIVE
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -90,15 +95,33 @@ class GroupFragment : Fragment(), GroupCardInterface {
             groupList = groups
         })
 
-
-        val fab = binding.groupFab
-        fab.setOnClickListener(View.OnClickListener {
+        // Set up new group FAB
+        val fabAddGroup = binding.fabAddGroup
+        fabAddGroup.setOnClickListener(View.OnClickListener {
             // Inflate custom alert dialog view
             customAlertDialogView = LayoutInflater.from(requireActivity())
                 .inflate(R.layout.view_holder_edit_text_dialog, null, false)
 
             // Launching the custom alert dialog
             launchCustomAlertDialog()
+        })
+
+        binding.rvGroups.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 10 && fabAddGroup.isExtended) {
+                    fabAddGroup.shrink()
+                }
+
+                if (dy < -10 && !fabAddGroup.isExtended) {
+                    fabAddGroup.extend()
+                }
+
+                if (!binding.rvGroups.canScrollVertically(-1)) {
+                    fabAddGroup.extend()
+                }
+            }
         })
     }
 
@@ -122,7 +145,10 @@ class GroupFragment : Fragment(), GroupCardInterface {
     }
 
     private fun launchCustomAlertDialog() {
+        binding.fabAddGroup.visibility = View.INVISIBLE
         newGroupTextField = customAlertDialogView.findViewById(R.id.new_group_name)
+
+        showSoftKeyboard(requireActivity(), newGroupTextField)
 
         materialAlertDialogBuilder.setView(customAlertDialogView)
             .setTitle("Enter the new group name")
@@ -160,6 +186,13 @@ class GroupFragment : Fragment(), GroupCardInterface {
             startActivity(intent)
         }
         viewModel.insertList(listEntity).observe(requireActivity(), observer)
+    }
+
+    private fun showSoftKeyboard(context: Context, v: View) {
+        val iim = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (v.requestFocus()) {
+            iim.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        }
     }
 
     override fun onDestroyView() {
