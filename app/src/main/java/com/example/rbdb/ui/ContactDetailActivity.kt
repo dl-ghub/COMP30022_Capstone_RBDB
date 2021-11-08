@@ -1,5 +1,6 @@
 package com.example.rbdb.ui
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -23,7 +25,6 @@ import com.example.rbdb.database.model.TagEntity
 import com.example.rbdb.databinding.ActivityContactDetailBinding
 import com.example.rbdb.ui.arch.AppViewModel
 import com.google.android.material.chip.Chip
-import javax.security.auth.Subject
 
 
 class ContactDetailActivity : AppCompatActivity() {
@@ -61,17 +62,17 @@ class ContactDetailActivity : AppCompatActivity() {
             }
 
             val phoneButton = binding.phoneIconClickable
-            phoneButton.setOnClickListener { view ->
+            phoneButton.setOnClickListener { _ ->
                 card.phone?.let { dialPhoneNumber(it) }
             }
 
             val smsButton = binding.smsIcon
-            smsButton.setOnClickListener { view ->
+            smsButton.setOnClickListener { _ ->
                 card.phone?.let {sendSMS(it)}
             }
 
             val emailButton = binding.emailIconClickable
-            emailButton.setOnClickListener { view ->
+            emailButton.setOnClickListener { _ ->
                 card.email?.let { sendEmail(arrayOf(it)) }
             }
 
@@ -159,17 +160,17 @@ class ContactDetailActivity : AppCompatActivity() {
             }
 
             val phoneButton = binding.phoneIconClickable
-            phoneButton.setOnClickListener { view ->
+            phoneButton.setOnClickListener { _ ->
                 card.phone?.let { dialPhoneNumber(it) }
             }
 
             val smsButton = binding.smsIcon
-            smsButton.setOnClickListener { view ->
+            smsButton.setOnClickListener { _ ->
                 card.phone?.let {sendSMS(it)}
             }
 
             val emailButton = binding.emailIconClickable
-            emailButton.setOnClickListener { view ->
+            emailButton.setOnClickListener { _ ->
                 card.email?.let { sendEmail(arrayOf(it)) }
             }
         }
@@ -215,8 +216,10 @@ class ContactDetailActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_DIAL).apply {
             data = Uri.parse("tel:$phoneNumber")
         }
-        if (intent.resolveActivity(packageManager) != null) {
+        try {
             startActivity(intent)
+        } catch (ex: ActivityNotFoundException) {
+            Toast.makeText(this, "Application Not Found", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -224,8 +227,10 @@ class ContactDetailActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("sms:$phoneNumber")
         }
-        if (intent.resolveActivity(packageManager) != null) {
+        try {
             startActivity(intent)
+        } catch (ex: ActivityNotFoundException) {
+            Toast.makeText(this, "Application Not Found", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -234,8 +239,10 @@ class ContactDetailActivity : AppCompatActivity() {
             data = Uri.parse("mailto:")
             putExtra(Intent.EXTRA_EMAIL, address)
         }
-        if (intent.resolveActivity(packageManager) != null) {
+        try {
             startActivity(intent)
+        } catch (ex: ActivityNotFoundException) {
+            Toast.makeText(this, "Application Not Found", Toast.LENGTH_SHORT).show()
         }
     }
 

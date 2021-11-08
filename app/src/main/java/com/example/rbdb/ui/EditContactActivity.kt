@@ -172,7 +172,7 @@ class EditContactActivity : AppCompatActivity() {
         val chipGroup = binding.tagChipGroup
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
-            chip.setOnCheckedChangeListener { buttonView, isChecked ->
+            chip.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     for (tag in allTagsList) {
                         if (tag.tagId == chip.id.toLong()) {
@@ -211,7 +211,7 @@ class EditContactActivity : AppCompatActivity() {
 
     private fun updateContactTags() {
         viewModel.deleteAllTagCrossRefByCardId(contactId)
-        Log.d("+++", "All tag crossrefs deleted")
+        Log.d("+++", "All tag crossRefs deleted")
         for (tag in chipList) {
             val cardTagCrossRef = CardTagCrossRef(
                 cardId = contactId,
@@ -219,7 +219,7 @@ class EditContactActivity : AppCompatActivity() {
             )
             viewModel.insertCardTagCrossRef(cardTagCrossRef)
         }
-        Log.d("+++", "All new tag crossrefs added")
+        Log.d("+++", "All new tag crossRefs added")
     }
 
 

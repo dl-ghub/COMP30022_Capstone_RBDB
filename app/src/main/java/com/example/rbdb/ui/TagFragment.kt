@@ -1,7 +1,6 @@
 package com.example.rbdb.ui
 
-import android.app.Activity
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,12 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import com.example.rbdb.R
 import com.example.rbdb.databinding.FragmentTagBinding
-import androidx.appcompat.app.AlertDialog
-import androidx.compose.ui.input.key.Key.Companion.D
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rbdb.database.AppDatabase
@@ -25,7 +20,6 @@ import com.example.rbdb.ui.adapters.ContactCardInterface
 import com.example.rbdb.ui.arch.AppViewModel
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 // TODO: Rename parameter arguments, choose names that match
@@ -75,13 +69,14 @@ class TagFragment : Fragment(), ContactCardInterface {
         _binding = FragmentTagBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // initialise viewmodel/database for this fragment
+        // initialise viewModel/database for this fragment
         viewModel = ViewModelProvider(this)[AppViewModel::class.java]
         viewModel.init(AppDatabase.getDatabase(requireActivity()))
 
         return view
     }
 
+    @SuppressLint("InflateParams")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -98,26 +93,26 @@ class TagFragment : Fragment(), ContactCardInterface {
 
         // Set up new tag FAB
         val fabAddTag = binding.fabAddTag
-        fabAddTag.setOnClickListener(View.OnClickListener {
+        fabAddTag.setOnClickListener {
             // Inflate custom alert dialog view
             customAlertDialogView = LayoutInflater.from(requireActivity())
                 .inflate(R.layout.view_holder_edit_text_dialog, null, false)
 
             // Launching the custom alert dialog
             launchCustomAlertDialog()
-        })
+        }
 
         // Set up delete tag/s FAB
         val fabDeleteTag = binding.fabDeleteTag
         fabDeleteTag.visibility = View.INVISIBLE
 
 
-        fabDeleteTag.setOnClickListener { view ->
+        fabDeleteTag.setOnClickListener {
 
             MaterialAlertDialogBuilder(requireActivity(), R.style.TagDeleteDialogTheme)
                 .setMessage(R.string.confirm_delete_tags)
-                .setNegativeButton("Cancel") { dialog, which -> }
-                .setPositiveButton("Delete") { dialog, which ->
+                .setNegativeButton("Cancel") { _, _ -> }
+                .setPositiveButton("Delete") { _, _ ->
                     deleteTags(selectedTagsList)
                     viewModel.getAllTags().observe(requireActivity(), { tags ->
                         tagsList = tags
@@ -207,6 +202,7 @@ class TagFragment : Fragment(), ContactCardInterface {
         viewModel.insertTag(tagEntity)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun displaySearch(input: List<TagEntity>) {
         val tagIdList: ArrayList<Long> = ArrayList()
         for (tag in input) {

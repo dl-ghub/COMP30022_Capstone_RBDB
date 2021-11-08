@@ -5,14 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
-import android.view.View
-import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import android.util.Patterns
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
@@ -169,7 +163,7 @@ class NewContactActivity : AppCompatActivity() {
         val chipGroup = binding.tagChipGroup
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
-            chip.setOnCheckedChangeListener { buttonView, isChecked ->
+            chip.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     for (tag in tagsList) {
                         if (tag.tagId == chip.id.toLong()) {

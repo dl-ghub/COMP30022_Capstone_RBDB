@@ -54,7 +54,7 @@ class ContactFragment : Fragment(), ContactCardInterface {
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // initialise viewmodel/database for this fragment
+        // initialise viewModel/database for this fragment
         viewModel = ViewModelProvider(this)[AppViewModel::class.java]
         viewModel.init(AppDatabase.getDatabase(requireActivity()))
         return view
@@ -80,7 +80,7 @@ class ContactFragment : Fragment(), ContactCardInterface {
 
         // Set up new contact FAB
         val fabAddContact = binding.fabAddContact
-        fabAddContact.setOnClickListener { view ->
+        fabAddContact.setOnClickListener {
             val intent = Intent(this.requireActivity(), NewContactActivity::class.java)
             requireActivity().startActivity(intent)
         }
@@ -138,14 +138,6 @@ class ContactFragment : Fragment(), ContactCardInterface {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ContactFragment.
-         */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(groupId: Long) =
