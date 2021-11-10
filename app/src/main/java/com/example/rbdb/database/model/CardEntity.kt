@@ -7,8 +7,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "card_entity")
 data class CardEntity(
     @PrimaryKey(autoGenerate = true) val cardId: Long = 0,
-    @ColumnInfo(name = "name") var name: String = "",
-    var business: String = "",
+    @ColumnInfo(name = "firstName") var firstName: String = "",
+    @ColumnInfo(name = "lastName") var lastName: String ?= null,
+    var business: String? = null,
+    var position: String? = null,
     val dateAdded: String = "",
     var phone: String? = null,
     var email: String? = null,

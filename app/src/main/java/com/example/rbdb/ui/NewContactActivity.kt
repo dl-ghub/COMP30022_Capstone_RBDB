@@ -4,9 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
+import android.text.InputType
 import android.util.Log
 import androidx.activity.viewModels
 import android.util.Patterns
+import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AlertDialog
 import com.example.rbdb.R
 import com.example.rbdb.database.AppDatabase
@@ -39,11 +42,18 @@ class NewContactActivity : AppCompatActivity() {
             saveItemToDatabase()
         }
         binding.phoneInput.addTextChangedListener(PhoneNumberFormattingTextWatcher("AU"))
+        binding.descriptionInput.imeOptions = EditorInfo.IME_ACTION_DONE
+        binding.descriptionInput.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
 
+        binding.noTagsPlaceholder.visibility = View.VISIBLE
         viewModel.init(AppDatabase.getDatabase(this))
         viewModel.getAllTags().observe(this, { tags ->
             tagsList = tags
+            if (tags.isNotEmpty()) {
+                binding.noTagsPlaceholder.visibility = View.INVISIBLE
+            }
             updateChips(tags)
+
         })
     }
 
@@ -52,52 +62,44 @@ class NewContactActivity : AppCompatActivity() {
 
         val firstName = binding.firstNameInput.text.toString().trim()
         if (firstName.isEmpty()) {
-            binding.firstNameField.error = "* Required Field"
+            binding.firstNameInput.error = "Required Field"
             fieldError = true
         } else {
-            binding.firstNameField.error = null
+            binding.firstNameInput.error = null
         }
 
         val lastName = binding.lastNameInput.text.toString().trim()
-        if (lastName.isEmpty()) {
-            binding.lastNameField.error = "* Required Field"
-            fieldError = true
-        } else {
-            binding.lastNameField.error = null
-        }
+
+        val jobPosition = binding.positionInput.text.toString().trim()
 
         val businessName = binding.businessNameInput.text.toString().trim()
-        if (businessName.isEmpty()) {
-            binding.businessNameField.error = "* Required Field"
+
+        val phoneNumber = binding.phoneInput.text.toString().trim()
+        if (phoneNumber.isNotEmpty() && !isPhoneValid(phoneNumber)) {
+            binding.phoneInput.error = "Invalid Phone Number"
             fieldError = true
         } else {
-            binding.businessNameField.error = null
+            binding.phoneInput.error = null
+        }
+
+        val email = binding.emailInput.text.toString().trim()
+        if (email.isNotEmpty() && !isEmailValid(email)) {
+            binding.emailInput.error = "Invalid Email Address"
+            fieldError = true
+        } else {
+            binding.emailInput.error = null
         }
 
         if (fieldError) {
             return
         }
 
-        val phoneNumber = binding.phoneInput.text.toString().trim()
-        if (isPhoneValid(binding.phoneInput.text!!) && phoneNumber.isNotEmpty()){
-            binding.phoneField.error = "* Invalid Phone Number"
-            fieldError = true
-        }
-        else{binding.phoneField.error = null}
-
-        val email = binding.emailInput.text.toString().trim()
-        if (isEmailValid(binding.emailInput.text!!) && email.isNotEmpty()){
-            binding.emailField.error = "* Invalid Email"
-            fieldError = true
-        }
-        else{binding.emailField.error = null}
-
-        if (fieldError){return}
-
         val description = binding.descriptionInput.text.toString().trim()
 
         val cardEntity = CardEntity(
-            name = "$firstName $lastName",
+            firstName = firstName,
+            lastName = lastName,
+            position = jobPosition,
             business = businessName,
             dateAdded = SimpleDateFormat("dd/M/yyyy hh:mm:ss", Locale.getDefault()).format(Date()),
             phone = phoneNumber,
@@ -129,11 +131,14 @@ class NewContactActivity : AppCompatActivity() {
     }
 
     private fun isEmailValid(email: CharSequence): Boolean {
-        return !Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     private fun isPhoneValid(phone: CharSequence): Boolean {
-        return !Patterns.PHONE.matcher(phone).matches()
+        if (phone.length < 12) {
+            return false
+        }
+        return Patterns.PHONE.matcher(phone).matches()
     }
 
     override fun onSupportNavigateUp(): Boolean {

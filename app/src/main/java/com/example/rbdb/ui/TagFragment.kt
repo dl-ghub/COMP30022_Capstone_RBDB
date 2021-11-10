@@ -84,6 +84,11 @@ class TagFragment : Fragment(), ContactCardInterface {
         viewModel.getAllTags().observe(requireActivity(), { tags ->
             tagsList = tags
             updateChips(tags)
+            if (tags.isEmpty()) {
+                binding.leftDivider.visibility = View.INVISIBLE
+                binding.text.visibility = View.INVISIBLE
+                binding.rightDivider.visibility = View.INVISIBLE
+            }
         })
 
         // RecyclerView implementation for search results
@@ -117,6 +122,15 @@ class TagFragment : Fragment(), ContactCardInterface {
                     viewModel.getAllTags().observe(requireActivity(), { tags ->
                         tagsList = tags
                         updateChips(tags)
+                        if (tags.isNotEmpty()) {
+                            binding.leftDivider.visibility = View.VISIBLE
+                            binding.text.visibility = View.VISIBLE
+                            binding.rightDivider.visibility = View.VISIBLE
+                        } else {
+                            binding.leftDivider.visibility = View.INVISIBLE
+                            binding.text.visibility = View.INVISIBLE
+                            binding.rightDivider.visibility = View.INVISIBLE
+                        }
                     })
                 }
                 .show()
@@ -171,6 +185,15 @@ class TagFragment : Fragment(), ContactCardInterface {
                     viewModel.getAllTags().observe(requireActivity(), { tags ->
                         tagsList = tags
                         updateChips(tags)
+                        if (tags.isNotEmpty()) {
+                            binding.leftDivider.visibility = View.VISIBLE
+                            binding.text.visibility = View.VISIBLE
+                            binding.rightDivider.visibility = View.VISIBLE
+                        } else {
+                            binding.leftDivider.visibility = View.INVISIBLE
+                            binding.text.visibility = View.INVISIBLE
+                            binding.rightDivider.visibility = View.INVISIBLE
+                        }
                     })
                     dialog.dismiss()
                 }

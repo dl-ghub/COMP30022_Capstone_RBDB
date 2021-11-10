@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 4,
-    "identityHash": "13a6969836a3575bcd86d294b52f05cd",
+    "version": 6,
+    "identityHash": "e023c6df9d60b91c6316328f2856170f",
     "entities": [
       {
         "tableName": "card_entity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cardId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `business` TEXT, `position` TEXT, `dateAdded` TEXT NOT NULL, `phone` TEXT, `email` TEXT, `description` TEXT, `isSelected` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cardId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `firstName` TEXT NOT NULL, `lastName` TEXT, `business` TEXT, `position` TEXT, `dateAdded` TEXT NOT NULL, `phone` TEXT, `email` TEXT, `description` TEXT, `isSelected` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "cardId",
@@ -15,10 +15,16 @@
             "notNull": true
           },
           {
-            "fieldPath": "name",
-            "columnName": "name",
+            "fieldPath": "firstName",
+            "columnName": "firstName",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "lastName",
+            "columnName": "lastName",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "business",
@@ -244,7 +250,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '13a6969836a3575bcd86d294b52f05cd')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e023c6df9d60b91c6316328f2856170f')"
     ]
   }
 }

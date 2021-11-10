@@ -2,12 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/search"
-        android:icon="@drawable/ic_search"
-        android:title="@string/search"
-        android:contentDescription="@string/content_description_search"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/edit_gMembers"
         android:title="@string/edit_group_members"
         android:contentDescription="@string/content_description_edit"

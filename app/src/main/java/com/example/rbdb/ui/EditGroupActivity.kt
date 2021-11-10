@@ -56,7 +56,6 @@ class EditGroupActivity : AppCompatActivity(), ContactCardInterface {
             if (groupContactEntities != null) {
                 for (contact in groupContactEntities!!) {
                     selectedContactIdsList.add(contact.cardId)
-                    Log.d("Contact in $groupId", contact.name)
                 }
             }
         }

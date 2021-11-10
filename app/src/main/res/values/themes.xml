@@ -69,27 +69,27 @@
     <style name="Theme.RBDB.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="MyCheckboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
-        <item name="buttonTint">@color/light_primary</item>
+        <item name="buttonTint">?colorPrimary</item>
     </style>
 
     <style name="MyDialogStyle" parent="Theme.MaterialComponents.Dialog.Alert">
-        <item name="colorAccent">@color/light_primary</item>
-        <item name="android:windowBackground">@color/light_surface</item>
-        <item name="title">@color/light_onSurface</item>
-        <item name="colorSecondary">@color/light_primary</item>
-        <item name="colorControlNormal">@color/light_primary</item>
+        <item name="colorAccent">?colorPrimary</item>
+        <item name="android:windowBackground">?colorSurface</item>
+        <item name="title">?colorOnSurface</item>
+        <item name="colorSecondary">?colorPrimary</item>
+        <item name="colorControlNormal">?colorPrimary</item>
         <item name="buttonBarPositiveButtonStyle">@style/buttonStyle</item>
-        <item name="textAppearanceListItem">@color/light_onSurface</item>
-        <item name="textColorAlertDialogListItem">@color/light_onSurface</item>
-        <item name="android:textColorPrimary">@color/light_onSurface</item>
+        <item name="textAppearanceListItem">?colorOnSurface</item>
+        <item name="textColorAlertDialogListItem">?colorOnSurface</item>
+        <item name="android:textColorPrimary">?colorOnSurface</item>
     </style>
 
     <!-- Custom Material Alert Dialog -->
-    <style name="ThemeOverlay.MaterialComponents.MaterialAlertDialog_Background" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog" >
+    <style name="ThemeOverlay.MaterialComponents.MaterialAlertDialog_Background" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <!-- Background Color -->
-        <item name="android:background">@color/light_surface</item>
+        <item name="android:background">?colorSurface</item>
         <!-- Text Color for title and message -->
-        <item name="colorOnSurface">?colorOnSurface</item>
+        <item name="colorOnSurface">@color/light_onSurface</item>
     </style>
 
     <style name="buttonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -98,13 +98,13 @@
 
     <!-- Custom Material Alert Dialog for Tag Deletion -->
     <style name="TagDeleteDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="android:background">@color/light_surface</item>
+        <item name="android:background">?colorSurface</item>
         <item name="colorOnSurface">@color/light_onSurface</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveDeletionButtonStyle</item>
     </style>
 
     <style name="PositiveDeletionButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/error</item>
+        <item name="android:textColor">?colorError</item>
     </style>
 
 

@@ -76,7 +76,7 @@ class AppRepository(private val appDatabase: AppDatabase) {
         }
         //construct the query string
         var queryString: String =
-            "SELECT CE.cardId,CE.name,CE.business,CE.dateAdded,CE.phone,CE.email,CE.description " +
+            "SELECT CE.cardId,CE.firstName,CE.lastName,CE.business,CE.dateAdded,CE.phone,CE.email,CE.description " +
                     "FROM card_entity CE INNER JOIN card_tag_cross_ref CR ON CE.cardId = CR.cardId " +
                     "INNER JOIN tag_entity TE ON CR.tagId = TE.tagId WHERE CR.tagId IN ("
         val formattedQuery: String = ","
@@ -89,7 +89,7 @@ class AppRepository(private val appDatabase: AppDatabase) {
             argsList.add(tagId)
         }
 
-        queryString = queryString.dropLast(formattedQuery.length)+")"+" GROUP BY CR.cardId" + " ORDER BY UPPER(CE.name) ASC"
+        queryString = queryString.dropLast(formattedQuery.length)+")"+" GROUP BY CR.cardId" + " ORDER BY UPPER(CE.firstName) ASC"
         println("Query:getCardByTagIds = $queryString")
 
 
@@ -126,7 +126,7 @@ class AppRepository(private val appDatabase: AppDatabase) {
         }
 
         queryString = queryString.dropLast(logicQuery.length)
-        queryString += " ORDER BY UPPER(name) ASC"
+        queryString += " ORDER BY UPPER(firstName) ASC"
 //        println("Query:getCardByKeywordInSelectedColumns = "+ queryString)
         Log.d("Query:getCardByKeywordInSelectedColumns", queryString)
 

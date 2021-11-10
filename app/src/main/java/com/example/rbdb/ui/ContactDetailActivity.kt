@@ -47,11 +47,31 @@ class ContactDetailActivity : AppCompatActivity() {
         contactId = intent.getLongExtra("contact_id", -1)
 
         val observer = Observer<CardEntity> { card ->
-            val contactName = card.name
-            val avatar = createAvatar(contactName)
+            val firstName = card.firstName
+            val lastName = card.lastName
+            val fullName = "$firstName $lastName"
+            val avatar: TextDrawable = if (lastName.isNullOrEmpty()) {
+                createAvatarNoSurname(firstName)
+            } else {
+                createAvatar(firstName, lastName)
+            }
+
+            var contactJobDescriptionString = ""
+
+            contactJobDescriptionString =
+                if ((card.position?.isNotEmpty() == true) && (card.business?.isNotEmpty() == true)) {
+                    "${card.position} • ${card.business}"
+                } else if ((card.position?.isNotEmpty() == true)) {
+                    card.position!!
+                } else if (card.business?.isNotEmpty() == true) {
+                    card.business!!
+                } else {
+                    ""
+                }
+
+            binding.tvCompany.text = contactJobDescriptionString
             binding.contactPhoto.setImageDrawable(avatar)
-            binding.contactName.text = contactName
-            binding.tvCompany.text = card.business
+            binding.contactName.text = fullName
             binding.phoneNumber.text = card.phone
             binding.email.text = card.email
             binding.description.text = card.description
@@ -68,12 +88,22 @@ class ContactDetailActivity : AppCompatActivity() {
 
             val smsButton = binding.smsIcon
             smsButton.setOnClickListener { _ ->
-                card.phone?.let {sendSMS(it)}
+                card.phone?.let { sendSMS(it) }
             }
 
             val emailButton = binding.emailIconClickable
             emailButton.setOnClickListener { _ ->
                 card.email?.let { sendEmail(arrayOf(it)) }
+            }
+
+            if (card.phone?.isEmpty() == true) {
+                binding.phoneLabel.visibility = View.INVISIBLE
+                binding.phoneIconClickable.visibility = View.INVISIBLE
+                binding.smsIcon.visibility = View.INVISIBLE
+            }
+
+            if (card.email?.isEmpty() == true) {
+                binding.emailIconClickable.visibility = View.INVISIBLE
             }
 
         }
@@ -145,11 +175,32 @@ class ContactDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val observer = Observer<CardEntity> { card ->
-            val contactName = card.name
-            val avatar = createAvatar(contactName)
+            val firstName = card.firstName
+            val lastName = card.lastName
+            val contactName = "$firstName $lastName"
+
+            val avatar: TextDrawable = if (lastName.isNullOrEmpty()) {
+                createAvatarNoSurname(firstName)
+            } else {
+                createAvatar(firstName, lastName)
+            }
             binding.contactPhoto.setImageDrawable(avatar)
             binding.contactName.text = contactName
-            binding.tvCompany.text = card.business
+
+            var contactJobDescriptionString = ""
+            contactJobDescriptionString =
+                if ((card.position?.isNotEmpty() == true) && (card.business?.isNotEmpty() == true)) {
+                    "${card.position} • ${card.business}"
+                } else if ((card.position?.isNotEmpty() == true)) {
+                    card.position!!
+                } else if (card.business?.isNotEmpty() == true) {
+                    card.business!!
+                } else {
+                    ""
+                }
+
+            binding.tvCompany.text = contactJobDescriptionString
+
             binding.phoneNumber.text = card.phone
             binding.email.text = card.email
             binding.description.text = card.description
@@ -166,12 +217,28 @@ class ContactDetailActivity : AppCompatActivity() {
 
             val smsButton = binding.smsIcon
             smsButton.setOnClickListener { _ ->
-                card.phone?.let {sendSMS(it)}
+                card.phone?.let { sendSMS(it) }
             }
 
             val emailButton = binding.emailIconClickable
             emailButton.setOnClickListener { _ ->
                 card.email?.let { sendEmail(arrayOf(it)) }
+            }
+
+            if (card.phone?.isNotEmpty() == true) {
+                binding.phoneLabel.visibility = View.VISIBLE
+                binding.phoneIconClickable.visibility = View.VISIBLE
+                binding.smsIcon.visibility = View.VISIBLE
+            } else {
+                binding.phoneLabel.visibility = View.INVISIBLE
+                binding.phoneIconClickable.visibility = View.INVISIBLE
+                binding.smsIcon.visibility = View.INVISIBLE
+            }
+
+            if (card.email?.isNotEmpty() == true) {
+                binding.emailIconClickable.visibility = View.VISIBLE
+            } else {
+                binding.emailIconClickable.visibility = View.INVISIBLE
             }
         }
         viewModel.getCardById(contactId).observe(this, observer)
@@ -184,15 +251,23 @@ class ContactDetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun createAvatar(name: String): TextDrawable {
-        val firstInitial = name[0].toString()
-        val whiteSpaceIndex = name.indexOf(" ")
-        val secondInitial = name[whiteSpaceIndex + 1].toString()
+
+    private fun createAvatar(firstName: String, lastName: String): TextDrawable {
+        val firstInitial = firstName[0].toString()
+        val secondInitial = lastName[0].toString()
         val initials = firstInitial + secondInitial
         val generator: ColorGenerator = ColorGenerator.MATERIAL
 
         return TextDrawable.builder().buildRound(initials, generator.getColor(secondInitial))
     }
+
+    private fun createAvatarNoSurname(firstName: String): TextDrawable {
+        val firstInitial = firstName[0].toString()
+        val generator: ColorGenerator = ColorGenerator.MATERIAL
+
+        return TextDrawable.builder().buildRound(firstInitial, generator.getColor(firstInitial))
+    }
+
 
     private fun deleteContact(contactId: Long) {
         Log.d("contactId to be deleted", contactId.toString())

@@ -18,7 +18,7 @@
             android:name=".ui.NewContactActivity"
             android:exported="true"
             android:theme="@style/Theme.RBDB.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.ContactDetailActivity"
             android:exported="true"

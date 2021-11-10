@@ -46,15 +46,26 @@ class ContactAdapter(
             position: Int
         ) {
             val generator: ColorGenerator = ColorGenerator.MATERIAL
-            val firstInitial = contactData.name[0].toString() // used for avatar letter
-            val whiteSpaceIndex = contactData.name.indexOf(" ")
-            val secondInitial =
-                contactData.name[whiteSpaceIndex + 1].toString() // used for avatar colour
-            val drawable: TextDrawable =
-                TextDrawable.builder().buildRound(firstInitial, generator.getColor(secondInitial))
+            val drawable: TextDrawable
+            val firstInitial = contactData.firstName[0].toString() // used for avatar letter
+
+            if (contactData.lastName?.isEmpty() == true) {
+                binding.contactName.text = "${contactData.firstName}"
+                drawable =
+                    TextDrawable.builder()
+                        .buildRound(firstInitial, generator.getColor(firstInitial))
+            } else {
+                binding.contactName.text = "${contactData.firstName} ${contactData.lastName}"
+                val secondInitial =
+                    contactData.lastName?.get(0)?.toString() // used for avatar colour
+                drawable =
+                    TextDrawable.builder()
+                        .buildRound(firstInitial, generator.getColor(secondInitial))
+            }
+
 
             binding.contactAvatar.setImageDrawable(drawable)
-            binding.contactName.text = contactData.name
+            binding.contactName.text = "${contactData.firstName} ${contactData.lastName}"
             binding.contactCompany.text = contactData.business
             binding.contactPhone.text = contactData.phone
             binding.letterDivider.text = firstInitial
@@ -64,7 +75,7 @@ class ContactAdapter(
             if (position == 0) {
                 binding.letterDivider.visibility = View.VISIBLE
             } else {
-                val previousContactInitial = data[position - 1].name[0].toString()
+                val previousContactInitial = data[position - 1].firstName[0].toString()
                 if (firstInitial != previousContactInitial) {
                     binding.letterDivider.visibility = View.VISIBLE
                 } else {

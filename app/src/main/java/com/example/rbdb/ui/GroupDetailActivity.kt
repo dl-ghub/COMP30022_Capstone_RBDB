@@ -63,9 +63,9 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
         recyclerView.adapter = adapter
 
         val observerContact = Observer<List<CardEntity>> { contacts ->
-            adapter.swapData(contacts)
-            contactList = contacts
-            Log.d("contacts in $groupTitle", contactList.toString())
+            val contactsSorted = contacts.sortedBy{ it.firstName }
+            adapter.swapData(contactsSorted)
+            contactList = contactsSorted
         }
         viewModel.getCardsInList(groupId).observe(this, observerContact)
 
@@ -153,9 +153,9 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
     override fun onResume() {
         super.onResume()
         val observerContact = Observer<List<CardEntity>> { contacts ->
-            adapter.swapData(contacts)
-            contactList = contacts
-            Log.d("contacts in $groupTitle", contactList.toString())
+            val contactsSorted = contacts.sortedBy { it.firstName }
+            adapter.swapData(contactsSorted)
+            contactList = contactsSorted
         }
         viewModel.getCardsInList(groupId).observe(this, observerContact)
     }
@@ -167,7 +167,7 @@ class GroupDetailActivity : AppCompatActivity(), ContactCardInterface {
             .setTitle("Enter the new group name")
             .setPositiveButton("Ok") { dialog, _ ->
                 val newGroupName = newGroupTextField.editText?.text.toString().trim()
-                // TODO Null checking doesn't work yet
+
                 if (newGroupName.isEmpty()) {
                     newGroupTextField.error = "You need to enter a name"
                 } else {

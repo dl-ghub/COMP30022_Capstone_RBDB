@@ -7,6 +7,7 @@ import android.os.Looper
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
@@ -44,8 +45,9 @@ class EditContactActivity : AppCompatActivity() {
         binding.phoneInput.addTextChangedListener(PhoneNumberFormattingTextWatcher("AU"))
 
         val contactObserver = Observer<CardEntity> { contact ->
-            binding.firstNameInput.setText(contact.name)
-            //binding.lastNameInput.setText(contact.name)
+            binding.firstNameInput.setText(contact.firstName)
+            binding.lastNameInput.setText(contact.lastName)
+            binding.positionInput.setText(contact.position)
             binding.businessNameInput.setText(contact.business)
             binding.phoneInput.setText(contact.phone)
             binding.emailInput.setText(contact.email)
@@ -64,6 +66,9 @@ class EditContactActivity : AppCompatActivity() {
             }
             viewModel.getAllTags().observe(this, { allTags ->
                 allTagsList = allTags
+                if (allTags.isNotEmpty()) {
+                    binding.noTagsPlaceholder.visibility = View.INVISIBLE
+                }
                 updateChips(allTags)
             })
         })
@@ -76,38 +81,32 @@ class EditContactActivity : AppCompatActivity() {
 
         val firstName = binding.firstNameInput.text.toString().trim()
         if (firstName.isEmpty()) {
-            binding.firstNameField.error = "* Required Field"
+            binding.firstNameInput.error = "Required Field"
             fieldError = true
         } else {
-            binding.firstNameField.error = null
+            binding.firstNameInput.error = null
         }
+
+        val lastName = binding.lastNameInput.text.toString().trim()
+
+        val jobPosition = binding.positionInput.text.toString().trim()
 
         val businessName = binding.businessNameInput.text.toString().trim()
-        if (businessName.isEmpty()) {
-            binding.businessNameField.error = "* Required Field"
-            fieldError = true
-        } else {
-            binding.businessNameField.error = null
-        }
-
-        if (fieldError) {
-            return
-        }
 
         val phoneNumber = binding.phoneInput.text.toString().trim()
-        if (isPhoneValid(binding.phoneInput.text!!) && phoneNumber.isNotEmpty()) {
-            binding.phoneField.error = "* Invalid Phone Number"
+        if (phoneNumber.isNotEmpty() && !isPhoneValid(phoneNumber)) {
+            binding.phoneInput.error = "Invalid Phone Number"
             fieldError = true
         } else {
-            binding.phoneField.error = null
+            binding.phoneInput.error = null
         }
 
         val email = binding.emailInput.text.toString().trim()
-        if (isEmailValid(binding.emailInput.text!!) && email.isNotEmpty()) {
-            binding.emailField.error = "* Invalid Email"
+        if (email.isNotEmpty() && !isEmailValid(email)) {
+            binding.emailInput.error = "Invalid Email Address"
             fieldError = true
         } else {
-            binding.emailField.error = null
+            binding.emailInput.error = null
         }
 
         if (fieldError) {
@@ -117,7 +116,9 @@ class EditContactActivity : AppCompatActivity() {
         val description = binding.descriptionInput.text.toString().trim()
 
         val updateObserver = Observer<CardEntity> { contact ->
-            contact.name = firstName
+            contact.firstName = firstName
+            contact.lastName = lastName
+            contact.position = jobPosition
             contact.business = businessName
             contact.phone = phoneNumber
             contact.email = email
@@ -126,12 +127,6 @@ class EditContactActivity : AppCompatActivity() {
         }
         viewModel.getCardById(contactId).observe(this, updateObserver)
         updateContactTags()
-        //Return to Homepage or previous page code
-        /*val intent = Intent(this,MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)*/
-        //
-        //super.onBackPressed()
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({
             finish()
@@ -139,11 +134,14 @@ class EditContactActivity : AppCompatActivity() {
     }
 
     private fun isEmailValid(email: CharSequence): Boolean {
-        return !Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     private fun isPhoneValid(phone: CharSequence): Boolean {
-        return !Patterns.PHONE.matcher(phone).matches()
+        if (phone.length < 12) {
+            return false
+        }
+        return Patterns.PHONE.matcher(phone).matches()
     }
 
     override fun onSupportNavigateUp(): Boolean {

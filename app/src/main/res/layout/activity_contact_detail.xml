@@ -71,9 +71,7 @@
                     android:textAlignment="textStart"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textSize="36sp"
-                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.509"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/contactPhoto"
                     tools:text="Contact Name" />
@@ -82,11 +80,12 @@
                     android:id="@+id/tvCompany"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/contactName"
-                    tools:text="RedBull" />
+                    tools:text="Manager • RedBull" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

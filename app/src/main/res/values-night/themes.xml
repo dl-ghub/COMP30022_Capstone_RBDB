@@ -32,4 +32,16 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- Custom Material Alert Dialog for Tag Deletion -->
+    <style name="TagDeleteDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:background">@color/dark_surface</item>
+        <item name="colorOnSurface">@color/dark_onSurface</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveDeletionButtonStyle</item>
+    </style>
+
+    <style name="PositiveDeletionButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/error</item>
+    </style>
+
 </resources>

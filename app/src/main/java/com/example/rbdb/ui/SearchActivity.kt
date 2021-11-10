@@ -19,6 +19,7 @@ import com.example.rbdb.database.model.CardEntity
 import com.example.rbdb.databinding.SearchActivityBinding
 import com.example.rbdb.ui.adapters.ContactAdapter
 import com.example.rbdb.ui.adapters.ContactCardInterface
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SearchActivity : AppCompatActivity(), ContactCardInterface {
     private lateinit var binding: SearchActivityBinding
@@ -26,9 +27,19 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
     private lateinit var searchList: List<CardEntity>
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: ContactAdapter
-    private val selectedSearchesArray = arrayOf("Name", "Business", "Date Added", "Phone", "Email", "Description")
-    private val adaptedArray = arrayOf("name", "business", "dateAdded", "phone", "email", "description")
-    private val checkSearchesArray = booleanArrayOf(true, true, true, true, true, true)
+    private val selectedSearchesArray =
+        arrayOf("Name", "Position", "Business", "Date Added", "Phone", "Email", "Description")
+    private val adaptedArray = arrayOf(
+        "firstName",
+        "lastName",
+        "position",
+        "business",
+        "dateAdded",
+        "phone",
+        "email",
+        "description"
+    )
+    private val checkSearchesArray = booleanArrayOf(true, true, true, true, true, true, true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +68,7 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
         viewModel.init(AppDatabase.getDatabase(this))
     }
 
-    fun displaySearch(input : String){
+    fun displaySearch(input: String) {
         Log.d("input", input)
         Log.d("list", queryList().toString())
         viewModel.getCardByKeywordInSelectedColumns(input, queryList()).observe(this, { contacts ->
@@ -67,10 +78,12 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
         adapter.notifyDataSetChanged()
     }
 
-    private fun queryList() : List<String>{
-        val returnList : MutableList<String> = mutableListOf()
-        for (i in selectedSearchesArray.indices){
-            if(checkSearchesArray[i]){ returnList.add(adaptedArray[i]) }
+    private fun queryList(): List<String> {
+        val returnList: MutableList<String> = mutableListOf()
+        for (i in selectedSearchesArray.indices) {
+            if (checkSearchesArray[i]) {
+                returnList.add(adaptedArray[i])
+            }
         }
         return returnList
     }
@@ -80,12 +93,6 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
         val contact = searchList[position]
         val intent = Intent(this, ContactDetailActivity::class.java).apply {
             putExtra("contact_id", contact.cardId)
-            putExtra("contact_name", contact.name)
-            putExtra("contact_business", contact.business)
-            putExtra("contact_dateAdded", contact.dateAdded)
-            putExtra("contact_phone", contact.phone)
-            putExtra("contact_email", contact.email)
-            putExtra("contact_description", contact.description)
         }
         startActivity(intent)
     }
@@ -97,16 +104,42 @@ class SearchActivity : AppCompatActivity(), ContactCardInterface {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.more -> {
-            val builder = AlertDialog.Builder(this, R.style.MyDialogStyle)
-            builder.setTitle("Select Search Fields")
-            builder.setMultiChoiceItems(selectedSearchesArray, checkSearchesArray) { _, which, isChecked ->
-                checkSearchesArray[which] = isChecked
-            }
-            builder.setPositiveButton("OK"){ dialog, _ ->
-                dialog.dismiss()
+            var trueCount = checkSearchesArray.count { it }
+
+            val dialog = MaterialAlertDialogBuilder(
+                this,
+                R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background
+            )
+                .setTitle("Select Search Fields")
+                .setMultiChoiceItems(
+                    selectedSearchesArray,
+                    checkSearchesArray
+                ) { _, which, checked ->
+                    checkSearchesArray[which] = checked
+                    trueCount = checkSearchesArray.count { it }
+                    Log.d("true count", trueCount.toString())
+                }
+                .setPositiveButton("OK") { dialog, _ ->
+                    if (trueCount < 1) {
+//                        val toast =
+//                            Toast.makeText(this, "Select at least 1 field", Toast.LENGTH_SHORT)
+//                        toast.show()
+                    } else {
+                        dialog.dismiss()
+                    }
+
+                }
+                .create()
+
+            dialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK") { dialog, _ ->
+                if (trueCount < 1) {
+                    val toast = Toast.makeText(this, "Select at least 1 field", Toast.LENGTH_SHORT)
+                    toast.show()
+                } else {
+                    dialog.dismiss()
+                }
             }
 
-            val dialog = builder.create()
             dialog.show()
 
             true

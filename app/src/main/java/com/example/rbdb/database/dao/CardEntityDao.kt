@@ -24,7 +24,7 @@ interface CardEntityDao {
     suspend fun getCardById(cardId: Long): CardEntity
 
     @Transaction
-    @Query("SELECT * FROM card_entity ORDER BY name")
+    @Query("SELECT * FROM card_entity ORDER BY firstName")
     suspend fun getAllCards(): List<CardEntity>
 
     // Relational Queries for Card <-> Tag relation
@@ -38,11 +38,11 @@ interface CardEntityDao {
     suspend fun getCardWithLists(): List<CardWithListsEntity>
 
     //Search a card by name. It uses UPPER() to make the search case insensitive
-    @Query("SELECT * FROM card_entity WHERE UPPER(name) LIKE '%' || UPPER(:cardName) || '%' ORDER BY length(name)")
+    @Query("SELECT * FROM card_entity WHERE UPPER(firstName) LIKE '%' || UPPER(:cardName) || '%' ORDER BY length(firstName)")
     suspend fun getCardsByName(cardName:String):List<CardEntity>
 
     //sort cards by name in descending order
-    @Query("SELECT * FROM card_entity ORDER BY UPPER(name) ASC")
+    @Query("SELECT * FROM card_entity ORDER BY UPPER(firstName) ASC")
     suspend fun getAllCardsOrderByName():List<CardEntity>
 
     //Search for a contact by keywords in their detailed description
