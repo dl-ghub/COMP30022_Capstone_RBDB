@@ -30,13 +30,16 @@
         android:id="@+id/TabLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:tabBackground="?colorPrimary"
-        app:tabTextColor="?colorOnPrimary"
         app:tabIndicatorColor="?colorOnPrimary"
-        app:tabSelectedTextColor="?colorOnPrimary">
+        app:tabSelectedTextColor="?colorOnPrimary"
+        app:tabTextColor="?colorOnPrimary">
 
         <com.google.android.material.tabs.TabItem
 
